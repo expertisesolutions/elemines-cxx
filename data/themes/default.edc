@@ -1,0 +1,167 @@
+images {
+  image: "bomb.png" COMP;
+  image: "flag.png" COMP;
+  image: "explosion.png" COMP;
+}
+
+fonts {
+  font: "ProggySquareSZ.ttf" "Sans";
+}
+
+data {
+  item: "width"  "320";
+  item: "height" "320";
+}
+
+color_classes {
+  color_class {
+    name: "floor";
+    color: 193 154 107 255;
+  }
+  color_class {
+    name: "underground";
+    color: 163 124 77 255;
+  }
+  color_class {
+    name: "one"; /* pomme */
+    color: 52 201 36 255;
+  }
+  color_class {
+    name: "two"; /* citron */
+    color: 247 255 60 255;
+  }
+  color_class {
+    name: "three"; /* carotte */
+    color: 244 102 27 255;
+  }
+  color_class {
+    name: "four"; /* tomate */
+    color: 222 41 22 255;
+  }
+  color_class {
+    name: "five"; /* prune */
+    color: 129 20 83 255;
+  }
+  color_class {
+    name: "six"; /* turquoise */
+    color: 37 253 233 255;
+  }
+  color_class {
+    name: "seven"; /* ? */
+    color: 255 37 253 255;
+  }
+  color_class {
+    name: "height"; /* fuchsia */
+    color: 244 0 161 255;
+  }
+}
+
+collections {
+
+  group { 
+    name: "cell";
+    parts {
+      part {
+        name: "border";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 0 0 0 0;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+        description {
+          state: "over" 0.0;
+          inherit: "default" 0.0;
+          color: 255 0 0 255;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+      }
+      part {
+        name: "bg";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color_class: "floor";
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+        }
+      }
+      part {
+        name: "overlay";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 255 255 255 0;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+      }
+      programs {
+        /* show the nice red box on mouse over */
+        program {
+          signal: "mouse,in";
+          source: "overlay";
+          action: STATE_SET "over" 0.0;
+          target: "border";
+          transition: SINUSOIDAL 0.2;
+        }
+        program {
+          signal: "mouse,out";
+          source: "overlay";
+          action: STATE_SET "default" 0.0;
+          target: "border";
+          transition: SINUSOIDAL 0.7;
+        }
+      }
+
+    }
+  }
+      group {
+        name: "blank";
+	parts {
+      part {
+        name: "bg";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 0 0 0 0;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+        }
+      }
+	}
+      }
+
+}

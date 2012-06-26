@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=elemines
+Comment=EFL mine sweeper
+Exec=elemines
+Terminal=false
+StartupNotify=true
+Icon=elemines
+Categories=Applications;Game;
