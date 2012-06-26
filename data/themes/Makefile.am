@@ -1,10 +1,10 @@
 MAINTAINERCLEANFILES = Makefile.in
 EXTRA_DIST = default.edc
 
-SUBDIRS = fonts images
+SUBDIRS = fonts images sounds
 
 EDJE_CC = edje_cc
-EDJE_FLAGS = -v -id images -fd fonts 
+EDJE_FLAGS = -v -id images -fd fonts -sd sounds
 
 filesdir = $(datadir)/$(PACKAGE)/themes
 files_DATA = default.edj

@@ -27,17 +27,81 @@
 
 #include "elemines.h"
 
+/* 4 layers for the matrix of data:
+ * 1st -> only mines
+ * 2nd -> neighbours
+ * 3rd -> flags
+ * 4th uncover status
+ */
+int matrix[SIZE_X+2][SIZE_Y+2][4];
+int counter = MINES;
+
 void
-click(void *data, __UNUSED__ Evas *e, __UNUSED__ Evas_Object *obj, void *event_info)
+clean_around(int x, int y, Evas_Object edje)
+{
+
+}
+
+void
+click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
 {
    int coord[2] = { 0, 0 };
+   int x, y;
+   char str[8];
    Evas_Event_Mouse_Down *ev = event_info;
+   Evas_Object *edje;
 
    /* get back the coordinates of the cell */
    memcpy(&coord, &data, sizeof(data));
 
-   if (ev->button == 1)
-     printf("%d %d\n", coord[0], coord[1]);
+   x = coord[0];
+   y = coord[1];
+
+   printf("%d %d\n", x, y);
+   edje = elm_layout_edje_get(obj);
+
+   /* if we push 1st mouse button and there is no flag */
+   if (ev->button == 1 && matrix[x][y][2] == 0)
+     {
+        /* nothing here and not already uncovered */
+        if (matrix[x][y][0] == 0 && matrix[x][y][3] == 0)
+          {
+             edje_object_signal_emit(edje, "digging", "");
+             edje_object_signal_emit(edje, "clean", "");
+             if (matrix[x][y][1] != 0)
+               {
+                  snprintf(str, sizeof(str), "%d", matrix[x][y][1]);
+                  edje_object_part_text_set(edje, "hint", str);
+               }
+             /* keep track of this empty spot */
+             matrix[x][y][3] = 1;
+             counter--;
+          }
+
+        /* OMG IT'S A BOMB! */
+        if (matrix[x][y][0] == 1)
+          {
+             edje_object_signal_emit(edje, "boom", "");
+             printf("Perdu !\n");
+          }
+     }
+
+   /* second button: put a flag */
+   if (ev->button == 3)
+     {
+        /* there was no flag and we didn't digg */
+        if (matrix[x][y][2] == 0 && matrix[x][y][3] != 1)
+          {
+             edje_object_signal_emit(edje, "flag", "");
+             matrix[x][y][2] = 1;
+          }
+        /* already a flag, remove it */
+        else
+          {
+             edje_object_signal_emit(edje, "default", "");
+             matrix[x][y][2] = 0;
+          }
+     }
 }
 
 EAPI_MAIN int
@@ -49,7 +113,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    int i, j, x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
-   int matrix[SIZE_X+2][SIZE_Y+2][3];
    char *theme = "default";
 
    /* set general properties */
@@ -142,6 +205,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
     evas_object_show(blank);
 
    /* print this out */
+   printf(" ===================== \n");
    for (x = 0; x < SIZE_X+2; x++)
      {
         for (y = 0; y < SIZE_Y+2; y++)
@@ -150,7 +214,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           }
         printf("\n");
      }
-        printf(" ===================== \n");
+   printf(" ===================== \n");
    for (x = 0; x < SIZE_X+2; x++)
      {
         for (y = 0; y < SIZE_Y+2; y++)
@@ -159,6 +223,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           }
         printf("\n");
      }
+   printf(" ===================== \n");
 
    /* Get window's size from edje and resize it */
    x = atoi(edje_file_data_get(edje_file, "width"));
