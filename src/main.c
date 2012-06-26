@@ -27,6 +27,19 @@
 
 #include "elemines.h"
 
+void
+click(void *data, __UNUSED__ Evas *e, __UNUSED__ Evas_Object *obj, void *event_info)
+{
+   int coord[2] = { 0, 0 };
+   Evas_Event_Mouse_Down *ev = event_info;
+
+   /* get back the coordinates of the cell */
+   memcpy(&coord, &data, sizeof(data));
+
+   if (ev->button == 1)
+     printf("%d %d\n", coord[0], coord[1]);
+}
+
 EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
@@ -34,29 +47,31 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    Evas_Object *window, *background, *table, *cell, *blank;
    char edje_file[PATH_MAX];
    int i, j, x, y;
+   int coord[2] = { 0, 0 };
+   void *data = NULL;
    int matrix[SIZE_X+2][SIZE_Y+2][3];
    char *theme = "default";
 
-   /* Set general properties */
+   /* set general properties */
    window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
    elm_win_title_set(window, PACKAGE);
    elm_win_autodel_set(window, EINA_TRUE);
    elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
 
-   /* Add a background */
+   /* add a background */
    background = elm_bg_add(window);
    evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    elm_win_resize_object_add(window, background);
    evas_object_show(background);
 
-   /* Add the main table for storing cells */
+   /* add the main table for storing cells */
    table = elm_table_add(window);
    elm_table_homogeneous_set(table, EINA_TRUE);
    elm_win_resize_object_add(window, table);
    evas_object_size_hint_weight_set(table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_show(table);
 
-   /* Get the edje theme file */
+   /* get the edje theme file */
    snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
    if (access(edje_file, R_OK) != 0)
      {
@@ -71,6 +86,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    srand(time(NULL));
    for (i = 0; i < MINES; i++)
      {
+        /* random coordinates */
         x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
         y = (int)((double)SIZE_Y * rand() / RAND_MAX + 1);
 
@@ -78,7 +94,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           {
              matrix[x][y][0] = 1;
           }
-        else
+        else /* if there is already a bomb here, try again */
           {
              i--;
           }
@@ -89,6 +105,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
      {
         for (y = 1; y < SIZE_Y+1; y++)
           {
+             /* count neighbours */
              for (i=-1; i<2; i++)
                {
                   for (j=-1; j<2; j++)
@@ -108,6 +125,12 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
                elm_table_pack(table, cell, x, y, 1, 1);
                evas_object_show(cell);
+
+               /* we need to feed the callback with coordinates */
+               coord[0] = x;
+               coord[1] = y;
+               memcpy(&data, &coord, sizeof(coord));
+               evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
           }
      }
     /* Add a blank cell on the bottom right to get a right/bottom margin */
