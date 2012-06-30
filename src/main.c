@@ -27,6 +27,11 @@
 
 #include "elemines.h"
 
+void game_over(int x, int y);
+void game_win(void);
+void clean_around(int x, int y, Evas_Object *obj);
+void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
+
 /* 4 layers for the matrix of data:
  * 1st -> only mines
  * 2nd -> neighbours
@@ -34,11 +39,79 @@
  * 4th uncover status
  */
 int matrix[SIZE_X+2][SIZE_Y+2][4];
-int counter = MINES;
+Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
+int counter = SIZE_X * SIZE_Y - MINES;
+Evas_Object *window;
+
+void game_win(void)
+{
+   printf("You win!\n");
+}
 
 void
-clean_around(int x, int y, Evas_Object edje)
+game_over(int x, int y)
 {
+   int i,j;
+
+   /* show bombs */
+   for (i = 1; i < SIZE_X+1; i++)
+     {
+        for (j = 1; j < SIZE_Y+1; j++)
+          {
+             if (matrix[i][j][0] == 1)
+               elm_object_signal_emit(table_ptr[i][j], "bomb", "");
+          }
+     }
+
+   /* highlight the fatal bomb */
+   elm_object_signal_emit(table_ptr[x][y], "boom", "");
+
+   printf("You lose.\n");
+   return;
+}
+
+void
+clean_around(int x, int y, Evas_Object *obj)
+{
+   int i, j;
+   char str[8];
+
+   /* we are out of board */
+   if (x == 0 || x == SIZE_X+1 || y == 0 || y == SIZE_Y+1)
+     return;
+
+   /* nothing here and not already uncovered */
+   if (matrix[x][y][0] == 0 && matrix[x][y][3] == 0)
+     {
+        elm_object_signal_emit(obj, "digging", "");
+        elm_object_signal_emit(obj, "clean", "");
+        matrix[x][y][3] = 1;
+        /* at least 1 neighbour */
+        if (matrix[x][y][1] != 0)
+          {
+             snprintf(str, sizeof(str), "%d", matrix[x][y][1]);
+             elm_object_part_text_set(obj, "hint", str);
+          }
+        /* no neighbour */
+        else
+          {
+             for (i=x-1; i<=x+1; i++)
+               {
+                  for (j=y-1; j<=y+1; j++)
+                    {
+                       if (!(i == x && j == y))
+                         {
+                            clean_around(i, j, table_ptr[i][j]);
+                         }
+                    }
+               }
+          }
+        /* keep track of this empty spot */
+        counter--;
+        if (counter == 0)
+          game_win();
+     }
+   return;
 
 }
 
@@ -47,9 +120,7 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
 {
    int coord[2] = { 0, 0 };
    int x, y;
-   char str[8];
    Evas_Event_Mouse_Down *ev = event_info;
-   Evas_Object *edje;
 
    /* get back the coordinates of the cell */
    memcpy(&coord, &data, sizeof(data));
@@ -57,32 +128,19 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
    x = coord[0];
    y = coord[1];
 
-   printf("%d %d\n", x, y);
-   edje = elm_layout_edje_get(obj);
-
    /* if we push 1st mouse button and there is no flag */
    if (ev->button == 1 && matrix[x][y][2] == 0)
      {
-        /* nothing here and not already uncovered */
-        if (matrix[x][y][0] == 0 && matrix[x][y][3] == 0)
-          {
-             edje_object_signal_emit(edje, "digging", "");
-             edje_object_signal_emit(edje, "clean", "");
-             if (matrix[x][y][1] != 0)
-               {
-                  snprintf(str, sizeof(str), "%d", matrix[x][y][1]);
-                  edje_object_part_text_set(edje, "hint", str);
-               }
-             /* keep track of this empty spot */
-             matrix[x][y][3] = 1;
-             counter--;
-          }
 
         /* OMG IT'S A BOMB! */
         if (matrix[x][y][0] == 1)
           {
-             edje_object_signal_emit(edje, "boom", "");
-             printf("Perdu !\n");
+             game_over(x, y);
+             return;
+          }
+        else
+          {
+             clean_around(x, y, obj);
           }
      }
 
@@ -92,13 +150,13 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
         /* there was no flag and we didn't digg */
         if (matrix[x][y][2] == 0 && matrix[x][y][3] != 1)
           {
-             edje_object_signal_emit(edje, "flag", "");
+             elm_object_signal_emit(obj, "flag", "");
              matrix[x][y][2] = 1;
           }
         /* already a flag, remove it */
         else
           {
-             edje_object_signal_emit(edje, "default", "");
+             elm_object_signal_emit(obj, "default", "");
              matrix[x][y][2] = 0;
           }
      }
@@ -108,7 +166,7 @@ EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
 
-   Evas_Object *window, *background, *table, *cell, *blank;
+   Evas_Object *background, *table, *cell, *blank;
    char edje_file[PATH_MAX];
    int i, j, x, y;
    int coord[2] = { 0, 0 };
@@ -187,6 +245,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
                evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
                elm_table_pack(table, cell, x, y, 1, 1);
+               table_ptr[x][y] = cell;
                evas_object_show(cell);
 
                /* we need to feed the callback with coordinates */
@@ -206,18 +265,18 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 
    /* print this out */
    printf(" ===================== \n");
-   for (x = 0; x < SIZE_X+2; x++)
+   for (y = 0; y < SIZE_Y+2; y++)
      {
-        for (y = 0; y < SIZE_Y+2; y++)
+        for (x = 0; x < SIZE_X+2; x++)
           {
              printf("%d ", matrix[x][y][0]);
           }
         printf("\n");
      }
    printf(" ===================== \n");
-   for (x = 0; x < SIZE_X+2; x++)
+   for (y = 0; y < SIZE_Y+2; y++)
      {
-        for (y = 0; y < SIZE_Y+2; y++)
+        for (x = 0; x < SIZE_X+2; x++)
           {
              printf("%d ", matrix[x][y][1]);
           }
