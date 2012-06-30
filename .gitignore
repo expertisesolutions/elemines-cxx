@@ -1,0 +1,28 @@
+# generated and tmp files
+*~
+data/themes/*.edj
+src/*.o
+src/.deps
+src/elemines
+
+# autotools crap
+m4/*.m4
+!m4/efl_*.m4
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+config.guess
+config.h
+config.h.in
+config.log
+config.rpath
+config.status
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
+stamp-h1
