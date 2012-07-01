@@ -4,6 +4,7 @@ data/themes/*.edj
 src/*.o
 src/.deps
 src/elemines
+packaging/slackware/elemines-*.txz
 
 # autotools crap
 m4/*.m4

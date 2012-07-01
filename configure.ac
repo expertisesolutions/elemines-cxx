@@ -36,6 +36,8 @@ data/themes/Makefile
 data/themes/fonts/Makefile
 data/themes/images/Makefile
 data/themes/sounds/Makefile
+packaging/Makefile
+packaging/slackware/Makefile
 src/Makefile
 ])
 AC_OUTPUT
