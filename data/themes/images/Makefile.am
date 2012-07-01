@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-EXTRA_DIST = bomb.png explosion.png flag.png
+EXTRA_DIST = bomb.png clock.png explosion.png flag.png

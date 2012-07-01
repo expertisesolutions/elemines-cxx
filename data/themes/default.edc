@@ -1,6 +1,7 @@
 images {
-  image: "bomb.png" COMP;
-  image: "flag.png" COMP;
+  image: "bomb.png"  COMP;
+  image: "clock.png" COMP;
+  image: "flag.png"  COMP;
   image: "explosion.png" COMP;
 }
 
@@ -10,7 +11,7 @@ fonts {
 
 data {
   item: "width"  "320";
-  item: "height" "320";
+  item: "height" "360";
 }
 
 color_classes {
@@ -55,7 +56,7 @@ collections {
 	type: RECT;
 	description {
           state: "default" 0.0;
-	  color: 0 0 0 255;
+	  color: 0 0 0 0;
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -88,6 +89,25 @@ collections {
             offset: 0 0;
           }
 	}
+      }
+      part {
+        name: "clock";
+        type: IMAGE;
+        description {
+          state: "defaut" 0.0;
+          visible: 1;
+          image {
+            normal: "clock.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 0.1 1;
+            offset: -1 -1;
+          }
+        }
       }
     }
   }
@@ -198,7 +218,7 @@ collections {
           }
           rel2 {
             relative: 1.0 1.0;
-            offset: -2 -2;
+            offset: -1 -1;
           }
         }
         description {
