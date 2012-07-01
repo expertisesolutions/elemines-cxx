@@ -32,11 +32,18 @@ void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 Eina_Bool
 gui(char *theme)
 {
-   Evas_Object *background, *table, *cell, *blank;
-   char edje_file[PATH_MAX];
+   Evas_Object *background, *vbox, *table, *cell, *blank;
    int x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
+
+   /* get the edje theme file */
+   snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
+   if (access(edje_file, R_OK) != 0)
+     {
+        EINA_LOG_CRIT("Loading theme error: can not read %s", edje_file);
+        return EINA_FALSE;
+     }
 
    /* set general properties */
    window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
@@ -50,20 +57,30 @@ gui(char *theme)
    elm_win_resize_object_add(window, background);
    evas_object_show(background);
 
+   /* main box */
+   vbox = elm_box_add(window);
+   elm_box_homogeneous_set(vbox, EINA_FALSE);
+   elm_win_resize_object_add(window, vbox);
+   evas_object_size_hint_weight_set(vbox, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(vbox);
+
+   /* timer */
+   timer = elm_layout_add(window);
+   elm_layout_file_set(timer, edje_file, "timer");
+   evas_object_size_hint_weight_set(timer, EVAS_HINT_EXPAND, 0.1);
+   evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(timer);
+   elm_box_pack_end(vbox, timer);
+
    /* add the main table for storing cells */
    table = elm_table_add(window);
    elm_table_homogeneous_set(table, EINA_TRUE);
    elm_win_resize_object_add(window, table);
    evas_object_size_hint_weight_set(table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(table, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_box_pack_end(vbox, table);
    evas_object_show(table);
-
-   /* get the edje theme file */
-   snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
-   if (access(edje_file, R_OK) != 0)
-     {
-        EINA_LOG_CRIT("Loading theme error: can not read %s", edje_file);
-        return EINA_FALSE;
-     }
 
    /* prepare the board */
    for (x = 1; x < SIZE_X+1; x++)

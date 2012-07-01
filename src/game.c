@@ -27,7 +27,29 @@
 
 #include "elemines.h"
 
+double t0;
+double dt = 0.1;
 int counter = SIZE_X * SIZE_Y - MINES;
+
+static Eina_Bool
+_timer(void *data __UNUSED__)
+{
+   char str[8] = { 0 };
+   int min = 0;
+   double t;
+
+   t = ecore_loop_time_get() - t0;
+   while (t >= 60)
+     {
+        t -= 60;
+        min++;
+     }
+
+   snprintf(str, sizeof(str), "%02d:%04.1f", min, t);
+   elm_object_part_text_set(timer, "time", str);
+
+   return EINA_TRUE;
+}
 
 static void
 game_win(void)
@@ -118,6 +140,12 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
    /* if we push 1st mouse button and there is no flag */
    if (ev->button == 1 && matrix[x][y][2] == 0)
      {
+        if (started == EINA_FALSE)
+          {
+             t0 = ecore_time_get();
+             ecore_timer_add(dt, _timer, NULL);
+             started = EINA_TRUE;
+          }
 
         /* OMG IT'S A BOMB! */
         if (matrix[x][y][0] == 1)

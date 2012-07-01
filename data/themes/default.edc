@@ -28,6 +28,10 @@ color_classes {
     name: "number";
     color: 255 9 33 255;
   }
+  color_class {
+    name: "time";
+    color: 255 0 0 255;
+  }
 }
 
 collections {
@@ -40,6 +44,51 @@ collections {
     sample {
       name: "digging" COMP;
       source: "digging.wav";
+    }
+  }
+
+  group {
+    name: "timer";
+    parts {
+      part {
+        name: "bg";
+	type: RECT;
+	description {
+          state: "default" 0.0;
+	  color: 0 0 0 255;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+	}
+      }
+      part {
+        name: "time";
+	type: TEXT;
+        scale: 1;
+        description {
+          state: "default" 0.0;
+          color_class: "time";
+          text {
+            text: "00:00";
+            font: "Sans";
+            size: 24;
+            align: 0.5 0.5;
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+	}
+      }
     }
   }
 

@@ -57,6 +57,9 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
 /* the main elm window */
-Evas_Object *window;
+Evas_Object *window, *timer;
+
+char edje_file[PATH_MAX];
+Eina_Bool started;
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */
