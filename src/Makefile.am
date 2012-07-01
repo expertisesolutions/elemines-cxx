@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 elemines_SOURCES = \
 		   end.c \
 		   help.c \
+		   init.c \
 		   main.c
 
 elemines_LDADD = @ELEMENTARY_LIBS@

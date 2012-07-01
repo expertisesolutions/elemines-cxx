@@ -27,6 +27,7 @@
 
 #include "elemines.h"
 
+void init(void);
 void show_help(void);
 void show_version(void);
 void game_over(int x, int y);
@@ -133,7 +134,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
    Evas_Object *background, *table, *cell, *blank;
    char edje_file[PATH_MAX];
-   int opt, i, j, x, y;
+   int opt, x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
    char *theme = "default";
@@ -196,59 +197,26 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
         return EXIT_FAILURE;
      }
 
-   /* empty the matrix */
-   memset(matrix, 0, sizeof(matrix));
+   init();
 
-   /* 1st table: the mines */
-   srand(time(NULL));
-   for (i = 0; i < MINES; i++)
-     {
-        /* random coordinates */
-        x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
-        y = (int)((double)SIZE_Y * rand() / RAND_MAX + 1);
-
-        if ( matrix[x][y][0] == 0 )
-          {
-             matrix[x][y][0] = 1;
-          }
-        else /* if there is already a bomb here, try again */
-          {
-             i--;
-          }
-     }
-
-   /* 2nd table: neighbours */
+   /* prepare the board */
    for (x = 1; x < SIZE_X+1; x++)
      {
         for (y = 1; y < SIZE_Y+1; y++)
           {
-             /* count neighbours */
-             for (i=-1; i<2; i++)
-               {
-                  for (j=-1; j<2; j++)
-                    {
-                       if (!(j == 0 && i == 0))
-                         matrix[x][y][1] += matrix[x+i][y+j][0];
-                    }
-               }
-              /* mark a mine place with 9 */
-               if ( matrix[x][y][0] == 1)
-                 matrix[x][y][1] = 9;
+             cell = elm_layout_add(window);
+             elm_layout_file_set(cell, edje_file, "cell");
+             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
+             elm_table_pack(table, cell, x, y, 1, 1);
+             table_ptr[x][y] = cell;
+             evas_object_show(cell);
 
-               /* good timing for preparing the board */
-               cell = elm_layout_add(window);
-               elm_layout_file_set(cell, edje_file, "cell");
-               evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-               evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
-               elm_table_pack(table, cell, x, y, 1, 1);
-               table_ptr[x][y] = cell;
-               evas_object_show(cell);
-
-               /* we need to feed the callback with coordinates */
-               coord[0] = x;
-               coord[1] = y;
-               memcpy(&data, &coord, sizeof(coord));
-               evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
+             /* we need to feed the callback with coordinates */
+             coord[0] = x;
+             coord[1] = y;
+             memcpy(&data, &coord, sizeof(coord));
+             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
           }
      }
     /* Add a blank cell on the bottom right to get a right/bottom margin */
