@@ -25,23 +25,28 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+#include "elemines.h"
 
-#include <Eina.h>
-#include <Evas.h>
-#include <Edje.h>
-#include <Elementary.h>
+void
+show_help(void)
+{
+   printf("\nUsage:\n"
+          "\t%s [OPTION]\n\n"
+          "Where OPTION is one of:\n\n"
+          "-v          Show program version\n"
+          "-h          Show this help\n"
+          "-t THEME    Use %s/themes/THEME.edj as theme\n\n",
+          PACKAGE, PACKAGE_DATA_DIR);
+}
 
-#include "../config.h"
-
-#define COPYRIGHT "Copyright © 2012  Jérôme Pinot <ngc891@gmail.com>"
-
-#define SIZE_X  10
-#define SIZE_Y  10
-#define MINES   10
+void
+show_version(void)
+{
+   printf("elemines %s\n"
+          "%s\n"
+          "This is free software; see the source for copying conditions.  There is NO\n"
+          "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n",
+          VERSION, COPYRIGHT);
+}
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */

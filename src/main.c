@@ -27,6 +27,8 @@
 
 #include "elemines.h"
 
+void show_help(void);
+void show_version(void);
 void game_over(int x, int y);
 void game_win(void);
 void clean_around(int x, int y, Evas_Object *obj);
@@ -165,13 +167,43 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
 EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
-
    Evas_Object *background, *table, *cell, *blank;
    char edje_file[PATH_MAX];
-   int i, j, x, y;
+   int opt, i, j, x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
    char *theme = "default";
+
+   while ((opt = getopt(argc, argv, "hvt:")) != -1)
+     {
+        switch (opt)
+          {
+             case 'h':
+               {
+                  show_help();
+                  return EXIT_SUCCESS;
+                  break;
+               }
+             case 'v':
+               {
+                  show_version();
+                  return EXIT_SUCCESS;
+                  break;
+               }
+             case 't':
+               {
+                  theme = optarg;
+                  break;
+               }
+             case '?':
+               {
+                  show_help();
+                  return EXIT_SUCCESS;
+                  break;
+               }
+             default: return EXIT_FAILURE;
+          }
+     }
 
    /* set general properties */
    window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
