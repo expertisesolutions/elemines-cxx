@@ -35,6 +35,7 @@
 #include <Evas.h>
 #include <Edje.h>
 #include <Elementary.h>
+#include <Elementary_Cursor.h>
 
 #include "../config.h"
 

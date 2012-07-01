@@ -32,7 +32,7 @@ void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 Eina_Bool
 gui(char *theme)
 {
-   Evas_Object *background, *vbox, *hbox, *clock, *table, *cell, *blank;
+   Evas_Object *background, *vbox, *hbox, *button, *icon, *table, *cell, *blank;
    int x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
@@ -76,25 +76,36 @@ gui(char *theme)
    evas_object_show(hbox);
 
    /* clock */
-   clock = elm_icon_add(window);
-   elm_icon_standard_set(clock, "clock");
-   evas_object_size_hint_weight_set(clock, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(clock, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   evas_object_show(clock);
-   elm_box_pack_end(hbox, clock);
+   icon = elm_icon_add(window);
+   elm_icon_standard_set(icon, "clock");
+   evas_object_size_hint_weight_set(icon, 0.1, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(icon);
+   elm_box_pack_end(hbox, icon);
 
    /* timer */
    timer = elm_layout_add(window);
    elm_layout_file_set(timer, edje_file, "timer");
-   evas_object_size_hint_weight_set(timer, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(timer, 0.3, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(timer);
    elm_box_pack_end(hbox, timer);
 
+   /* Button for reset */
+   button = elm_button_add(window);
+   evas_object_size_hint_weight_set(button, 0.2, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(button, EVAS_HINT_FILL, 0.5);
+   evas_object_show(button);
+   icon = elm_icon_add(window);
+   elm_icon_standard_set(icon, "refresh");
+   elm_object_part_content_set(button, "icon", icon);
+   evas_object_show(icon);
+   elm_box_pack_end(hbox, button);
+
    /* remaining mines */
    mines = elm_layout_add(window);
    elm_layout_file_set(mines, edje_file, "mines");
-   evas_object_size_hint_weight_set(mines, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(mines, 0.3, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
    snprintf(str, sizeof(str), "%03d", MINES);
    elm_object_part_text_set(mines, "mines", str);
@@ -138,6 +149,8 @@ gui(char *theme)
     evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
     elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
     evas_object_show(blank);
+
+    elm_object_cursor_set(table, ELM_CURSOR_HAND2);
 
    /* Get window's size from edje and resize it */
    x = atoi(edje_file_data_get(edje_file, "width"));
