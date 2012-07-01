@@ -1,2 +1,2 @@
 MAINTAINERCLEANFILES = Makefile.in
-EXTRA_DIST = ProggySquareSZ.ttf
+EXTRA_DIST = Inconsolata.otf

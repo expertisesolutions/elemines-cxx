@@ -5,7 +5,7 @@ images {
 }
 
 fonts {
-  font: "ProggySquareSZ.ttf" "Sans";
+  font: "Inconsolata.otf" "Sans";
 }
 
 data {
@@ -30,7 +30,9 @@ color_classes {
   }
   color_class {
     name: "time";
-    color: 255 0 0 255;
+    color: 0 0 0 255;
+    color2: 150 150 150 80;
+    color3: 220 220 220 40;
   }
 }
 
@@ -69,6 +71,7 @@ collections {
       part {
         name: "time";
 	type: TEXT;
+	effect: SOFT_SHADOW;
         scale: 1;
         description {
           state: "default" 0.0;
@@ -114,6 +117,7 @@ collections {
       part {
         name: "mines";
 	type: TEXT;
+	effect: SOFT_SHADOW;
         scale: 1;
         description {
           state: "default" 0.0;
