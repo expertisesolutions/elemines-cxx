@@ -28,18 +28,14 @@
 #include "elemines.h"
 
 void init(void);
+void gui(char *theme);
 void show_help(void);
 void show_version(void);
-void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 
 EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
-   Evas_Object *background, *table, *cell, *blank;
-   char edje_file[PATH_MAX];
    int opt, x, y;
-   int coord[2] = { 0, 0 };
-   void *data = NULL;
    char *theme = "default";
 
    while ((opt = getopt(argc, argv, "hvt:")) != -1)
@@ -73,62 +69,8 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           }
      }
 
-   /* set general properties */
-   window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
-   elm_win_title_set(window, PACKAGE);
-   elm_win_autodel_set(window, EINA_TRUE);
-   elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
-
-   /* add a background */
-   background = elm_bg_add(window);
-   evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   elm_win_resize_object_add(window, background);
-   evas_object_show(background);
-
-   /* add the main table for storing cells */
-   table = elm_table_add(window);
-   elm_table_homogeneous_set(table, EINA_TRUE);
-   elm_win_resize_object_add(window, table);
-   evas_object_size_hint_weight_set(table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_show(table);
-
-   /* get the edje theme file */
-   snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
-   if (access(edje_file, R_OK) != 0)
-     {
-        EINA_LOG_CRIT("Loading theme error: can not read %s", edje_file);
-        return EXIT_FAILURE;
-     }
-
    init();
-
-   /* prepare the board */
-   for (x = 1; x < SIZE_X+1; x++)
-     {
-        for (y = 1; y < SIZE_Y+1; y++)
-          {
-             cell = elm_layout_add(window);
-             elm_layout_file_set(cell, edje_file, "cell");
-             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
-             elm_table_pack(table, cell, x, y, 1, 1);
-             table_ptr[x][y] = cell;
-             evas_object_show(cell);
-
-             /* we need to feed the callback with coordinates */
-             coord[0] = x;
-             coord[1] = y;
-             memcpy(&data, &coord, sizeof(coord));
-             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
-          }
-     }
-    /* Add a blank cell on the bottom right to get a right/bottom margin */
-    blank = elm_layout_add(window);
-    elm_layout_file_set(blank, edje_file, "blank");
-    evas_object_size_hint_weight_set(blank, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-    evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
-    elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
-    evas_object_show(blank);
+   gui(theme);
 
    /* print this out */
    printf(" ===================== \n");
@@ -150,14 +92,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
         printf("\n");
      }
    printf(" ===================== \n");
-
-   /* Get window's size from edje and resize it */
-   x = atoi(edje_file_data_get(edje_file, "width"));
-   y = atoi(edje_file_data_get(edje_file, "height"));
-
-   evas_object_resize(window, x, y);
-   elm_object_focus_set(window, EINA_TRUE);
-   evas_object_show(window);
 
    elm_run();
    elm_shutdown();
