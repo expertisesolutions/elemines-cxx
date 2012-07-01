@@ -34,43 +34,7 @@ void game_win(void);
 void clean_around(int x, int y, Evas_Object *obj);
 void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 
-/* 4 layers for the matrix of data:
- * 1st -> only mines
- * 2nd -> neighbours
- * 3rd -> flags
- * 4th uncover status
- */
-int matrix[SIZE_X+2][SIZE_Y+2][4];
-Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 int counter = SIZE_X * SIZE_Y - MINES;
-Evas_Object *window;
-
-void game_win(void)
-{
-   printf("You win!\n");
-}
-
-void
-game_over(int x, int y)
-{
-   int i,j;
-
-   /* show bombs */
-   for (i = 1; i < SIZE_X+1; i++)
-     {
-        for (j = 1; j < SIZE_Y+1; j++)
-          {
-             if (matrix[i][j][0] == 1)
-               elm_object_signal_emit(table_ptr[i][j], "bomb", "");
-          }
-     }
-
-   /* highlight the fatal bomb */
-   elm_object_signal_emit(table_ptr[x][y], "boom", "");
-
-   printf("You lose.\n");
-   return;
-}
 
 void
 clean_around(int x, int y, Evas_Object *obj)

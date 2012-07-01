@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	      @ELEMENTARY_CFLAGS@
 
 elemines_SOURCES = \
+		   end.c \
 		   help.c \
 		   main.c
 

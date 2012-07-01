@@ -1,5 +1,5 @@
 /*
- * elemines: an EFL mine sweeper
+ * elemines: an EFL mines sweeper
  * Copyright (C) 2012 Jerome Pinot <ngc891@gmail.com>
  * All rights reserved.
  *
@@ -25,38 +25,33 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+#include "elemines.h"
 
-#include <Eina.h>
-#include <Evas.h>
-#include <Edje.h>
-#include <Elementary.h>
+void game_win(void)
+{
+   printf("You win!\n");
+}
 
-#include "../config.h"
+void
+game_over(int x, int y)
+{
+   int i,j;
 
-#define COPYRIGHT "Copyright © 2012  Jérôme Pinot <ngc891@gmail.com>"
+   /* show bombs */
+   for (i = 1; i < SIZE_X+1; i++)
+     {
+        for (j = 1; j < SIZE_Y+1; j++)
+          {
+             if (matrix[i][j][0] == 1)
+               elm_object_signal_emit(table_ptr[i][j], "bomb", "");
+          }
+     }
 
-#define SIZE_X  10
-#define SIZE_Y  10
-#define MINES   10
+   /* highlight the fatal bomb */
+   elm_object_signal_emit(table_ptr[x][y], "boom", "");
 
-/* 4 layers for the matrix of data:
- * 1st -> mines (0/1)
- * 2nd -> neighbours (0-8, 9 for bombs)
- * 3rd -> flags (0/1)
- * 4th ->uncover status (0/1)
- */
-int matrix[SIZE_X+2][SIZE_Y+2][4];
-
-/* We can't access easily elm table cell content, so keep
- * a table of pointer to edje layouts */
-Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
-
-/* the main elm window */
-Evas_Object *window;
+   printf("You lose.\n");
+   return;
+}
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */
