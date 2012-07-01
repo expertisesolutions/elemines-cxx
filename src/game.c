@@ -38,6 +38,9 @@ _timer(void *data __UNUSED__)
    int min = 0;
    double t;
 
+   if (started == EINA_FALSE)
+     return EINA_FALSE;
+
    t = ecore_loop_time_get() - t0;
    while (t >= 60)
      {
@@ -54,6 +57,7 @@ _timer(void *data __UNUSED__)
 static void
 game_win(void)
 {
+   started = EINA_FALSE;
    printf("You win!\n");
 }
 
@@ -62,6 +66,7 @@ game_over(int x, int y)
 {
    int i,j;
 
+   started = EINA_FALSE;
    /* show bombs */
    for (i = 1; i < SIZE_X+1; i++)
      {
@@ -142,9 +147,9 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
      {
         if (started == EINA_FALSE)
           {
+             started = EINA_TRUE;
              t0 = ecore_time_get();
              ecore_timer_add(dt, _timer, NULL);
-             started = EINA_TRUE;
           }
 
         /* OMG IT'S A BOMB! */
