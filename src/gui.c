@@ -36,6 +36,7 @@ gui(char *theme)
    int x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
+   char str[8] = { 0 };
 
    /* get the edje theme file */
    snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
@@ -89,6 +90,16 @@ gui(char *theme)
    evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(timer);
    elm_box_pack_end(hbox, timer);
+
+   /* remaining mines */
+   mines = elm_layout_add(window);
+   elm_layout_file_set(mines, edje_file, "mines");
+   evas_object_size_hint_weight_set(mines, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   snprintf(str, sizeof(str), "%03d", MINES);
+   elm_object_part_text_set(mines, "mines", str);
+   evas_object_show(mines);
+   elm_box_pack_end(hbox, mines);
    elm_box_pack_end(vbox, hbox);
 
    /* add the main table for storing cells */

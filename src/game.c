@@ -134,6 +134,7 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
 {
    int coord[2] = { 0, 0 };
    int x, y;
+   char str[8] = { 0 };
    Evas_Event_Mouse_Down *ev = event_info;
 
    /* get back the coordinates of the cell */
@@ -172,13 +173,31 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
           {
              elm_object_signal_emit(obj, "flag", "");
              matrix[x][y][2] = 1;
+             remain--;
           }
         /* already a flag, remove it */
         else
           {
              elm_object_signal_emit(obj, "default", "");
              matrix[x][y][2] = 0;
+             remain++;
           }
+
+        /* show the remaining mines */
+        if (remain >= 0 && remain <= MINES)
+          {
+             snprintf(str, sizeof(str), "%03d", remain);
+          }
+        else if (remain < 0)
+          {
+             snprintf(str, sizeof(str), "%03d", 0);
+          }
+        else if (remain > MINES)
+          {
+             snprintf(str, sizeof(str), "%03d", MINES);
+          }
+
+         elm_object_part_text_set(mines, "mines", str);
      }
 }
 

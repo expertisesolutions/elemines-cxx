@@ -32,6 +32,9 @@ init(void)
 {
    int i, j, x, y;
 
+   /* init mines count */
+   remain = MINES;
+
    /* empty the matrix */
    memset(matrix, 0, sizeof(matrix));
 

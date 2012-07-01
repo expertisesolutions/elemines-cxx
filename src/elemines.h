@@ -57,8 +57,8 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
 /* the main elm window */
-Evas_Object *window, *timer;
-
+Evas_Object *window, *timer, *mines;
+int remain;
 char edje_file[PATH_MAX];
 Eina_Bool started;
 
