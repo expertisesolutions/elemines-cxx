@@ -7,7 +7,7 @@ AM_CPPFLAGS = \
 	      @ELEMENTARY_CFLAGS@
 
 elemines_SOURCES = \
-		   end.c \
+		   game.c \
 		   help.c \
 		   init.c \
 		   main.c
