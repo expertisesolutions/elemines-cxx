@@ -70,7 +70,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
      }
 
    init();
-   started == EINA_FALSE;
+   started = EINA_FALSE;
    gui(theme);
 
    /* print this out */

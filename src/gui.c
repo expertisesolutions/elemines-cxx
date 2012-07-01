@@ -32,7 +32,7 @@ void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 Eina_Bool
 gui(char *theme)
 {
-   Evas_Object *background, *vbox, *table, *cell, *blank;
+   Evas_Object *background, *vbox, *hbox, *clock, *table, *cell, *blank;
    int x, y;
    int coord[2] = { 0, 0 };
    void *data = NULL;
@@ -65,13 +65,31 @@ gui(char *theme)
    evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(vbox);
 
+   /* box for timer and mine count */
+   hbox = elm_box_add(window);
+   elm_box_homogeneous_set(hbox, EINA_FALSE);
+   elm_box_horizontal_set(hbox, EINA_TRUE);
+   elm_win_resize_object_add(window, hbox);
+   evas_object_size_hint_weight_set(hbox, EVAS_HINT_EXPAND, 0.1);
+   evas_object_size_hint_align_set(hbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(hbox);
+
+   /* clock */
+   clock = elm_icon_add(window);
+   elm_icon_standard_set(clock, "clock");
+   evas_object_size_hint_weight_set(clock, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(clock, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(clock);
+   elm_box_pack_end(hbox, clock);
+
    /* timer */
    timer = elm_layout_add(window);
    elm_layout_file_set(timer, edje_file, "timer");
-   evas_object_size_hint_weight_set(timer, EVAS_HINT_EXPAND, 0.1);
+   evas_object_size_hint_weight_set(timer, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(timer);
-   elm_box_pack_end(vbox, timer);
+   elm_box_pack_end(hbox, timer);
+   elm_box_pack_end(vbox, hbox);
 
    /* add the main table for storing cells */
    table = elm_table_add(window);
