@@ -308,7 +308,7 @@ collections {
         program {
           signal: "boom";
           action: STATE_SET "boom" 0.2;
-          transition: LINEAR 1.6;
+          transition: LINEAR 2.0;
           target: "image";
         }
         program {
