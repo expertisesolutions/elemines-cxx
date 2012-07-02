@@ -26,8 +26,8 @@ fonts {
 }
 
 data {
-  item: "width"  "320";
-  item: "height" "360";
+  item: "width"  "500";
+  item: "height" "600";
 }
 
 color_classes {
@@ -49,6 +49,14 @@ collections {
     sample {
       name: "digging" COMP;
       source: "digging.wav";
+    }
+    sample {
+      name: "fanfare" COMP;
+      source: "fanfare.wav";
+    }
+    sample {
+      name: "flag" COMP;
+      source: "flag.wav";
     }
   }
 
@@ -446,13 +454,22 @@ collections {
           action: STATE_SET "clean" 0.1;
           target: "bg";
         }
+	/* sounds */
         program {
           signal: "digging";
           action: PLAY_SAMPLE "digging" 1.0;
         }
         program {
+          signal: "flag";
+          action: PLAY_SAMPLE "flag" 1.0;
+        }
+        program {
           signal: "boom";
           action: PLAY_SAMPLE "boom" 1.8;
+        }
+        program {
+          signal: "fanfare";
+          action: PLAY_SAMPLE "fanfare" 2.0;
         }
 	/* change colours */
 	program {

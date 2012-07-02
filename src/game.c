@@ -55,9 +55,10 @@ _timer(void *data __UNUSED__)
 }
 
 static void
-game_win(void)
+game_win(Evas_Object *obj)
 {
    started = EINA_FALSE;
+   elm_object_signal_emit(obj, "fanfare", "");
    printf("You win!\n");
 }
 
@@ -131,7 +132,7 @@ clean_around(int x, int y, Evas_Object *obj)
         /* keep track of this empty spot */
         counter--;
         if (counter == 0)
-          game_win();
+          game_win(obj);
      }
    return;
 
