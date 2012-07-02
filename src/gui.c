@@ -29,10 +29,16 @@
 
 void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 
+static void
+_refresh(void *data, Evas_Object *obj, void *event_info)
+{
+
+}
+
 Eina_Bool
 gui(char *theme)
 {
-   Evas_Object *background, *vbox, *hbox, *button, *icon, *table, *cell, *blank;
+   Evas_Object *background, *vbox, *toolbar, *hbox, *button, *icon, *table, *cell, *blank;
    int x, y, scenery;
    int coord[2] = { 0, 0 };
    void *data = NULL;
@@ -66,6 +72,16 @@ gui(char *theme)
    evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(vbox);
 
+   /* the toolbar */
+   toolbar = elm_toolbar_add(window);
+   elm_toolbar_shrink_mode_set(toolbar, ELM_TOOLBAR_SHRINK_SCROLL);
+   evas_object_size_hint_weight_set(toolbar, 0.0, 0.0);
+   evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
+   evas_object_show(toolbar);
+   elm_box_pack_end(vbox, toolbar);
+   elm_toolbar_item_append(toolbar, "refresh", "Refresh", _refresh, NULL);
+   elm_toolbar_item_append(toolbar, "help-about", "About", _refresh, NULL);
+
    /* box for timer and mine count */
    hbox = elm_box_add(window);
    elm_box_homogeneous_set(hbox, EINA_FALSE);
@@ -90,17 +106,6 @@ gui(char *theme)
    evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(timer);
    elm_box_pack_end(hbox, timer);
-
-   /* Button for reset */
-   button = elm_button_add(window);
-   evas_object_size_hint_weight_set(button, 0.2, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(button, EVAS_HINT_FILL, 0.4);
-   evas_object_show(button);
-   icon = elm_icon_add(window);
-   elm_icon_standard_set(icon, "refresh");
-   elm_object_part_content_set(button, "icon", icon);
-   evas_object_show(icon);
-   elm_box_pack_end(hbox, button);
 
    /* remaining mines */
    mines = elm_layout_add(window);

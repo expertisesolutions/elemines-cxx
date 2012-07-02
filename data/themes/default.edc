@@ -92,7 +92,7 @@ collections {
           text {
             text: "00:00";
             font: "Sans";
-            size: 24;
+            size: 28;
             align: 0.5 0.5;
           }
           rel1 {
@@ -138,7 +138,7 @@ collections {
           text {
             text: "000";
             font: "Sans";
-            size: 24;
+            size: 28;
             align: 0.5 0.5;
           }
           rel1 {
@@ -315,7 +315,7 @@ collections {
           text {
             text: "";
             font: "Sans";
-            size: 18;
+            size: 28;
             align: 0.5 0.5;
           }
           rel1 {
