@@ -27,7 +27,6 @@
 
 #include "elemines.h"
 
-void init(void);
 void gui(char *theme);
 void show_help(void);
 void show_version(void);
@@ -69,9 +68,9 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           }
      }
 
-   init();
    started = EINA_FALSE;
    gui(theme);
+   init(NULL, NULL, NULL);
 
    /* print this out */
    printf(" ===================== \n");

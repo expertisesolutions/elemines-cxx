@@ -29,7 +29,6 @@
 
 double t0;
 double dt = 0.1;
-int counter = SIZE_X * SIZE_Y - MINES;
 
 static Eina_Bool
 _timer(void *data __UNUSED__)
@@ -49,7 +48,8 @@ _timer(void *data __UNUSED__)
      }
 
    snprintf(str, sizeof(str), "%02d:%04.1f", min, t);
-   elm_object_part_text_set(timer, "time", str);
+   if (counter != 0)
+     elm_object_part_text_set(timer, "time", str);
 
    return EINA_TRUE;
 }
@@ -60,6 +60,8 @@ game_win(Evas_Object *obj)
    started = EINA_FALSE;
    elm_object_signal_emit(obj, "fanfare", "");
    printf("You win!\n");
+   if (etimer)
+     ecore_timer_del(etimer);
 }
 
 static void
@@ -80,9 +82,9 @@ game_over(int x, int y)
 
    /* highlight the fatal bomb */
    elm_object_signal_emit(table_ptr[x][y], "boom", "");
-
    printf("You lose.\n");
-   return;
+   if (etimer)
+     ecore_timer_del(etimer);
 }
 
 static void
@@ -159,7 +161,7 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
           {
              started = EINA_TRUE;
              t0 = ecore_time_get();
-             ecore_timer_add(dt, _timer, NULL);
+             etimer = ecore_timer_add(dt, _timer, NULL);
           }
 
         /* OMG IT'S A BOMB! */

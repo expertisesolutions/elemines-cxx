@@ -58,9 +58,13 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
 /* the main elm window */
-Evas_Object *window, *timer, *mines;
-int remain;
+Evas_Object *window, *table, *timer, *mines;
+int remain, counter;
 char edje_file[PATH_MAX];
 Eina_Bool started;
+Ecore_Timer *etimer;
+
+void init(void *data, Evas_Object *obj, void *event_info);
+void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */

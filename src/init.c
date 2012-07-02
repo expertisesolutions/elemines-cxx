@@ -27,13 +27,10 @@
 
 #include "elemines.h"
 
-void
-init(void)
+static Eina_Bool
+_generate(void)
 {
    int i, j, x, y;
-
-   /* init mines count */
-   remain = MINES;
 
    /* empty the matrix */
    memset(matrix, 0, sizeof(matrix));
@@ -74,6 +71,71 @@ init(void)
                if ( matrix[x][y][0] == 1) matrix[x][y][1] = 9;
           }
      }
+
+   return EINA_TRUE;
+
+}
+
+static Eina_Bool
+_board(void)
+{
+   int x, y, scenery;
+   int coord[2] = { 0, 0 };
+   Evas_Object *cell;
+   void *data = NULL;
+
+   /* prepare the board */
+   for (x = 1; x < SIZE_X+1; x++)
+     {
+        for (y = 1; y < SIZE_Y+1; y++)
+          {
+             cell = elm_layout_add(window);
+             elm_layout_file_set(cell, edje_file, "cell");
+             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
+             elm_table_pack(table, cell, x, y, 1, 1);
+
+             /* add some scenery */
+             scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+             if (scenery < 15)
+               elm_object_signal_emit(cell, "flowers", "");
+             if (scenery > 12 && scenery < 18)
+               elm_object_signal_emit(cell, "mushrooms", "");
+ 
+             table_ptr[x][y] = cell;
+             evas_object_show(cell);
+
+             /* we need to feed the callback with coordinates */
+             coord[0] = x;
+             coord[1] = y;
+             memcpy(&data, &coord, sizeof(coord));
+             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
+          }
+     }
+
+   return EINA_TRUE;
+
+}
+
+void
+init(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   char str[8] = { 0 };
+
+   /* init mines count */
+   started = EINA_FALSE;
+   remain = MINES;
+   counter = SIZE_X * SIZE_Y - MINES;
+
+   _generate();
+   _board();
+   //if (etimer)
+    // ecore_timer_del(etimer);
+
+   elm_object_part_text_set(timer, "time", "00:00.0");
+   snprintf(str, sizeof(str), "%03d", MINES);
+   elm_object_part_text_set(mines, "mines", str);
+
 }
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */

@@ -27,22 +27,13 @@
 
 #include "elemines.h"
 
-void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
-
-static void
-_refresh(void *data, Evas_Object *obj, void *event_info)
-{
-
-}
 
 Eina_Bool
 gui(char *theme)
 {
-   Evas_Object *background, *vbox, *toolbar, *hbox, *button, *icon, *table, *cell, *blank;
-   int x, y, scenery;
-   int coord[2] = { 0, 0 };
-   void *data = NULL;
+   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *blank;
    char str[8] = { 0 };
+   int x, y;
 
    /* get the edje theme file */
    snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
@@ -79,8 +70,8 @@ gui(char *theme)
    evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
-   elm_toolbar_item_append(toolbar, "refresh", "Refresh", _refresh, NULL);
-   elm_toolbar_item_append(toolbar, "help-about", "About", _refresh, NULL);
+   elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
+   elm_toolbar_item_append(toolbar, "help-about", "About", init, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(window);
@@ -127,43 +118,15 @@ gui(char *theme)
    elm_box_pack_end(vbox, table);
    evas_object_show(table);
 
-   /* prepare the board */
-   for (x = 1; x < SIZE_X+1; x++)
-     {
-        for (y = 1; y < SIZE_Y+1; y++)
-          {
-             cell = elm_layout_add(window);
-             elm_layout_file_set(cell, edje_file, "cell");
-             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
-             elm_table_pack(table, cell, x, y, 1, 1);
-             
-             /* add some scenery */
-             scenery = (int)((double)100 * rand() / RAND_MAX + 1);
-             if (scenery < 15)
-               elm_object_signal_emit(cell, "flowers", "");
-             if (scenery > 12 && scenery < 18)
-               elm_object_signal_emit(cell, "mushrooms", "");
-             
-             table_ptr[x][y] = cell;
-             evas_object_show(cell);
+   /* Add a blank cell on the bottom right to get a right/bottom margin */
+   blank = elm_layout_add(window);
+   elm_layout_file_set(blank, edje_file, "blank");
+   evas_object_size_hint_weight_set(blank, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
+   evas_object_show(blank);
 
-             /* we need to feed the callback with coordinates */
-             coord[0] = x;
-             coord[1] = y;
-             memcpy(&data, &coord, sizeof(coord));
-             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
-          }
-     }
-    /* Add a blank cell on the bottom right to get a right/bottom margin */
-    blank = elm_layout_add(window);
-    elm_layout_file_set(blank, edje_file, "blank");
-    evas_object_size_hint_weight_set(blank, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-    evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
-    elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
-    evas_object_show(blank);
-
-    elm_object_cursor_set(table, ELM_CURSOR_HAND2);
+   elm_object_cursor_set(table, ELM_CURSOR_HAND2);
 
    /* Get window's size from edje and resize it */
    x = atoi(edje_file_data_get(edje_file, "width"));
