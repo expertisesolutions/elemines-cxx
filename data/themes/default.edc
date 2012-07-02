@@ -107,6 +107,29 @@ collections {
       }
     }
   }
+  group {
+    name: "mine_icon";
+    parts {
+      part {
+        name: "icon";
+	type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "bomb.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 0.0 0.0;
+            offset: 72 72;
+	  }
+	}
+      }
+    }
+  }
   /* group controlling remaining mines counter */
   group {
     name: "mines";
@@ -184,7 +207,7 @@ collections {
         type: RECT;
         description {
           state: "default" 0.0;
-          color: 0 0 0 0;
+          color: 255 255 255 0;
           rel1 {
             relative: 0.0 0.0;
             offset: 0 0;
@@ -425,8 +448,39 @@ collections {
           }
         }
       }
+      part {
+        name: "overlay";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 255 255 255 0;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+      }
 
       programs {
+	/* show the nice red box on mouse over */
+        program {
+          signal: "mouse,in";
+          source: "overlay";
+          action: STATE_SET "over" 0.0;
+          target: "border";
+          transition: SINUSOIDAL 0.2;
+        }
+        program {
+          signal: "mouse,out";
+          source: "overlay";
+          action: STATE_SET "default" 0.0;
+          target: "border";
+          transition: SINUSOIDAL 0.7;
+        }
         program {
           signal: "default";
           action: STATE_SET "default" 0.0;

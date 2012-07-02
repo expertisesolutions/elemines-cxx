@@ -98,6 +98,14 @@ gui(char *theme)
    evas_object_show(timer);
    elm_box_pack_end(hbox, timer);
 
+   /* bomb icon */
+   icon = elm_layout_add(window);
+   elm_layout_file_set(icon, edje_file, "mine_icon");
+   evas_object_size_hint_weight_set(icon, 0.15, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(icon);
+   elm_box_pack_end(hbox, icon);
+
    /* remaining mines */
    mines = elm_layout_add(window);
    elm_layout_file_set(mines, edje_file, "mines");
