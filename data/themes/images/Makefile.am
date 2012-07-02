@@ -9,7 +9,13 @@ EXTRA_DIST = bomb.png \
 	     fire6.png \
 	     fire7.png \
 	     fire8.png \
-	     flag.png \
+	     flag1.png \
+	     flag2.png \
+	     flag3.png \
+	     flag4.png \
+	     flowers.png \
 	     grass.png \
 	     hole.png \
-	     sand.png
+	     mushrooms.png \
+	     sand.png \
+	     stones.png
