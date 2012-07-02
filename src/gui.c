@@ -78,7 +78,7 @@ gui(char *theme)
    /* clock */
    icon = elm_icon_add(window);
    elm_icon_standard_set(icon, "clock");
-   evas_object_size_hint_weight_set(icon, 0.1, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(icon, 0.15, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(icon);
    elm_box_pack_end(hbox, icon);
@@ -86,7 +86,7 @@ gui(char *theme)
    /* timer */
    timer = elm_layout_add(window);
    elm_layout_file_set(timer, edje_file, "timer");
-   evas_object_size_hint_weight_set(timer, 0.3, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(timer, 0.4, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(timer);
    elm_box_pack_end(hbox, timer);
@@ -94,7 +94,7 @@ gui(char *theme)
    /* Button for reset */
    button = elm_button_add(window);
    evas_object_size_hint_weight_set(button, 0.2, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(button, EVAS_HINT_FILL, 0.5);
+   evas_object_size_hint_align_set(button, EVAS_HINT_FILL, 0.4);
    evas_object_show(button);
    icon = elm_icon_add(window);
    elm_icon_standard_set(icon, "refresh");
@@ -105,7 +105,7 @@ gui(char *theme)
    /* remaining mines */
    mines = elm_layout_add(window);
    elm_layout_file_set(mines, edje_file, "mines");
-   evas_object_size_hint_weight_set(mines, 0.3, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(mines, 0.25, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
    snprintf(str, sizeof(str), "%03d", MINES);
    elm_object_part_text_set(mines, "mines", str);

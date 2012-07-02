@@ -1,7 +1,17 @@
 images {
   image: "bomb.png"  COMP;
   image: "flag.png"  COMP;
-  image: "explosion.png" COMP;
+  image: "fire1.png" COMP;
+  image: "fire2.png" COMP;
+  image: "fire3.png" COMP;
+  image: "fire4.png" COMP;
+  image: "fire5.png" COMP;
+  image: "fire6.png" COMP;
+  image: "fire7.png" COMP;
+  image: "fire8.png" COMP;
+  image: "grass.png" COMP;
+  image: "hole.png"  COMP;
+  image: "sand.png"  COMP;
 }
 
 fonts {
@@ -14,16 +24,6 @@ data {
 }
 
 color_classes {
-  color_class {
-    name: "floor";
-    color: 193 154 107 255;
-    color3: 0 0 0 255;
-  }
-  color_class {
-    name: "underground";
-    color: 223 184 137 255;
-    color3: 0 0 0 255;
-  }
   color_class {
     name: "number";
     color: 255 9 33 255;
@@ -54,10 +54,10 @@ collections {
     parts {
       part {
         name: "bg";
-	type: RECT;
-	description {
+        type: RECT;
+        description {
           state: "default" 0.0;
-	  color: 0 0 0 0;
+          color: 0 0 0 0;
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -66,12 +66,12 @@ collections {
             relative: 1.0 1.0;
             offset: -1 -1;
           }
-	}
+        }
       }
       part {
         name: "time";
-	type: TEXT;
-	effect: SOFT_SHADOW;
+        type: TEXT;
+        effect: SOFT_SHADOW;
         scale: 1;
         description {
           state: "default" 0.0;
@@ -90,7 +90,7 @@ collections {
             relative: 1.0 1.0;
             offset: 0 0;
           }
-	}
+        }
       }
     }
   }
@@ -100,10 +100,10 @@ collections {
     parts {
       part {
         name: "bg";
-	type: RECT;
-	description {
+        type: RECT;
+        description {
           state: "default" 0.0;
-	  color: 0 0 0 0;
+          color: 0 0 0 0;
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -112,12 +112,12 @@ collections {
             relative: 1.0 1.0;
             offset: -1 -1;
           }
-	}
+        }
       }
       part {
         name: "mines";
-	type: TEXT;
-	effect: SOFT_SHADOW;
+        type: TEXT;
+        effect: SOFT_SHADOW;
         scale: 1;
         description {
           state: "default" 0.0;
@@ -136,7 +136,7 @@ collections {
             relative: 1.0 1.0;
             offset: 0 0;
           }
-	}
+        }
       }
     }
   }
@@ -189,10 +189,12 @@ collections {
       }
       part {
         name: "bg";
-        type: RECT;
+        type: IMAGE;
         description {
           state: "default" 0.0;
-          color_class: "floor";
+          image {
+            normal: "grass.png";
+          }
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -205,7 +207,9 @@ collections {
         description {
           state: "clean" 0.1;
           inherit: "default" 0.0;
-          color_class: "underground";
+          image {
+            normal: "sand.png";
+          }
         }
       }
       part {
@@ -243,11 +247,11 @@ collections {
           }
           rel1 {
             relative: 0.0 0.0;
-            offset: 1 1;
+            offset: 4 4;
           }
           rel2 {
             relative: 1.0 1.0;
-            offset: -1 -1;
+            offset: -4 -4;
           }
         }
         description {
@@ -260,7 +264,24 @@ collections {
           inherit: "default" 0.0;
           visible: 1;
           image {
-            normal: "explosion.png";
+            normal: "hole.png";
+            tween: "fire1.png";
+            tween: "fire2.png";
+            tween: "fire3.png";
+            tween: "fire4.png";
+            tween: "fire5.png";
+            tween: "fire6.png";
+            tween: "fire7.png";
+            tween: "fire8.png";
+            tween: "hole.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
           }
         }
         description {
@@ -287,6 +308,7 @@ collections {
         program {
           signal: "boom";
           action: STATE_SET "boom" 0.2;
+          transition: LINEAR 1.6;
           target: "image";
         }
         program {
