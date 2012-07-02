@@ -1,6 +1,7 @@
 MAINTAINERCLEANFILES = Makefile.in
 
 EXTRA_DIST = bomb.png \
+	     empty.png \
 	     fire1.png \
 	     fire2.png \
 	     fire3.png \

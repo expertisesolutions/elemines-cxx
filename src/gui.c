@@ -33,7 +33,7 @@ Eina_Bool
 gui(char *theme)
 {
    Evas_Object *background, *vbox, *hbox, *button, *icon, *table, *cell, *blank;
-   int x, y;
+   int x, y, scenery;
    int coord[2] = { 0, 0 };
    void *data = NULL;
    char str[8] = { 0 };
@@ -132,6 +132,14 @@ gui(char *theme)
              evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
              evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
              elm_table_pack(table, cell, x, y, 1, 1);
+             
+             /* add some scenery */
+             scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+             if (scenery < 15)
+               elm_object_signal_emit(cell, "flowers", "");
+             if (scenery > 12 && scenery < 18)
+               elm_object_signal_emit(cell, "mushrooms", "");
+             
              table_ptr[x][y] = cell;
              evas_object_show(cell);
 

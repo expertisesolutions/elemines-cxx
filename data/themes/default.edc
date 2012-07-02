@@ -217,6 +217,82 @@ collections {
           }
         }
       }
+      /* scenery objects */
+      part {
+        name: "flowers";
+	type: IMAGE;
+	description {
+	  state: "default" 0.0;
+	  image {
+	    normal: "empty.png";
+	  }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+	}
+        description {
+          state: "flowers" 0.1;
+          inherit: "default" 0.0;
+          image {
+            normal: "flowers.png";
+          }
+        }
+      }
+      part {
+        name: "mushrooms";
+	type: IMAGE;
+	description {
+	  state: "default" 0.0;
+	  image {
+	    normal: "empty.png";
+	  }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+	}
+        description {
+          state: "mushrooms" 0.1;
+          inherit: "default" 0.0;
+          image {
+            normal: "mushrooms.png";
+          }
+        }
+      }
+      part {
+        name: "stones";
+	type: IMAGE;
+	description {
+	  state: "default" 0.0;
+	  image {
+	    normal: "empty.png";
+	  }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+	}
+        description {
+          state: "stones" 0.1;
+          inherit: "default" 0.0;
+          image {
+            normal: "stones.png";
+          }
+        }
+      }
       /* text that shows neighbours */
       part {
         name: "hint";
@@ -225,7 +301,7 @@ collections {
         scale: 1;
         description {
           state: "default" 0.0;
-          color_class: "lower";
+          color: 0 0 0 255;
           color2: 255 255 255 140;
           color3: 100 100 100 140;
           text {
@@ -418,6 +494,32 @@ collections {
 	  signal: "8";
 	  action: STATE_SET "8" 0.8;
 	  target: "hint";
+	}
+	/* scenery */
+	program {
+	  signal: "flowers";
+	  action: STATE_SET "flowers" 0.1;
+	  target: "flowers";
+	}
+	program {
+	  signal: "noflowers";
+	  action: STATE_SET "default" 0.0;
+	  target: "flowers";
+	}
+	program {
+	  signal: "mushrooms";
+	  action: STATE_SET "mushrooms" 0.1;
+	  target: "mushrooms";
+	}
+	program {
+	  signal: "nomushrooms";
+	  action: STATE_SET "default" 0.0;
+	  target: "mushrooms";
+	}
+	program {
+	  signal: "stones";
+	  action: STATE_SET "stones" 0.1;
+	  target: "stones";
 	}
       }
     }

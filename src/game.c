@@ -87,7 +87,7 @@ game_over(int x, int y)
 static void
 clean_around(int x, int y, Evas_Object *obj)
 {
-   int i, j;
+   int i, j, scenery;
    char str[8];
 
    /* we are out of board */
@@ -97,8 +97,15 @@ clean_around(int x, int y, Evas_Object *obj)
    /* nothing here and not already uncovered */
    if (matrix[x][y][0] == 0 && matrix[x][y][3] == 0)
      {
+        /* clean scenery */
+        elm_object_signal_emit(obj, "noflowers", "");
+        elm_object_signal_emit(obj, "nomushrooms", "");
         elm_object_signal_emit(obj, "digging", "");
         elm_object_signal_emit(obj, "clean", "");
+        /* add some stones */
+        scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+        if (scenery < 15)
+          elm_object_signal_emit(obj, "stones", "");
         matrix[x][y][3] = 1;
         /* at least 1 neighbour */
         if (matrix[x][y][1] != 0)
