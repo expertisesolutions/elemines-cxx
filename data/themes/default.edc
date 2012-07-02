@@ -32,11 +32,7 @@ data {
 
 color_classes {
   color_class {
-    name: "number";
-    color: 255 9 33 255;
-  }
-  color_class {
-    name: "time";
+    name: "standard";
     color: 0 0 0 255;
     color2: 150 150 150 80;
     color3: 220 220 220 40;
@@ -59,6 +55,7 @@ collections {
   group {
     name: "timer";
     parts {
+      /* background of timer */
       part {
         name: "bg";
         type: RECT;
@@ -75,6 +72,7 @@ collections {
           }
         }
       }
+      /* text of the timer */
       part {
         name: "time";
         type: TEXT;
@@ -82,7 +80,7 @@ collections {
         scale: 1;
         description {
           state: "default" 0.0;
-          color_class: "time";
+          color_class: "standard";
           text {
             text: "00:00";
             font: "Sans";
@@ -101,7 +99,7 @@ collections {
       }
     }
   }
-
+  /* group controlling remaining mines counter */
   group {
     name: "mines";
     parts {
@@ -128,7 +126,7 @@ collections {
         scale: 1;
         description {
           state: "default" 0.0;
-          color_class: "time";
+          color_class: "standard";
           text {
             text: "000";
             font: "Sans";
@@ -219,13 +217,17 @@ collections {
           }
         }
       }
+      /* text that shows neighbours */
       part {
         name: "hint";
         type: TEXT;
+        effect: SOFT_SHADOW;
         scale: 1;
         description {
           state: "default" 0.0;
-          color_class: "number";
+          color_class: "lower";
+          color2: 255 255 255 140;
+          color3: 100 100 100 140;
           text {
             text: "";
             font: "Sans";
@@ -241,6 +243,47 @@ collections {
             offset: 0 0;
           }
         }
+	/* change colours according to neighbours */
+	description {
+	  state: "1" 0.1;
+	  inherit: "default" 0.0;
+          color: 14 87 12 255;
+	}
+	description {
+	  state: "2" 0.2;
+	  inherit: "default" 0.0;
+          color: 21 17 231 255;
+	}
+	description {
+	  state: "3" 0.3;
+	  inherit: "default" 0.0;
+          color: 233 232 16 255;
+	}
+	description {
+	  state: "4" 0.4;
+	  inherit: "default" 0.0;
+          color: 233 98 15 255;
+	}
+	description {
+	  state: "5" 0.5;
+	  inherit: "default" 0.0;
+          color: 230 15 13 255;
+	}
+	description {
+	  state: "6" 0.6;
+	  inherit: "default" 0.0;
+          color: 240 0 240 255;
+	}
+	description {
+	  state: "7" 0.7;
+	  inherit: "default" 0.0;
+          color: 255 255 255 255;
+	}
+	description {
+	  state: "8" 0.8;
+	  inherit: "default" 0.0;
+          color: 0 0 0 255;
+	}
       }
 
       part {
@@ -335,6 +378,47 @@ collections {
           signal: "boom";
           action: PLAY_SAMPLE "boom" 1.8;
         }
+	/* change colours */
+	program {
+	  signal: "1";
+	  action: STATE_SET "1" 0.1;
+	  target: "hint";
+	}
+	program {
+	  signal: "2";
+	  action: STATE_SET "2" 0.2;
+	  target: "hint";
+	}
+	program {
+	  signal: "3";
+	  action: STATE_SET "3" 0.3;
+	  target: "hint";
+	}
+	program {
+	  signal: "4";
+	  action: STATE_SET "4" 0.4;
+	  target: "hint";
+	}
+	program {
+	  signal: "5";
+	  action: STATE_SET "5" 0.5;
+	  target: "hint";
+	}
+	program {
+	  signal: "6";
+	  action: STATE_SET "6" 0.6;
+	  target: "hint";
+	}
+	program {
+	  signal: "7";
+	  action: STATE_SET "7" 0.7;
+	  target: "hint";
+	}
+	program {
+	  signal: "8";
+	  action: STATE_SET "8" 0.8;
+	  target: "hint";
+	}
       }
     }
   }

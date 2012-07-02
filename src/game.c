@@ -104,6 +104,7 @@ clean_around(int x, int y, Evas_Object *obj)
         if (matrix[x][y][1] != 0)
           {
              snprintf(str, sizeof(str), "%d", matrix[x][y][1]);
+             elm_object_signal_emit(obj, str, "");
              elm_object_part_text_set(obj, "hint", str);
           }
         /* no neighbour */
