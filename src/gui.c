@@ -27,6 +27,39 @@
 
 #include "elemines.h"
 
+static void
+_about_del(void *data, __UNUSED__ Evas *e, __UNUSED__ Evas_Object *obj, __UNUSED__ void *event_info)
+{
+   Evas_Object *popup = data;
+
+   evas_object_hide(popup);
+}
+
+void
+_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   Evas_Object *popup, *label;
+   char buffer[256];
+
+   /* Show the about window */
+   popup = elm_win_inwin_add(window);
+   elm_object_style_set(popup, "minimal_vertical");
+   evas_object_show(popup);
+
+   /* Construct a formatted label for the inwin */
+   label = elm_label_add(window);
+   snprintf(buffer, sizeof(buffer), "<b>%s %s</b><br><br>"
+            "%s<br><br>"
+            "Pictures and sounds derived from:<br>"
+            " - http://www.wesnoth.org/<br>",
+            PACKAGE, VERSION, COPYRIGHT);
+   elm_object_text_set(label, buffer);
+   evas_object_show(label);
+   elm_win_inwin_content_set(popup, label);
+
+   /* Close the inwin when clicked */
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _about_del, popup);
+}
 
 Eina_Bool
 gui(char *theme)
@@ -66,12 +99,13 @@ gui(char *theme)
    /* the toolbar */
    toolbar = elm_toolbar_add(window);
    elm_toolbar_shrink_mode_set(toolbar, ELM_TOOLBAR_SHRINK_SCROLL);
+   elm_toolbar_select_mode_set(toolbar, ELM_OBJECT_SELECT_MODE_ALWAYS);
    evas_object_size_hint_weight_set(toolbar, 0.0, 0.0);
    evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
-   elm_toolbar_item_append(toolbar, "help-about", "About", init, NULL);
+   elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(window);
@@ -125,6 +159,44 @@ gui(char *theme)
    evas_object_size_hint_align_set(table, EVAS_HINT_FILL, EVAS_HINT_FILL);
    elm_box_pack_end(vbox, table);
    evas_object_show(table);
+
+   /* add a nice border around the board */
+   for (x = 1; x < SIZE_X + 1; x++)
+     {
+        icon = elm_layout_add(window);
+        elm_layout_file_set(icon, edje_file, "grass-s");
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        evas_object_show(icon);
+        elm_table_pack(table, icon, x, 0, 1, 1);
+        evas_object_show(icon);
+
+        icon = elm_layout_add(window);
+        elm_layout_file_set(icon, edje_file, "grass-n");
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        evas_object_show(icon);
+        elm_table_pack(table, icon, x, SIZE_Y+1, 1, 1);
+        evas_object_show(icon);
+     }
+   for (y = 1; y < SIZE_Y + 1; y++)
+     {
+        icon = elm_layout_add(window);
+        elm_layout_file_set(icon, edje_file, "grass-w");
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        evas_object_show(icon);
+        elm_table_pack(table, icon, 0, y, 1, 1);
+        evas_object_show(icon);
+
+        icon = elm_layout_add(window);
+        elm_layout_file_set(icon, edje_file, "grass-e");
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        evas_object_show(icon);
+        elm_table_pack(table, icon, SIZE_X + 1, y, 1, 1);
+        evas_object_show(icon);
+     }
 
    /* Add a blank cell on the bottom right to get a right/bottom margin */
    blank = elm_layout_add(window);

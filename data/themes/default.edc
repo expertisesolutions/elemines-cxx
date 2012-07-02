@@ -15,6 +15,10 @@ images {
   image: "flag4.png" COMP;
   image: "flowers.png"  COMP;
   image: "grass.png" COMP;
+  image: "grass-s.png" COMP;
+  image: "grass-n.png" COMP;
+  image: "grass-e.png" COMP;
+  image: "grass-w.png" COMP;
   image: "hole.png"  COMP;
   image: "mushrooms.png"  COMP;
   image: "sand.png"  COMP;
@@ -173,6 +177,99 @@ collections {
             offset: 0 0;
           }
         }
+      }
+    }
+  }
+
+  group {
+    name: "grass-s";
+    parts {
+      part {
+        name: "grass-s";
+	type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "grass-s.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+	  }
+	}
+      }
+    }
+  }
+  group {
+    name: "grass-n";
+    parts {
+      part {
+        name: "grass-n";
+	type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "grass-n.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+	  }
+	}
+      }
+    }
+  }
+  group {
+    name: "grass-e";
+    parts {
+      part {
+        name: "grass-e";
+	type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "grass-e.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+	  }
+	}
+      }
+    }
+  }
+  group {
+    name: "grass-w";
+    parts {
+      part {
+        name: "grass-w";
+	type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "grass-w.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+	  }
+	}
       }
     }
   }

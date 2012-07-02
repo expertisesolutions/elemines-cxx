@@ -16,6 +16,10 @@ EXTRA_DIST = bomb.png \
 	     flag4.png \
 	     flowers.png \
 	     grass.png \
+	     grass-s.png \
+	     grass-n.png \
+	     grass-e.png \
+	     grass-w.png \
 	     hole.png \
 	     mushrooms.png \
 	     sand.png \
