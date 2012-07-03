@@ -49,19 +49,19 @@ collections {
   sounds {
     sample {
       name: "boom" COMP;
-      source: "boom.wav";
+      source: "boom.flac";
     }
     sample {
       name: "digging" COMP;
-      source: "digging.wav";
+      source: "digging.flac";
     }
     sample {
       name: "fanfare" COMP;
-      source: "fanfare.wav";
+      source: "fanfare.flac";
     }
     sample {
       name: "flag" COMP;
-      source: "flag.wav";
+      source: "flag.flac";
     }
   }
 

@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-EXTRA_DIST = boom.wav \
-	     digging.wav \
-	     fanfare.wav \
-	     flag.wav
+EXTRA_DIST = boom.flac \
+	     digging.flac \
+	     fanfare.flac \
+	     flag.flac
