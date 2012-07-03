@@ -63,6 +63,7 @@ int remain, counter;
 char edje_file[PATH_MAX];
 Eina_Bool started;
 Ecore_Timer *etimer;
+double delay;
 
 void init(void *data, Evas_Object *obj, void *event_info);
 void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);

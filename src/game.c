@@ -40,7 +40,7 @@ _timer(void *data __UNUSED__)
    if (started == EINA_FALSE)
      return EINA_FALSE;
 
-   t = ecore_loop_time_get() - t0;
+   t = ecore_loop_time_get() - t0 - delay;
    while (t >= 60)
      {
         t -= 60;

@@ -28,11 +28,9 @@
 #include "elemines.h"
 
 static void
-_about_del(void *data, __UNUSED__ Evas *e, __UNUSED__ Evas_Object *obj, __UNUSED__ void *event_info)
+_about_del(__UNUSED__ void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *event_info)
 {
-   Evas_Object *popup = data;
-
-   evas_object_hide(popup);
+   evas_object_hide(obj);
 }
 
 void
@@ -58,7 +56,46 @@ _about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    elm_win_inwin_content_set(popup, label);
 
    /* Close the inwin when clicked */
-   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _about_del, popup);
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _about_del, NULL);
+}
+
+static void
+_pause_del(void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *event_info)
+{
+   double current;
+
+   /* compute the pause delay to remove it from timer */
+   memcpy(&current, &data, sizeof(current));
+   delay += ecore_time_get() - current;
+   ecore_timer_thaw(etimer);
+   evas_object_hide(obj);
+}
+
+void
+_pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   Evas_Object *popup, *label;
+   double current;
+   void *current_ptr = NULL;
+
+   /* Show the pause window */
+   popup = elm_win_inwin_add(window);
+   evas_object_show(popup);
+
+   /* pause the timer */
+   current = ecore_time_get();
+   memcpy(&current_ptr, &current, sizeof(current));
+   ecore_timer_freeze(etimer);
+
+   /* Construct a formatted label for the inwin */
+   label = elm_label_add(window);
+   elm_object_text_set(label, "Pause!");
+   evas_object_show(label);
+   elm_win_inwin_content_set(popup, label);
+
+   /* Close the inwin when clicked */
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del, current_ptr);
+
 }
 
 Eina_Bool
@@ -105,6 +142,7 @@ gui(char *theme)
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
+   elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
 
    /* box for timer and mine count */

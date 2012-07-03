@@ -126,6 +126,7 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUS
    started = EINA_FALSE;
    remain = MINES;
    counter = SIZE_X * SIZE_Y - MINES;
+   delay = 0;
 
    _generate();
    _board();
