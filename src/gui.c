@@ -67,14 +67,21 @@ _pause_del(void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *ev
    /* compute the pause delay to remove it from timer */
    memcpy(&current, &data, sizeof(current));
    delay += ecore_time_get() - current;
-   ecore_timer_thaw(etimer);
+   if (etimer)
+     {
+        ecore_timer_thaw(etimer);
+     }
+   else
+     {
+        delay = 0;
+     }
    evas_object_hide(obj);
 }
 
 void
 _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
-   Evas_Object *popup, *label;
+   Evas_Object *popup, *layout;
    double current;
    void *current_ptr = NULL;
 
@@ -85,13 +92,16 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    /* pause the timer */
    current = ecore_time_get();
    memcpy(&current_ptr, &current, sizeof(current));
-   ecore_timer_freeze(etimer);
+   if (etimer)
+     ecore_timer_freeze(etimer);
 
    /* Construct a formatted label for the inwin */
-   label = elm_label_add(window);
-   elm_object_text_set(label, "Pause!");
-   evas_object_show(label);
-   elm_win_inwin_content_set(popup, label);
+   layout = elm_layout_add(window);
+   elm_layout_file_set(layout, edje_file, "pause");
+   evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(layout);
+   elm_win_inwin_content_set(popup, layout);
 
    /* Close the inwin when clicked */
    evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del, current_ptr);

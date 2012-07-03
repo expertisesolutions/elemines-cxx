@@ -23,4 +23,5 @@ EXTRA_DIST = bomb.png \
 	     hole.png \
 	     mushrooms.png \
 	     sand.png \
+	     sky.png \
 	     stones.png

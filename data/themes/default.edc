@@ -22,6 +22,7 @@ images {
   image: "hole.png"  COMP;
   image: "mushrooms.png"  COMP;
   image: "sand.png"  COMP;
+  image: "sky.png" COMP;
   image: "stones.png"  COMP;
 }
 
@@ -295,7 +296,53 @@ collections {
       }
     }
   }
-
+  group {
+   name: "pause";
+    parts {
+      part {
+        name: "pause bg";
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+	  image {
+            normal: "sky.png";
+	  }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+      }
+      part {
+        name: "pause text";
+        type: TEXT;
+        effect: SOFT_SHADOW;
+        scale: 1;
+        description {
+          state: "default" 0.0;
+          color_class: "standard";
+          text {
+            text: "Pause!";
+            font: "Sans";
+            size: 40;
+            align: 0.5 0.5;
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+      }
+    }
+  }
   group { 
     name: "cell";
     parts {
