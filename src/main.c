@@ -31,16 +31,48 @@ void gui(char *theme);
 void show_help(void);
 void show_version(void);
 
+static void
+_debug(void)
+{
+   int x, y;
+
+   printf("== bomb positions =====\n");
+   for (y = 0; y < SIZE_Y+2; y++)
+     {
+        for (x = 0; x < SIZE_X+2; x++)
+          {
+             printf("%d ", matrix[x][y][0]);
+          }
+        printf("\n");
+     }
+
+   printf("== neighbours count ===\n");
+   for (y = 0; y < SIZE_Y+2; y++)
+     {
+        for (x = 0; x < SIZE_X+2; x++)
+          {
+             printf("%d ", matrix[x][y][1]);
+          }
+        printf("\n");
+     }
+}
+
 EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
-   int opt, x, y;
+   int opt;
    char *theme = "default";
+   Eina_Bool debug = EINA_FALSE;
 
-   while ((opt = getopt(argc, argv, "hvt:")) != -1)
+   while ((opt = getopt(argc, argv, "dhvt:")) != -1)
      {
         switch (opt)
           {
+             case 'd':
+               {
+                  debug = EINA_TRUE;
+                  break;
+               }
              case 'h':
                {
                   show_help();
@@ -72,26 +104,8 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    gui(theme);
    init(NULL, NULL, NULL);
 
-   /* print this out
-   printf(" ===================== \n");
-   for (y = 0; y < SIZE_Y+2; y++)
-     {
-        for (x = 0; x < SIZE_X+2; x++)
-          {
-             printf("%d ", matrix[x][y][0]);
-          }
-        printf("\n");
-     }
-   printf(" ===================== \n");
-   for (y = 0; y < SIZE_Y+2; y++)
-     {
-        for (x = 0; x < SIZE_X+2; x++)
-          {
-             printf("%d ", matrix[x][y][1]);
-          }
-        printf("\n");
-     }
-   printf(" ===================== \n"); */
+   if (debug == EINA_TRUE)
+     _debug();
 
    elm_run();
    elm_shutdown();
