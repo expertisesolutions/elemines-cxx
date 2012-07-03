@@ -134,7 +134,7 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUS
     // ecore_timer_del(etimer);
 
    elm_object_part_text_set(timer, "time", "00:00.0");
-   snprintf(str, sizeof(str), "%03d", MINES);
+   snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
    elm_object_part_text_set(mines, "mines", str);
 
 }

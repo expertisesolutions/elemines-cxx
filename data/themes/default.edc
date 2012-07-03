@@ -164,7 +164,7 @@ collections {
           state: "default" 0.0;
           color_class: "standard";
           text {
-            text: "000";
+            text: "";
             font: "Sans";
             size: 28;
             align: 0.5 0.5;

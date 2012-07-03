@@ -193,7 +193,7 @@ gui(char *theme)
    elm_layout_file_set(mines, edje_file, "mines");
    evas_object_size_hint_weight_set(mines, 0.25, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   snprintf(str, sizeof(str), "%03d", MINES);
+   snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
    elm_object_part_text_set(mines, "mines", str);
    evas_object_show(mines);
    elm_box_pack_end(hbox, mines);
@@ -254,7 +254,7 @@ gui(char *theme)
    elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
    evas_object_show(blank);
 
-   elm_object_cursor_set(table, ELM_CURSOR_HAND2);
+   //elm_object_cursor_set(table, ELM_CURSOR_HAND2);
 
    /* Get window's size from edje and resize it */
    x = atoi(edje_file_data_get(edje_file, "width"));
