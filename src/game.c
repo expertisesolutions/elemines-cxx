@@ -143,10 +143,10 @@ clean_around(int x, int y, Evas_Object *obj)
 void
 click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
 {
-   int coord[2] = { 0, 0 };
-   int x, y;
-   char str[16] = { 0 };
    Evas_Event_Mouse_Down *ev = event_info;
+   int x, y;
+   int coord[2];
+   char str[16];
 
    /* get back the coordinates of the cell */
    memcpy(&coord, &data, sizeof(data));

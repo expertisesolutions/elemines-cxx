@@ -72,7 +72,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    gui(theme);
    init(NULL, NULL, NULL);
 
-   /* print this out */
+   /* print this out
    printf(" ===================== \n");
    for (y = 0; y < SIZE_Y+2; y++)
      {
@@ -91,7 +91,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
           }
         printf("\n");
      }
-   printf(" ===================== \n");
+   printf(" ===================== \n"); */
 
    elm_run();
    elm_shutdown();

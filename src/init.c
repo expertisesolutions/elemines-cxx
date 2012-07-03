@@ -59,30 +59,28 @@ _generate(void)
         for (y = 1; y < SIZE_Y+1; y++)
           {
              /* count neighbours */
-             for (i=-1; i<2; i++)
+             for (i = -1; i < 2; i++)
                {
-                  for (j=-1; j<2; j++)
+                  for (j = -1; j < 2; j++)
                     {
-                       if (!(j == 0 && i == 0))
+                       if (!((j == 0) && (i == 0)))
                          matrix[x][y][1] += matrix[x+i][y+j][0];
                     }
                }
-              /* mark a mine place with 9 */
-               if ( matrix[x][y][0] == 1) matrix[x][y][1] = 9;
+              /* mark a mine place with a 9 */
+               if (matrix[x][y][0] == 1) matrix[x][y][1] = 9;
           }
      }
-
    return EINA_TRUE;
-
 }
 
 static Eina_Bool
 _board(void)
 {
-   int x, y, scenery;
-   int coord[2] = { 0, 0 };
    Evas_Object *cell;
-   void *data = NULL;
+   int x, y, scenery;
+   int coord[2];
+   void *data;
 
    /* prepare the board */
    for (x = 1; x < SIZE_X+1; x++)
@@ -91,15 +89,17 @@ _board(void)
           {
              cell = elm_layout_add(window);
              elm_layout_file_set(cell, edje_file, "cell");
-             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL, EVAS_HINT_FILL);
+             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND,
+                                                    EVAS_HINT_EXPAND);
+             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL,
+                                                   EVAS_HINT_FILL);
              elm_table_pack(table, cell, x, y, 1, 1);
 
-             /* add some scenery */
+             /* add some random scenery */
              scenery = (int)((double)100 * rand() / RAND_MAX + 1);
              if (scenery < 15)
                elm_object_signal_emit(cell, "flowers", "");
-             if (scenery > 12 && scenery < 18)
+             if ((scenery > 12) && (scenery < 18))
                elm_object_signal_emit(cell, "mushrooms", "");
  
              table_ptr[x][y] = cell;
@@ -109,20 +109,20 @@ _board(void)
              coord[0] = x;
              coord[1] = y;
              memcpy(&data, &coord, sizeof(coord));
-             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN, click, data);
+             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN,
+                                            click, data);
           }
      }
-
    return EINA_TRUE;
-
 }
 
 void
-init(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+init(__UNUSED__ void *data, __UNUSED__ Evas_Object *obj,
+     __UNUSED__ void *event_info)
 {
-   char str[8] = { 0 };
+   char str[8];
 
-   /* init mines count */
+   /* init variables */
    started = EINA_FALSE;
    remain = MINES;
    counter = SIZE_X * SIZE_Y - MINES;
@@ -130,12 +130,13 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUS
 
    _generate();
    _board();
-   //if (etimer)
-    // ecore_timer_del(etimer);
 
-   elm_object_part_text_set(timer, "time", "00:00.0");
+   /* set initial value for timer and mines */
+   if (timer)
+     elm_object_part_text_set(timer, "time", "00:00.0");
    snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
-   elm_object_part_text_set(mines, "mines", str);
+   if (mines)
+     elm_object_part_text_set(mines, "mines", str);
 
 }
 

@@ -43,7 +43,7 @@
 
 #define SIZE_X  10
 #define SIZE_Y  10
-#define MINES   10
+#define MINES   12
 
 /* 4 layers for the matrix of data:
  * 1st -> mines (0/1)
@@ -57,13 +57,13 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
  * a table of pointer to edje layouts */
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
-/* the main elm window */
+/* global variables */
 Evas_Object *window, *table, *timer, *mines;
-int remain, counter;
-char edje_file[PATH_MAX];
 Eina_Bool started;
 Ecore_Timer *etimer;
+char edje_file[PATH_MAX];
 double delay;
+int remain, counter;
 
 void init(void *data, Evas_Object *obj, void *event_info);
 void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);

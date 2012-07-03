@@ -112,7 +112,6 @@ Eina_Bool
 gui(char *theme)
 {
    Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *blank;
-   char str[8] = { 0 };
    int x, y;
 
    /* get the edje theme file */
@@ -193,8 +192,6 @@ gui(char *theme)
    elm_layout_file_set(mines, edje_file, "mines");
    evas_object_size_hint_weight_set(mines, 0.25, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
-   elm_object_part_text_set(mines, "mines", str);
    evas_object_show(mines);
    elm_box_pack_end(hbox, mines);
    elm_box_pack_end(vbox, hbox);
