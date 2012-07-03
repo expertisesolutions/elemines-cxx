@@ -27,6 +27,12 @@
 
 #include "elemines.h"
 
+void
+_quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   elm_exit();
+}
+
 static void
 _about_del(__UNUSED__ void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *event_info)
 {
@@ -153,6 +159,7 @@ gui(char *theme)
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
    elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
+   elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(window);
