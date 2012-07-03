@@ -1,5 +1,5 @@
 /*
- * elemines: an EFL mine sweeper
+ * elemines: an EFL minesweeper
  * Copyright (C) 2012 Jerome Pinot <ngc891@gmail.com>
  * All rights reserved.
  *

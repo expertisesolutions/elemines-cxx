@@ -3,7 +3,6 @@ MAINTAINERCLEANFILES = \
 		       aclocal.m4 \
 		       config.guess \
 		       config.h.in \
-		       config.rpath \
 		       config.sub \
 		       configure \
 		       depcomp \
@@ -14,14 +13,16 @@ MAINTAINERCLEANFILES = \
 		       m4/ltoptions.m4 \
 		       m4/ltsugar.m4 \
 		       m4/ltversion.m4 \
-		       m4/lt~obsolete.m4
+		       m4/lt~obsolete.m4 \
+		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
+		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2
 
-SUBDIRS = data src
+SUBDIRS = data packaging src
 
 ACLOCAL_AMFLAGS = -I m4
 
 filesdir = $(docdir)
-files_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README
+files_DATA = AUTHORS COPYING COPYING.ART ChangeLog INSTALL NEWS README
 
-EXTRA_DIST = autogen.sh configure config.rpath
+EXTRA_DIST = autogen.sh configure
 
