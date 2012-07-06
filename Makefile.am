@@ -24,5 +24,5 @@ ACLOCAL_AMFLAGS = -I m4
 filesdir = $(docdir)
 files_DATA = AUTHORS COPYING COPYING.ART ChangeLog INSTALL NEWS README
 
-EXTRA_DIST = autogen.sh configure
+EXTRA_DIST = COPYING.ART autogen.sh configure
 

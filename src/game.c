@@ -58,7 +58,9 @@ static void
 game_win(Evas_Object *obj)
 {
    started = EINA_FALSE;
-   elm_object_signal_emit(obj, "fanfare", "");
+#ifdef SOUND
+   elm_object_signal_emit(obj, "fanfare sound", "");
+#endif
    printf("You win!\n");
    if (etimer)
      ecore_timer_del(etimer);
@@ -81,6 +83,9 @@ game_over(int x, int y)
      }
 
    /* highlight the fatal bomb */
+#ifdef SOUND
+   elm_object_signal_emit(table_ptr[x][y], "boom sound", "");
+#endif
    elm_object_signal_emit(table_ptr[x][y], "boom", "");
    printf("You lose.\n");
    if (etimer)
@@ -103,6 +108,9 @@ clean_around(int x, int y, Evas_Object *obj)
         /* clean scenery */
         elm_object_signal_emit(obj, "noflowers", "");
         elm_object_signal_emit(obj, "nomushrooms", "");
+#ifdef SOUND
+        elm_object_signal_emit(obj, "digging sound", "");
+#endif
         elm_object_signal_emit(obj, "digging", "");
         elm_object_signal_emit(obj, "clean", "");
         /* add some stones */
@@ -182,6 +190,9 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
         /* there was no flag and we didn't digg */
         if (matrix[x][y][2] == 0 && matrix[x][y][3] != 1)
           {
+#ifdef SOUND
+             elm_object_signal_emit(obj, "flag sound", "");
+#endif
              elm_object_signal_emit(obj, "flag", "");
              matrix[x][y][2] = 1;
              remain--;

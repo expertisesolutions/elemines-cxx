@@ -654,19 +654,19 @@ collections {
         }
 	/* sounds */
         program {
-          signal: "digging";
+          signal: "digging sound";
           action: PLAY_SAMPLE "digging" 1.0;
         }
         program {
-          signal: "flag";
+          signal: "flag sound";
           action: PLAY_SAMPLE "flag" 1.0;
         }
         program {
-          signal: "boom";
+          signal: "boom sound";
           action: PLAY_SAMPLE "boom" 1.8;
         }
         program {
-          signal: "fanfare";
+          signal: "fanfare sound";
           action: PLAY_SAMPLE "fanfare" 2.0;
         }
 	/* change colours */
