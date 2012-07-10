@@ -55,52 +55,44 @@ _timer(void *data __UNUSED__)
 }
 
 static void
-game_win(Evas_Object *obj)
+_finish(int x, int y, Eina_Bool win)
 {
    int i,j;
 
    started = EINA_FALSE;
+
 #ifdef SOUND
-   elm_object_signal_emit(obj, "fanfare sound", "");
-#endif
-   
-   for (i = 1; i < SIZE_X+1; i++)
+   if (win == EINA_TRUE)
      {
-        for (j = 1; j < SIZE_Y+1; j++)
-          {
-             elm_object_signal_emit(table_ptr[i][j], "win", "");
-             evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
-          }
+        elm_object_signal_emit(table_ptr[x][y], "fanfare sound", "");
      }
+   else
+     {
+        elm_object_signal_emit(table_ptr[x][y], "boom sound", "");
+     }
+#endif
 
-   printf("You win!\n");
-   if (etimer) ecore_timer_del(etimer);
-}
+   /* highlight the fatal bomb */
+   if (win == EINA_FALSE) elm_object_signal_emit(table_ptr[x][y], "boom", "");
 
-static void
-game_over(int x, int y)
-{
-   int i,j;
-
-   started = EINA_FALSE;
    /* show bombs */
    for (i = 1; i < SIZE_X+1; i++)
      {
         for (j = 1; j < SIZE_Y+1; j++)
           {
-             if (matrix[i][j][0] == 1)
-               elm_object_signal_emit(table_ptr[i][j], "bomb", "");
-             elm_object_signal_emit(table_ptr[i][j], "lose", "");
              evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
+             if (win == EINA_TRUE)
+               {
+                  elm_object_signal_emit(table_ptr[i][j], "win", "");
+               }
+             else
+               {
+                  if (matrix[i][j][0] == 1)
+                    elm_object_signal_emit(table_ptr[i][j], "bomb", "");
+                  elm_object_signal_emit(table_ptr[i][j], "lose", "");
+               }
           }
      }
-
-   /* highlight the fatal bomb */
-#ifdef SOUND
-   elm_object_signal_emit(table_ptr[x][y], "boom sound", "");
-#endif
-   elm_object_signal_emit(table_ptr[x][y], "boom", "");
-   printf("You lose.\n");
    if (etimer) ecore_timer_del(etimer);
 }
 
@@ -154,7 +146,7 @@ clean_around(int x, int y, Evas_Object *obj)
         /* keep track of this empty spot */
         counter--;
         if (counter == 0)
-          game_win(obj);
+          _finish(x, y, EINA_TRUE);
      }
    return;
 
@@ -187,7 +179,7 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
         /* OMG IT'S A BOMB! */
         if (matrix[x][y][0] == 1)
           {
-             game_over(x, y);
+             _finish(x, y, EINA_FALSE);
              return;
           }
         else
