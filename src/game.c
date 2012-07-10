@@ -57,13 +57,24 @@ _timer(void *data __UNUSED__)
 static void
 game_win(Evas_Object *obj)
 {
+   int i,j;
+
    started = EINA_FALSE;
 #ifdef SOUND
    elm_object_signal_emit(obj, "fanfare sound", "");
 #endif
+   
+   for (i = 1; i < SIZE_X+1; i++)
+     {
+        for (j = 1; j < SIZE_Y+1; j++)
+          {
+             elm_object_signal_emit(table_ptr[i][j], "win", "");
+             evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
+          }
+     }
+
    printf("You win!\n");
-   if (etimer)
-     ecore_timer_del(etimer);
+   if (etimer) ecore_timer_del(etimer);
 }
 
 static void
@@ -79,6 +90,8 @@ game_over(int x, int y)
           {
              if (matrix[i][j][0] == 1)
                elm_object_signal_emit(table_ptr[i][j], "bomb", "");
+             elm_object_signal_emit(table_ptr[i][j], "lose", "");
+             evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
           }
      }
 
@@ -88,8 +101,7 @@ game_over(int x, int y)
 #endif
    elm_object_signal_emit(table_ptr[x][y], "boom", "");
    printf("You lose.\n");
-   if (etimer)
-     ecore_timer_del(etimer);
+   if (etimer) ecore_timer_del(etimer);
 }
 
 static void

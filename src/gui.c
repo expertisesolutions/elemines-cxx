@@ -98,8 +98,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    /* pause the timer */
    current = ecore_time_get();
    memcpy(&current_ptr, &current, sizeof(current));
-   if (etimer)
-     ecore_timer_freeze(etimer);
+   if (etimer) ecore_timer_freeze(etimer);
 
    /* Construct a formatted label for the inwin */
    layout = elm_layout_add(window);
@@ -257,8 +256,6 @@ gui(char *theme)
    evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
    elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
    evas_object_show(blank);
-
-   //elm_object_cursor_set(table, ELM_CURSOR_HAND2);
 
    /* Get window's size from edje and resize it */
    x = atoi(edje_file_data_get(edje_file, "width"));

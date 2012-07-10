@@ -65,6 +65,7 @@ collections {
     }
   }
 
+      
   group {
     name: "timer";
     parts {
@@ -117,7 +118,7 @@ collections {
     parts {
       part {
         name: "icon";
-	type: IMAGE;
+        type: IMAGE;
         description {
           state: "default" 0.0;
           image {
@@ -130,8 +131,8 @@ collections {
           rel2 {
             relative: 0.0 0.0;
             offset: 72 72;
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -187,7 +188,7 @@ collections {
     parts {
       part {
         name: "grass-s";
-	type: IMAGE;
+        type: IMAGE;
         description {
           state: "default" 0.0;
           image {
@@ -200,8 +201,8 @@ collections {
           rel2 {
             relative: 1.0 1.0;
             offset: -1 -1;
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -210,7 +211,7 @@ collections {
     parts {
       part {
         name: "grass-n";
-	type: IMAGE;
+        type: IMAGE;
         description {
           state: "default" 0.0;
           image {
@@ -223,8 +224,8 @@ collections {
           rel2 {
             relative: 1.0 1.0;
             offset: -1 -1;
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -233,7 +234,7 @@ collections {
     parts {
       part {
         name: "grass-e";
-	type: IMAGE;
+        type: IMAGE;
         description {
           state: "default" 0.0;
           image {
@@ -246,8 +247,8 @@ collections {
           rel2 {
             relative: 1.0 1.0;
             offset: -1 -1;
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -256,7 +257,7 @@ collections {
     parts {
       part {
         name: "grass-w";
-	type: IMAGE;
+        type: IMAGE;
         description {
           state: "default" 0.0;
           image {
@@ -269,8 +270,8 @@ collections {
           rel2 {
             relative: 1.0 1.0;
             offset: -1 -1;
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -304,9 +305,9 @@ collections {
         type: IMAGE;
         description {
           state: "default" 0.0;
-	  image {
+          image {
             normal: "sky.png";
-	  }
+          }
           rel1 {
             relative: 0.0 0.0;
             offset: 0 0;
@@ -392,15 +393,12 @@ collections {
           }
         }
       }
-      /* scenery objects */
       part {
-        name: "flowers";
-	type: IMAGE;
-	description {
-	  state: "default" 0.0;
-	  image {
-	    normal: "empty.png";
-	  }
+        name: "cover";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 0 0 0 70;
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -409,7 +407,42 @@ collections {
             relative: 1.0 1.0;
             offset: -1 -1;
           }
-	}
+        }
+        description {
+          state: "grey" 0.1;
+          inherit: "default" 0.0;
+          color: 150 150 150 150;
+        }
+        description {
+          state: "lose" 0.2;
+          inherit: "default" 0.0;
+          color: 255 126 0 120;
+        }
+        description {
+          state: "win" 0.3;
+          inherit: "default" 0.0;
+          color: 0 0 0 0;
+        }
+      }
+
+      /* scenery objects */
+      part {
+        name: "flowers";
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "empty.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 1 1;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: -1 -1;
+          }
+        }
         description {
           state: "flowers" 0.1;
           inherit: "default" 0.0;
@@ -420,12 +453,12 @@ collections {
       }
       part {
         name: "mushrooms";
-	type: IMAGE;
-	description {
-	  state: "default" 0.0;
-	  image {
-	    normal: "empty.png";
-	  }
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "empty.png";
+          }
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -434,7 +467,7 @@ collections {
             relative: 1.0 1.0;
             offset: -1 -1;
           }
-	}
+        }
         description {
           state: "mushrooms" 0.1;
           inherit: "default" 0.0;
@@ -445,12 +478,12 @@ collections {
       }
       part {
         name: "stones";
-	type: IMAGE;
-	description {
-	  state: "default" 0.0;
-	  image {
-	    normal: "empty.png";
-	  }
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "empty.png";
+          }
           rel1 {
             relative: 0.0 0.0;
             offset: 1 1;
@@ -459,7 +492,7 @@ collections {
             relative: 1.0 1.0;
             offset: -1 -1;
           }
-	}
+        }
         description {
           state: "stones" 0.1;
           inherit: "default" 0.0;
@@ -494,47 +527,47 @@ collections {
             offset: 0 0;
           }
         }
-	/* change colours according to neighbours */
-	description {
-	  state: "1" 0.1;
-	  inherit: "default" 0.0;
+        /* change colours according to neighbours */
+        description {
+          state: "1" 0.1;
+          inherit: "default" 0.0;
           color: 14 87 12 255;
-	}
-	description {
-	  state: "2" 0.2;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "2" 0.2;
+          inherit: "default" 0.0;
           color: 21 17 231 255;
-	}
-	description {
-	  state: "3" 0.3;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "3" 0.3;
+          inherit: "default" 0.0;
           color: 233 232 16 255;
-	}
-	description {
-	  state: "4" 0.4;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "4" 0.4;
+          inherit: "default" 0.0;
           color: 233 98 15 255;
-	}
-	description {
-	  state: "5" 0.5;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "5" 0.5;
+          inherit: "default" 0.0;
           color: 230 15 13 255;
-	}
-	description {
-	  state: "6" 0.6;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "6" 0.6;
+          inherit: "default" 0.0;
           color: 240 0 240 255;
-	}
-	description {
-	  state: "7" 0.7;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "7" 0.7;
+          inherit: "default" 0.0;
           color: 255 255 255 255;
-	}
-	description {
-	  state: "8" 0.8;
-	  inherit: "default" 0.0;
+        }
+        description {
+          state: "8" 0.8;
+          inherit: "default" 0.0;
           color: 0 0 0 255;
-	}
+        }
       }
 
       part {
@@ -561,9 +594,9 @@ collections {
           visible: 1;
           image {
             normal: "flag1.png";
-	    tween: "flag2.png";
-	    tween: "flag3.png";
-	    tween: "flag4.png";
+            tween: "flag2.png";
+            tween: "flag3.png";
+            tween: "flag4.png";
           }
         }
         description {
@@ -610,7 +643,8 @@ collections {
       }
 
       programs {
-	/* show the nice red box on mouse over */
+
+        /* show the nice red box on mouse over */
         program {
           signal: "mouse,in";
           source: "overlay";
@@ -652,7 +686,7 @@ collections {
           action: STATE_SET "clean" 0.1;
           target: "bg";
         }
-	/* sounds */
+        /* sounds */
         program {
           signal: "digging sound";
           action: PLAY_SAMPLE "digging" 1.0;
@@ -669,72 +703,97 @@ collections {
           signal: "fanfare sound";
           action: PLAY_SAMPLE "fanfare" 2.0;
         }
-	/* change colours */
-	program {
-	  signal: "1";
-	  action: STATE_SET "1" 0.1;
-	  target: "hint";
-	}
-	program {
-	  signal: "2";
-	  action: STATE_SET "2" 0.2;
-	  target: "hint";
-	}
-	program {
-	  signal: "3";
-	  action: STATE_SET "3" 0.3;
-	  target: "hint";
-	}
-	program {
-	  signal: "4";
-	  action: STATE_SET "4" 0.4;
-	  target: "hint";
-	}
-	program {
-	  signal: "5";
-	  action: STATE_SET "5" 0.5;
-	  target: "hint";
-	}
-	program {
-	  signal: "6";
-	  action: STATE_SET "6" 0.6;
-	  target: "hint";
-	}
-	program {
-	  signal: "7";
-	  action: STATE_SET "7" 0.7;
-	  target: "hint";
-	}
-	program {
-	  signal: "8";
-	  action: STATE_SET "8" 0.8;
-	  target: "hint";
-	}
-	/* scenery */
-	program {
-	  signal: "flowers";
-	  action: STATE_SET "flowers" 0.1;
-	  target: "flowers";
-	}
-	program {
-	  signal: "noflowers";
-	  action: STATE_SET "default" 0.0;
-	  target: "flowers";
-	}
-	program {
-	  signal: "mushrooms";
-	  action: STATE_SET "mushrooms" 0.1;
-	  target: "mushrooms";
-	}
-	program {
-	  signal: "nomushrooms";
-	  action: STATE_SET "default" 0.0;
-	  target: "mushrooms";
-	}
-	program {
-	  signal: "stones";
-	  action: STATE_SET "stones" 0.1;
-	  target: "stones";
+        /* change colours */
+        program {
+          signal: "1";
+          action: STATE_SET "1" 0.1;
+          target: "hint";
+        }
+        program {
+          signal: "2";
+          action: STATE_SET "2" 0.2;
+          target: "hint";
+        }
+        program {
+          signal: "3";
+          action: STATE_SET "3" 0.3;
+          target: "hint";
+        }
+        program {
+          signal: "4";
+          action: STATE_SET "4" 0.4;
+          target: "hint";
+        }
+        program {
+          signal: "5";
+          action: STATE_SET "5" 0.5;
+          target: "hint";
+        }
+        program {
+          signal: "6";
+          action: STATE_SET "6" 0.6;
+          target: "hint";
+        }
+        program {
+          signal: "7";
+          action: STATE_SET "7" 0.7;
+          target: "hint";
+        }
+        program {
+          signal: "8";
+          action: STATE_SET "8" 0.8;
+          target: "hint";
+        }
+        /* scenery */
+        program {
+          signal: "flowers";
+          action: STATE_SET "flowers" 0.1;
+          target: "flowers";
+        }
+        program {
+          signal: "noflowers";
+          action: STATE_SET "default" 0.0;
+          target: "flowers";
+        }
+        program {
+          signal: "mushrooms";
+          action: STATE_SET "mushrooms" 0.1;
+          target: "mushrooms";
+        }
+        program {
+          signal: "nomushrooms";
+          action: STATE_SET "default" 0.0;
+          target: "mushrooms";
+        }
+        program {
+          signal: "stones";
+          action: STATE_SET "stones" 0.1;
+          target: "stones";
+        }
+        /* win/lose */
+        program {
+          signal: "neutral";
+          action: STATE_SET "default" 0.0;
+          target: "cover";
+        }
+        program {
+          name: "grey";
+          signal: "grey";
+          action: STATE_SET "grey" 0.1;
+          target: "cover";
+        }
+        program {
+          signal: "lose";
+          action: STATE_SET "lose" 0.2;
+          target: "cover";
+          transition: BOUNCE 1.0 0.5 10.0;
+	  after: "grey";
+        }
+        program {
+          signal: "win";
+          action: STATE_SET "win" 0.3;
+          target: "cover";
+          transition: LINEAR 3.0;
 	}
       }
     }
