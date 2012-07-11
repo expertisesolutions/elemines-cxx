@@ -65,11 +65,10 @@ collections {
     }
   }
 
-      
+  /* timer text */
   group {
     name: "timer";
     parts {
-      /* background of timer */
       part {
         name: "bg";
         type: RECT;
@@ -86,7 +85,6 @@ collections {
           }
         }
       }
-      /* text of the timer */
       part {
         name: "time";
         type: TEXT;
@@ -113,6 +111,8 @@ collections {
       }
     }
   }
+
+  /* mine symbol */
   group {
     name: "mine_icon";
     parts {
@@ -136,7 +136,8 @@ collections {
       }
     }
   }
-  /* group controlling remaining mines counter */
+
+  /* remaining mines counter */
   group {
     name: "mines";
     parts {
@@ -183,6 +184,7 @@ collections {
     }
   }
 
+  /* grass around the board */
   group {
     name: "grass-s";
     parts {
@@ -276,6 +278,7 @@ collections {
     }
   }
 
+  /* blank cell, for centering the board */
   group {
     name: "blank";
     parts {
@@ -297,6 +300,8 @@ collections {
       }
     }
   }
+
+  /* text for pause inwin */
   group {
    name: "pause";
     parts {
@@ -344,9 +349,12 @@ collections {
       }
     }
   }
+
+  /* main group: cell control */
   group { 
     name: "cell";
     parts {
+      /* red selection box */
       part {
         name: "border";
         type: RECT;
@@ -368,6 +376,7 @@ collections {
           color: 255 0 0 255;
         }
       }
+      /* 2 standard backgrounds */
       part {
         name: "bg";
         type: IMAGE;
@@ -393,6 +402,7 @@ collections {
           }
         }
       }
+      /* end game: overlay all the board */
       part {
         name: "cover";
         type: RECT;
@@ -424,8 +434,7 @@ collections {
           color: 0 0 0 0;
         }
       }
-
-      /* scenery objects */
+      /* scenery objects layers */
       part {
         name: "flowers";
         type: IMAGE;
@@ -569,7 +578,7 @@ collections {
           color: 0 0 0 255;
         }
       }
-
+      /* flag/bomb/boom */
       part {
         name: "image";
         type: IMAGE;
@@ -625,6 +634,7 @@ collections {
           }
         }
       }
+      /* to detect mouse move */
       part {
         name: "overlay";
         type: RECT;
@@ -787,14 +797,14 @@ collections {
           action: STATE_SET "lose" 0.2;
           target: "cover";
           transition: BOUNCE 1.0 0.5 10.0;
-	  after: "grey";
+          after: "grey";
         }
         program {
           signal: "win";
           action: STATE_SET "win" 0.3;
           target: "cover";
           transition: LINEAR 3.0;
-	}
+        }
       }
     }
   }
