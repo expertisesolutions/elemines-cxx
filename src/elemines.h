@@ -63,7 +63,7 @@ Eina_Bool started;
 Ecore_Timer *etimer;
 char edje_file[PATH_MAX];
 double delay;
-int remain, counter;
+int mines_total, remain, counter;
 
 void init(void *data, Evas_Object *obj, void *event_info);
 void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);

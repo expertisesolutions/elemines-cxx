@@ -64,7 +64,9 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    char *theme = "default";
    Eina_Bool debug = EINA_FALSE;
 
-   while ((opt = getopt(argc, argv, "dhvt:")) != -1)
+   mines_total = 0;
+
+   while ((opt = getopt(argc, argv, "dhm:vt:")) != -1)
      {
         switch (opt)
           {
@@ -77,6 +79,11 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                {
                   show_help();
                   return EXIT_SUCCESS;
+                  break;
+               }
+             case 'm':
+               {
+                  mines_total = atoi(optarg);
                   break;
                }
              case 'v':
@@ -99,6 +106,9 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
              default: return EXIT_FAILURE;
           }
      }
+
+   /* initialize the mines number */
+   if (mines_total == 0) mines_total = MINES;
 
    started = EINA_FALSE;
    gui(theme);

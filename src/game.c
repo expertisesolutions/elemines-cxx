@@ -211,17 +211,17 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
           }
 
         /* show the remaining mines */
-        if (remain >= 0 && remain <= MINES)
+        if (remain >= 0 && remain <= mines_total)
           {
-             snprintf(str, sizeof(str), "%d/%d", remain, MINES);
+             snprintf(str, sizeof(str), "%d/%d", remain, mines_total);
           }
         else if (remain < 0)
           {
-             snprintf(str, sizeof(str), "%d/%d", 0, MINES);
+             snprintf(str, sizeof(str), "%d/%d", 0, mines_total);
           }
-        else if (remain > MINES)
+        else if (remain > mines_total)
           {
-             snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
+             snprintf(str, sizeof(str), "%d/%d", mines_total, mines_total);
           }
 
          elm_object_part_text_set(mines, "mines", str);

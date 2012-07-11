@@ -37,7 +37,7 @@ _generate(void)
 
    /* 1st table: the mines */
    srand(time(NULL));
-   for (i = 0; i < MINES; i++)
+   for (i = 0; i < mines_total; i++)
      {
         /* random coordinates */
         x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
@@ -124,8 +124,8 @@ init(__UNUSED__ void *data, __UNUSED__ Evas_Object *obj,
 
    /* init variables */
    started = EINA_FALSE;
-   remain = MINES;
-   counter = SIZE_X * SIZE_Y - MINES;
+   remain = mines_total;
+   counter = SIZE_X * SIZE_Y - mines_total;
    delay = 0;
 
    _generate();
@@ -134,7 +134,7 @@ init(__UNUSED__ void *data, __UNUSED__ Evas_Object *obj,
    /* set initial value for timer and mines */
    if (timer)
      elm_object_part_text_set(timer, "time", "00:00.0");
-   snprintf(str, sizeof(str), "%d/%d", MINES, MINES);
+   snprintf(str, sizeof(str), "%d/%d", mines_total, mines_total);
    if (mines)
      elm_object_part_text_set(mines, "mines", str);
 
