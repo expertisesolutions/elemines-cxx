@@ -85,7 +85,7 @@ make DESTDIR=${PKG} install
 # Cleaning
 cd ${PKG}
 strip --strip-unneeded usr/bin/${NAME}
-#gzip -9 usr/man/man1/${NAME}.1
+gzip -9 usr/man/man1/${NAME}.1
 
 # Building the package
 mkdir install

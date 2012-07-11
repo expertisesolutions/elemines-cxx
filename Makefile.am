@@ -17,7 +17,7 @@ MAINTAINERCLEANFILES = \
 		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
 		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2
 
-SUBDIRS = data packaging src
+SUBDIRS = data doc packaging src
 
 ACLOCAL_AMFLAGS = -I m4
 

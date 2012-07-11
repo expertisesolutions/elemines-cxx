@@ -1,0 +1,65 @@
+.TH ELEMINES 1 "11 Jul 2012" "elemines 0.1"
+
+.SH NAME
+elemines \- a minesweeper clone based on the EFL
+
+.SH SYNOPSIS
+.B elemines
+[-h] [-m MINES] [-t THEME] [-v]
+
+.SH DESCRIPTION
+
+Minesweeper is a single-player video game. The object of the game is to clear
+an abstract minefield without detonating a mine. The game is played by revealing
+squares of the grid, by clicking them with a mouse. If a square containing a mine
+is revealed, you lose the game. Otherwise, a digit is revealed in the square,
+indicating the number of adjacent squares that contain mines.
+
+With no option, the program starts with a 10x10 grid and 12 mines to find.
+
+
+.SH CONTROLS
+
+.TP
+.I Left Mouse Button
+Reveal a square.
+
+.TP
+.I Right Mouse Button
+Add (or remove) a flag.
+
+
+.SH OPTIONS
+
+.TP
+.I -h
+Print list of options with short description and exit.
+
+.TP
+.I -m MINES
+Specify the number of mines hidden in the field. MINES should be an integer smaller
+than the number of cells (100).
+
+.TP
+.I -t THEME
+Use THEME.edj as theme file. Theme files must be in the $(datarootdir)/elemines/themes/
+folder.
+
+.TP
+.I -v
+Print version and license informations and exit.
+
+
+.SH BUGS
+
+Reports are welcome.
+
+
+.SH HOMEPAGE
+
+http://elemines.sourceforge.net 
+
+
+.SH AUTHOR
+
+Jerome Pinot <ngc891@gmail.com>
