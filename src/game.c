@@ -72,14 +72,12 @@ _finish(int x, int y, Eina_Bool win)
      }
 #endif
 
-   /* highlight the fatal bomb */
-   if (win == EINA_FALSE) elm_object_signal_emit(table_ptr[x][y], "boom", "");
-
    /* show bombs */
    for (i = 1; i < SIZE_X+1; i++)
      {
         for (j = 1; j < SIZE_Y+1; j++)
           {
+             /* disable click */
              evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
              if (win == EINA_TRUE)
                {
@@ -93,11 +91,14 @@ _finish(int x, int y, Eina_Bool win)
                }
           }
      }
+   /* highlight the fatal bomb */
+   if (win == EINA_FALSE) elm_object_signal_emit(table_ptr[x][y], "boom", "");
+
    if (etimer) ecore_timer_del(etimer);
 }
 
 static void
-clean_around(int x, int y, Evas_Object *obj)
+_clean(int x, int y, Evas_Object *obj)
 {
    int i, j, scenery;
    char str[8];
@@ -138,7 +139,7 @@ clean_around(int x, int y, Evas_Object *obj)
                     {
                        if (!(i == x && j == y))
                          {
-                            clean_around(i, j, table_ptr[i][j]);
+                            _clean(i, j, table_ptr[i][j]);
                          }
                     }
                }
@@ -184,7 +185,7 @@ click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
           }
         else
           {
-             clean_around(x, y, obj);
+             _clean(x, y, obj);
           }
      }
 
