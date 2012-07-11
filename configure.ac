@@ -23,10 +23,12 @@ EFL_COMPILER_FLAG([-W])
 EFL_CHECK_PATH_MAX
 
 # Check for EFL
-PKG_CHECK_MODULES([EINA], [eina >= 1.2.0])
-PKG_CHECK_MODULES([EVAS], [evas >= 1.2.0])
-PKG_CHECK_MODULES([EDJE], [edje  >= 1.2.0])
-PKG_CHECK_MODULES([ELEMENTARY], [elementary >= 1.0.0])
+PKG_CHECK_MODULES([ELEMINES],
+[
+ eina >= 1.6.99
+ edje >= 1.6.99
+ elementary >= 1.6.99
+])
 
 # Option to enable sound
 multisense=`pkg-config edje --variable=multisense`

@@ -4,7 +4,7 @@ bin_PROGRAMS = elemines
 
 AM_CPPFLAGS = \
 	      -DPACKAGE_DATA_DIR=\"$(datadir)/$(PACKAGE)\" \
-	      @ELEMENTARY_CFLAGS@
+	      @ELEMINES_CFLAGS@
 
 elemines_SOURCES = \
 		   game.c \
@@ -13,6 +13,6 @@ elemines_SOURCES = \
 		   init.c \
 		   main.c
 
-elemines_LDADD = @ELEMENTARY_LIBS@
+elemines_LDADD = @ELEMINES_LIBS@
 
 EXTRA_DIST = elemines.h
