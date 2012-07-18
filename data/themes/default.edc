@@ -1,5 +1,6 @@
 images {
   image: "bomb.png"  COMP;
+  image: "bomb-sad.png"  COMP;
   image: "empty.png"  COMP;
   image: "fire1.png" COMP;
   image: "fire2.png" COMP;
@@ -38,9 +39,21 @@ data {
 color_classes {
   color_class {
     name: "standard";
-    color: 0 0 0 255;
-    color2: 150 150 150 80;
-    color3: 220 220 220 40;
+    color:    0   0   0 255;
+    color2: 150 150 150  80;
+    color3: 220 220 220  40;
+  }
+  color_class {
+    name: "win";
+    color:  255   0   0 255;
+    color2: 150 150 150  80;
+    color3: 220 220 220  40;
+  }
+  color_class {
+    name: "win2";
+    color:    0 255   0 255;
+    color2: 150 150 150  80;
+    color3: 220 220 220  40;
   }
 }
 
@@ -805,6 +818,117 @@ collections {
           target: "cover";
           transition: LINEAR 3.0;
         }
+      }
+    }
+  }
+  /* congratulation message */
+  group {
+    name: "congratulation";
+    parts {
+      part {
+        name: "win bg";
+        type: RECT;
+        description {
+          state: "default" 0.0;
+          color: 0 0 0 0;
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 1.0 1.0;
+            offset: 0 0;
+          }
+        }
+        description {
+          state: "win" 0.1;
+	  inherit: "default" 0.0;
+	  color: 127 127 127 127;
+	}
+      }
+      part {
+        name: "sad bomb";
+	type: IMAGE;
+	description {
+	  state: "default" 0.0;
+	  image {
+	    normal: "empty.png";
+	  }
+	  rel1 {
+	    relative: 0.1 0.3;
+	    offset: 0 0;
+	  }
+	  rel2 {
+	    relative: 0.4 0.6;
+	    offset: 0 0;
+	  }
+	}
+	description {
+	  state: "win" 0.1;
+	  inherit: "default" 0.0;
+	  image {
+	    normal: "bomb-sad.png";
+	  }
+	}
+      }
+      part {
+        name: "you win";
+	type: TEXT;
+        effect: SOFT_SHADOW;
+        scale: 1;
+        description {
+          state: "default" 0.0;
+          text {
+            text: "";
+          }
+          rel1 {
+            relative: 0.4 0.3;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 0.9 0.6;
+            offset: 0 0;
+          }
+        }
+	description {
+	  state: "win" 0.1;
+	  inherit: "default" 0.0;
+          color_class: "win";
+          text {
+            text: "You win!";
+            font: "Sans";
+            size: 48;
+            align: 0.5 0.5;
+          }
+	}
+	description {
+	  state: "win2" 0.2;
+	  inherit: "win" 0.1;
+          color_class: "win2";
+	}
+      }
+    }
+    programs {
+      program {
+        signal: "you win";
+        action: STATE_SET "win" 0.1;
+	target: "win bg";
+        target: "sad bomb";
+        target: "you win";
+	after: "win2";
+      }
+      program {
+        name: "win2";
+	action: STATE_SET "win2" 0.2;
+	target: "you win";
+	transition: BOUNCE 2 0 20;
+      }
+      program {
+        signal: "normal";
+        action: STATE_SET "default" 0.0;
+	target: "win bg";
+        target: "sad bomb";
+        target: "you win";
       }
     }
   }

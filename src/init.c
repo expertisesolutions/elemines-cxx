@@ -131,12 +131,14 @@ init(__UNUSED__ void *data, __UNUSED__ Evas_Object *obj,
    _generate();
    _board();
 
-   /* set initial value for timer and mines */
+   /* reinit widgets if needed */
    if (timer)
      elm_object_part_text_set(timer, "time", "00:00.0");
    snprintf(str, sizeof(str), "%d/%d", mines_total, mines_total);
    if (mines)
      elm_object_part_text_set(mines, "mines", str);
+   if (congrat)
+     elm_object_signal_emit(congrat, "normal", "");
 
 }
 

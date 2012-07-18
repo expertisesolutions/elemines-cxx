@@ -49,7 +49,7 @@
  * 1st -> mines (0/1)
  * 2nd -> neighbours (0-8, 9 for bombs)
  * 3rd -> flags (0/1)
- * 4th ->uncover status (0/1)
+ * 4th -> uncover status (0/1)
  */
 int matrix[SIZE_X+2][SIZE_Y+2][4];
 
@@ -58,7 +58,7 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
 /* global variables */
-Evas_Object *window, *table, *timer, *mines;
+Evas_Object *window, *table, *timer, *mines, *congrat;
 Eina_Bool started;
 Ecore_Timer *etimer;
 char edje_file[PATH_MAX];

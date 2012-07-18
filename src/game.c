@@ -93,6 +93,18 @@ _finish(int x, int y, Eina_Bool win)
      }
    /* highlight the fatal bomb */
    if (win == EINA_FALSE) elm_object_signal_emit(table_ptr[x][y], "boom", "");
+   if (win == EINA_TRUE)
+     {
+        /* prepare the congratulation message */
+        congrat = elm_layout_add(window);
+        elm_layout_file_set(congrat, edje_file, "congratulation");
+        evas_object_size_hint_weight_set(congrat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(congrat, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        elm_table_pack(table, congrat, 1, 1, SIZE_X, SIZE_Y);
+
+        evas_object_show(congrat);
+        elm_object_signal_emit(congrat, "you win", "");
+     }
 
    if (etimer) ecore_timer_del(etimer);
 }
