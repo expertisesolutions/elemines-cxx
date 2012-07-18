@@ -22,7 +22,22 @@ SUBDIRS = data doc packaging src
 ACLOCAL_AMFLAGS = -I m4
 
 filesdir = $(docdir)
-files_DATA = AUTHORS COPYING COPYING.ART ChangeLog INSTALL NEWS README TODO
+files_DATA = \
+	     AUTHORS \
+	     COPYING \
+	     ChangeLog \
+	     GPLv2.txt \
+	     INSTALL \
+	     NEWS \
+	     OFL.txt \
+	     README \
+	     README.artwork \
+	     TODO
 
-EXTRA_DIST = COPYING.ART autogen.sh configure
+EXTRA_DIST = \
+	     GPLv2.txt \
+	     OFL.txt \
+	     README.artwork \
+	     autogen.sh \
+	     configure
 
