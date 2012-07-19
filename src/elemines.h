@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
@@ -41,8 +42,10 @@
 
 #define COPYRIGHT "Copyright © 2012  Jérôme Pinot <ngc891@gmail.com>"
 
+/* Board size is limited to 255x255 for 32bits compatibility */
 #define SIZE_X  10
 #define SIZE_Y  10
+/* Don't put more bombs than the board size ;-) */
 #define MINES   12
 
 /* 4 layers for the matrix of data:

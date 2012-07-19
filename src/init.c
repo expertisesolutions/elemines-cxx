@@ -79,7 +79,7 @@ _board(void)
 {
    Evas_Object *cell;
    int x, y, scenery;
-   int coord[2];
+   uint8_t coord[2];
    void *data;
 
    /* prepare the board */
@@ -105,9 +105,12 @@ _board(void)
              table_ptr[x][y] = cell;
              evas_object_show(cell);
 
-             /* we need to feed the callback with coordinates */
-             coord[0] = x;
-             coord[1] = y;
+             /* We need to feed the callback with coordinates. We are limited
+              * on 32bits systems by the size of the void pointer to two 8bits
+              * integers, so check for overflow. This is pretty useless as
+              * SIZE_? are hardcoded but I keep that for reference. */
+             coord[0] = x < 256 ? x : 255;
+             coord[1] = y < 256 ? y : 255;
              memcpy(&data, &coord, sizeof(coord));
              evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN,
                                             click, data);
