@@ -108,7 +108,8 @@ _board(void)
              /* we need to feed the callback with coordinates */
              coord[0] = x;
              coord[1] = y;
-             memcpy(&data, &coord, sizeof(coord));
+             data = malloc(sizeof(coord));
+             memcpy(data, coord, sizeof(coord));
              evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN,
                                             click, data);
           }
