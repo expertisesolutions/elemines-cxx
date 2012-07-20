@@ -1,18 +1,16 @@
 AC_INIT([elemines], [0.1], [ngc891@gmail.com])
 AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([configure.ac])
+AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
-AC_ISC_POSIX
 
-AM_INIT_AUTOMAKE(1.6 dist-bzip2)
-AC_CONFIG_HEADERS([config.h])
+AM_INIT_AUTOMAKE([1.10 dist-bzip2])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 # this will speed up libtool checks
-define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
-define([AC_LIBTOOL_LANG_GCJ_CONFIG], [:])
-define([AC_LIBTOOL_LANG_F77_CONFIG], [:])
-AC_PROG_LIBTOOL
+LT_PREREQ([2.2])
+LT_INIT([win32-dll])
 
 AC_PROG_CC
 EFL_ATTRIBUTE_UNUSED
