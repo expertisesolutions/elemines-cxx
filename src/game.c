@@ -175,6 +175,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
 
    /* get back the coordinates of the cell */
    memcpy(coord, data, sizeof(coord));
+   free(data);
 
    x = coord[0];
    y = coord[1];
