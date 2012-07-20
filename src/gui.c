@@ -27,6 +27,8 @@
 
 #include "elemines.h"
 
+static double pause_time = 0;
+
 void
 _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
@@ -66,13 +68,10 @@ _about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
 }
 
 static void
-_pause_del(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
+_pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
 {
-   double current;
-
    /* compute the pause delay to remove it from timer */
-   memcpy(&current, &data, sizeof(current));
-   delay += ecore_time_get() - current;
+   delay += ecore_time_get() - pause_time;
    if (etimer)
      {
         ecore_timer_thaw(etimer);
@@ -88,16 +87,13 @@ void
 _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
    Evas_Object *popup, *layout;
-   double current;
-   void *current_ptr = NULL;
 
    /* Show the pause window */
    popup = elm_win_inwin_add(window);
    evas_object_show(popup);
 
    /* pause the timer */
-   current = ecore_time_get();
-   memcpy(&current_ptr, &current, sizeof(current));
+   pause_time = ecore_time_get();
    if (etimer) ecore_timer_freeze(etimer);
 
    /* Construct a formatted label for the inwin */
@@ -109,7 +105,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    elm_win_inwin_content_set(popup, layout);
 
    /* Close the inwin when clicked */
-   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del, current_ptr);
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del, NULL);
 
 }
 
