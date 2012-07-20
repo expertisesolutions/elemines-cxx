@@ -118,8 +118,8 @@ _board(void)
 }
 
 void
-init(__UNUSED__ void *data, __UNUSED__ Evas_Object *obj,
-     __UNUSED__ void *event_info)
+init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+     void *event_info __UNUSED__)
 {
    char str[8];
 

@@ -34,7 +34,7 @@ _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNU
 }
 
 static void
-_about_del(__UNUSED__ void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *event_info)
+_about_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
 {
    evas_object_hide(obj);
 }
@@ -66,7 +66,7 @@ _about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
 }
 
 static void
-_pause_del(void *data, __UNUSED__ Evas *e, Evas_Object *obj, __UNUSED__ void *event_info)
+_pause_del(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
 {
    double current;
 

@@ -166,7 +166,7 @@ _clean(int x, int y, Evas_Object *obj)
 }
 
 void
-click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info)
+click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
 {
    Evas_Event_Mouse_Down *ev = event_info;
    int x, y;
