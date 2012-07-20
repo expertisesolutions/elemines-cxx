@@ -25,6 +25,13 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef ELEMINES_H
+#define ELEMINES_H
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,8 +43,6 @@
 #include <Edje.h>
 #include <Elementary.h>
 #include <Elementary_Cursor.h>
-
-#include "../config.h"
 
 #define COPYRIGHT "Copyright © 2012  Jérôme Pinot <ngc891@gmail.com>"
 
@@ -66,6 +71,8 @@ double delay;
 int mines_total, remain, counter;
 
 void init(void *data, Evas_Object *obj, void *event_info);
-void click(void *data, __UNUSED__ Evas *e, Evas_Object *obj, void *event_info);
+void click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info);
+
+#endif
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */
