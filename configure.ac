@@ -23,10 +23,13 @@ EFL_CHECK_PATH_MAX
 # Check for EFL
 PKG_CHECK_MODULES([ELEMINES],
 [
- eina >= 1.6.99
- edje >= 1.6.99
- elementary >= 1.6.99
+ eina >= 1.2.0
+ edje >= 1.2.0
+ elementary >= 1.0.0
 ])
+
+# Check edje_cc
+EFL_WITH_BIN([edje], [edje-cc], [edje_cc])
 
 AC_CONFIG_FILES([
 Makefile
@@ -50,6 +53,7 @@ echo "------------------------------------------------------------------------"
 echo
 echo "Compilation..............: make (or gmake)"
 echo "  CFLAGS.................: $CFLAGS"
+echo "  edje_cc................: ${edje_cc}"
 echo
 echo "Installation.............: make install (as root if needed, with 'su' or 'sudo')"
 echo "  prefix.................: $prefix"
