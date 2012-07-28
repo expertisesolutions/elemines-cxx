@@ -28,25 +28,6 @@ PKG_CHECK_MODULES([ELEMINES],
  elementary >= 1.6.99
 ])
 
-# Option to enable sound
-multisense=`pkg-config edje --variable=multisense`
-AC_ARG_ENABLE([sound], [AC_HELP_STRING([--enable-sound], [Enable sound support by multisense. @<:@default=disable@:>@])],
-  [if test "x${enableval}" = "xyes" ; then
-    if test "x${multisense}" = "xyes"; then
-      enable_sound="yes"
-      AC_DEFINE([SOUND], [0], [Sound support])
-    else
-      AC_MSG_ERROR([sound support requested, but multisense not found by pkg-config.])
-    fi
-  else
-    enable_sound="no"
-    AC_DEFINE([Sound], [1], [No sound])
-  fi],
-  [enable_sound="no"])
-AM_CONDITIONAL([enable_sound], [test "x${enable_sound}" = "xyes"])
-AC_MSG_CHECKING([for MULTISENSE])
-AC_MSG_RESULT([${enable_sound}])
-
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
@@ -54,7 +35,6 @@ data/desktop/Makefile
 data/themes/Makefile
 data/themes/fonts/Makefile
 data/themes/images/Makefile
-data/themes/sounds/Makefile
 doc/Makefile
 packaging/Makefile
 packaging/slackware/Makefile
@@ -70,7 +50,6 @@ echo "------------------------------------------------------------------------"
 echo
 echo "Compilation..............: make (or gmake)"
 echo "  CFLAGS.................: $CFLAGS"
-echo "  Sound..................: ${enable_sound}"
 echo
 echo "Installation.............: make install (as root if needed, with 'su' or 'sudo')"
 echo "  prefix.................: $prefix"

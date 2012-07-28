@@ -60,25 +60,6 @@ color_classes {
 
 collections {
 
-  sounds {
-    sample {
-      name: "boom" AS_IS;
-      source: "boom.flac";
-    }
-    sample {
-      name: "digging" AS_IS;
-      source: "digging.flac";
-    }
-    sample {
-      name: "fanfare" AS_IS;
-      source: "fanfare.flac";
-    }
-    sample {
-      name: "flag" AS_IS;
-      source: "flag.flac";
-    }
-  }
-
   /* timer text */
   group {
     name: "timer";
@@ -709,23 +690,6 @@ collections {
           signal: "clean";
           action: STATE_SET "clean" 0.1;
           target: "bg";
-        }
-        /* sounds */
-        program {
-          signal: "digging sound";
-          action: PLAY_SAMPLE "digging" 1.0;
-        }
-        program {
-          signal: "flag sound";
-          action: PLAY_SAMPLE "flag" 1.0;
-        }
-        program {
-          signal: "boom sound";
-          action: PLAY_SAMPLE "boom" 1.8;
-        }
-        program {
-          signal: "fanfare sound";
-          action: PLAY_SAMPLE "fanfare" 2.0;
         }
         /* change colours */
         program {

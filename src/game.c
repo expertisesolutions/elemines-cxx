@@ -61,17 +61,6 @@ _finish(int x, int y, Eina_Bool win)
 
    started = EINA_FALSE;
 
-#ifdef SOUND
-   if (win == EINA_TRUE)
-     {
-        elm_object_signal_emit(table_ptr[x][y], "fanfare sound", "");
-     }
-   else
-     {
-        elm_object_signal_emit(table_ptr[x][y], "boom sound", "");
-     }
-#endif
-
    /* show bombs */
    for (i = 1; i < SIZE_X+1; i++)
      {
@@ -125,9 +114,6 @@ _clean(int x, int y, Evas_Object *obj)
         /* clean scenery */
         elm_object_signal_emit(obj, "noflowers", "");
         elm_object_signal_emit(obj, "nomushrooms", "");
-#ifdef SOUND
-        elm_object_signal_emit(obj, "digging sound", "");
-#endif
         elm_object_signal_emit(obj, "digging", "");
         elm_object_signal_emit(obj, "clean", "");
         /* add some stones */
@@ -207,9 +193,6 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
         /* there was no flag and we didn't digg */
         if (matrix[x][y][2] == 0 && matrix[x][y][3] != 1)
           {
-#ifdef SOUND
-             elm_object_signal_emit(obj, "flag sound", "");
-#endif
              elm_object_signal_emit(obj, "flag", "");
              matrix[x][y][2] = 1;
              remain--;
