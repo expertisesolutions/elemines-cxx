@@ -110,7 +110,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
 }
 
 Eina_Bool
-gui(char *theme)
+gui(char *theme, Eina_Bool fullscreen)
 {
    Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *blank;
    int x, y;
@@ -128,6 +128,12 @@ gui(char *theme)
    elm_win_title_set(window, PACKAGE);
    elm_win_autodel_set(window, EINA_TRUE);
    elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
+
+   if (fullscreen == EINA_TRUE)
+     {
+        elm_win_fullscreen_set(window, EINA_TRUE);
+        evas_object_move(window, 0, 0);
+     }
 
    /* add a background */
    background = elm_bg_add(window);

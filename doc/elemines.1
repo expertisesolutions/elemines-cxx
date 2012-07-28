@@ -1,11 +1,11 @@
-.TH ELEMINES 1 "11 Jul 2012" "elemines 0.1"
+.TH ELEMINES 1 "28 Jul 2012" "elemines 0.1"
 
 .SH NAME
 elemines \- a minesweeper clone based on the EFL
 
 .SH SYNOPSIS
 .B elemines
-[-h] [-m MINES] [-t THEME] [-v]
+[-h] [-f] [-m MINES] [-t THEME] [-v]
 
 .SH DESCRIPTION
 
@@ -36,8 +36,12 @@ Add (or remove) a flag.
 Print list of options with short description and exit.
 
 .TP
+.I -f
+Run fullscreen. This is useful on mobile devices.
+
+.TP
 .I -m MINES
-Specify the number of mines hidden in the field. MINES should be an integer smaller
+Specify the number of mines hidden in the field. MINES must be an integer smaller
 than the number of cells (100).
 
 .TP

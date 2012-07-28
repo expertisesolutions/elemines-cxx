@@ -27,10 +27,6 @@
 
 #include "elemines.h"
 
-void gui(char *theme);
-void show_help(void);
-void show_version(void);
-
 static void
 _debug(void)
 {
@@ -63,16 +59,22 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    int opt;
    char *theme = "default";
    Eina_Bool debug = EINA_FALSE;
+   Eina_Bool fullscreen = EINA_FALSE;
 
    mines_total = 0;
 
-   while ((opt = getopt(argc, argv, "dhm:vt:")) != -1)
+   while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)
      {
         switch (opt)
           {
              case 'd':
                {
                   debug = EINA_TRUE;
+                  break;
+               }
+             case 'f':
+               {
+                  fullscreen = EINA_TRUE;
                   break;
                }
              case 'h':
@@ -111,11 +113,12 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    if (mines_total == 0) mines_total = MINES;
 
    started = EINA_FALSE;
-   gui(theme);
-   init(NULL, NULL, NULL);
 
-   if (debug == EINA_TRUE)
-     _debug();
+   if (gui(theme, fullscreen) != EINA_TRUE)
+     return -1;
+
+   init(NULL, NULL, NULL);
+   if (debug == EINA_TRUE) _debug();
 
    elm_run();
    elm_shutdown();

@@ -35,6 +35,7 @@ show_help(void)
           "Where OPTION is one of:\n\n"
           "-v          Show program version\n"
           "-h          Show this help\n"
+          "-f          Run fullscreen (for mobile device)\n"
           "-t THEME    Use %s/themes/THEME.edj as theme\n\n",
           PACKAGE, PACKAGE_DATA_DIR);
 }

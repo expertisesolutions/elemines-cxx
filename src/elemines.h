@@ -70,7 +70,10 @@ char edje_file[PATH_MAX];
 double delay;
 int mines_total, remain, counter;
 
+void show_help(void);
+void show_version(void);
 void init(void *data, Evas_Object *obj, void *event_info);
+Eina_Bool gui(char *theme, Eina_Bool fullscreen);
 void click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info);
 
 #endif
