@@ -23,9 +23,9 @@ EFL_CHECK_PATH_MAX
 # Check for EFL
 PKG_CHECK_MODULES([ELEMINES],
 [
- eina >= 1.2.0
- edje >= 1.2.0
- elementary >= 1.0.0
+ eina >= 1.7.0
+ edje >= 1.7.0
+ elementary >= 1.7.0
 ])
 
 # Check edje_cc
