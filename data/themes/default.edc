@@ -1,6 +1,7 @@
 images {
   image: "bomb.png"  COMP;
   image: "bomb-sad.png"  COMP;
+  image: "clock.png" COMP;
   image: "empty.png"  COMP;
   image: "fire1.png" COMP;
   image: "fire2.png" COMP;
@@ -104,6 +105,24 @@ collections {
         }
       }
       part {
+        name: "clock";
+	type: IMAGE;
+	description {
+          state: "default" 0.0;
+	  image {
+	    normal: "clock.png";
+	  }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 50 0;
+          }
+          rel2 {
+            relative: 0.0 0.0;
+            offset: 100 50;
+          }
+	}
+      }
+      part {
         name: "time";
         type: TEXT;
         effect: SOFT_SHADOW;
@@ -119,52 +138,11 @@ collections {
           }
           rel1 {
             relative: 0.0 0.0;
-            offset: 0 0;
+            offset: 100 0;
           }
           rel2 {
             relative: 1.0 1.0;
             offset: 0 0;
-          }
-        }
-      }
-    }
-  }
-
-  /* mine symbol */
-  group {
-    name: "mine_icon";
-    parts {
-      part {
-        name: "bg";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 255 255 255 255;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-      }
-      part {
-        name: "icon";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "bomb.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 0.0 0.0;
-            offset: 72 72;
           }
         }
       }
@@ -192,6 +170,24 @@ collections {
         }
       }
       part {
+        name: "icon";
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "bomb.png";
+          }
+          rel1 {
+            relative: 0.0 0.0;
+            offset: 30 -8;
+          }
+          rel2 {
+            relative: 0.0 0.0;
+            offset: 100 70;
+          }
+        }
+      }
+      part {
         name: "mines";
         type: TEXT;
         effect: SOFT_SHADOW;
@@ -207,11 +203,11 @@ collections {
           }
           rel1 {
             relative: 0.0 0.0;
-            offset: 0 0;
+            offset: 100 0;
           }
           rel2 {
             relative: 1.0 1.0;
-            offset: 0 0;
+            offset: -50 0;
           }
         }
       }
