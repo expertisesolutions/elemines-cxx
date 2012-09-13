@@ -95,7 +95,11 @@ _finish(int x, int y, Eina_Bool win)
         elm_object_signal_emit(congrat, "you win", "");
      }
 
-   if (etimer) ecore_timer_del(etimer);
+   if (etimer)
+     {
+        ecore_timer_del(etimer);
+        etimer = NULL;
+     }
 }
 
 static void
