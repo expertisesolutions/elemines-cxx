@@ -225,6 +225,37 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
 
          elm_object_part_text_set(mines, "mines", str);
      }
+
+   /* middle button: open rest if we have enough mines */
+   if (ev->button == 2)
+     {
+        int i, j;
+        int flags = 0;
+
+        /* count surrounding flags */
+        for (i = -1; i < 2; i++)
+          {
+             for (j = -1; j < 2; j++)
+               {
+                  if (!((j == 0) && (i == 0)) &&
+                      (matrix[x+i][y+j][2] == 1))
+                    flags++;
+               }
+          }
+        if (flags == matrix[x][y][1])
+          {
+             for (i = -1; i < 2; i++)
+               {
+                  for (j = -1; j < 2; j++)
+                    {
+                       if (matrix[x+i][y+j][3] == 0)
+                         {
+                            _clean(x+i, y+j, table_ptr[x+i][y+j]);
+                         }
+                    }
+               }
+          }
+     }
 }
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */
