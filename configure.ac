@@ -26,6 +26,7 @@ PKG_CHECK_MODULES([ELEMINES],
  eina >= 1.7.0
  edje >= 1.7.0
  elementary >= 1.7.0
+ etrophy >= 0.5.1
 ])
 
 # Check edje_cc

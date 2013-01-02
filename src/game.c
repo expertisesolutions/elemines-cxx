@@ -30,6 +30,46 @@
 double t0;
 double dt = 0.1;
 
+static void
+_scoring(void)
+{
+   int score;
+   double end_time;
+   char *user;
+   Etrophy_Gamescore *gamescore;
+   Etrophy_Level *level;
+   Etrophy_Score *escore;
+
+   /* compute score using time, board size and mines count */
+   end_time = ecore_loop_time_get() - t0 - delay;
+   score = 10 * SIZE_X * SIZE_Y * mines_total * mines_total / end_time;
+
+   /* get system username for name */
+   user = getenv("USER");
+
+   /* scoring functions from etrophy */
+   etrophy_init();
+
+   gamescore = etrophy_gamescore_load(PACKAGE);
+   escore = etrophy_score_new(user, score);
+
+   /* create a gaescore if missing in ~/.etrophy */
+   if (!gamescore)
+     {
+        gamescore = etrophy_gamescore_new(PACKAGE);
+        level =  etrophy_level_new("standard");
+        etrophy_gamescore_level_add(gamescore, level);
+     }
+
+   /* add the score */
+   level = etrophy_gamescore_level_get(gamescore, "standard");
+   etrophy_level_score_add(level, escore);
+   etrophy_gamescore_save(gamescore, NULL);
+
+   etrophy_shutdown();
+
+}
+
 static Eina_Bool
 _timer(void *data __UNUSED__)
 {
@@ -93,6 +133,8 @@ _finish(int x, int y, Eina_Bool win)
 
         evas_object_show(congrat);
         elm_object_signal_emit(congrat, "you win", "");
+
+        _scoring();
      }
 
    if (etimer)

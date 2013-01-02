@@ -43,6 +43,7 @@
 #include <Edje.h>
 #include <Elementary.h>
 #include <Elementary_Cursor.h>
+#include <Etrophy.h>
 
 #define COPYRIGHT "Copyright © 2012  Jérôme Pinot <ngc891@gmail.com>"
 
