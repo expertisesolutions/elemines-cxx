@@ -1,6 +1,6 @@
 /*
  * elemines: an EFL mine sweeper
- * Copyright (C) 2012 Jerome Pinot <ngc891@gmail.com>
+ * Copyright (C) 2012-2013 Jerome Pinot <ngc891@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
