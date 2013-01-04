@@ -37,12 +37,36 @@ _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNU
 }
 
 static void
+_score_del(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   Evas_Object *popup = data;
+   evas_object_hide(popup);
+}
+
+static void
+_show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+
+   Evas_Object *popup, *bt, *leaderboard;
+
+   popup = elm_popup_add(window);
+   elm_object_part_text_set(popup, "title,text", "Leaderboard");
+   bt = elm_button_add(popup);
+   elm_object_text_set(bt, "OK");
+   elm_object_part_content_set(popup, "button1", bt);
+   leaderboard = etrophy_score_layout_add(popup, gamescore);
+   elm_object_content_set(popup, leaderboard);
+   evas_object_smart_callback_add(bt, "clicked", _score_del, popup);
+   evas_object_show(popup);
+}
+
+static void
 _about_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
 {
    evas_object_hide(obj);
 }
 
-void
+static void
 _about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
    Evas_Object *popup, *label;
@@ -146,6 +170,8 @@ gui(char *theme, Eina_Bool fullscreen)
         gamescore = etrophy_gamescore_new(PACKAGE);
         level =  etrophy_level_new("standard");
         etrophy_gamescore_level_add(gamescore, level);
+        level =  etrophy_level_new("custom");
+        etrophy_gamescore_level_add(gamescore, level);
      }
 
    /* add a background */
@@ -172,7 +198,7 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
    elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
-   elm_toolbar_item_append(toolbar, "score", "Score", _about, NULL);
+   elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
    elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
 

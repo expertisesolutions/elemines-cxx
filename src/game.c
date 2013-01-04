@@ -46,7 +46,15 @@ _scoring(void)
 
    /* add the score */
    escore = etrophy_score_new(user, score);
-   level = etrophy_gamescore_level_get(gamescore, "standard");
+   if ( mines_total == MINES )
+     {
+        level = etrophy_gamescore_level_get(gamescore, "standard");
+     }
+   else
+     {
+        level = etrophy_gamescore_level_get(gamescore, "custom");
+     }
+
    etrophy_level_score_add(level, escore);
    etrophy_gamescore_save(gamescore, NULL);
 
