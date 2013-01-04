@@ -26,4 +26,5 @@ EXTRA_DIST = bomb.png \
 	     mushrooms.png \
 	     sand.png \
 	     sky.png \
-	     stones.png
+	     stones.png \
+	     trophy.png

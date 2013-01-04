@@ -26,6 +26,7 @@ images {
   image: "sand.png"  COMP;
   image: "sky.png" COMP;
   image: "stones.png"  COMP;
+  image: "trophy.png"  COMP;
 }
 
 fonts {
