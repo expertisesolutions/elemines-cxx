@@ -70,6 +70,9 @@ Ecore_Timer *etimer;
 char edje_file[PATH_MAX];
 double delay;
 int mines_total, remain, counter;
+Etrophy_Gamescore *gamescore;
+Etrophy_Level *level;
+Etrophy_Score *escore;
 
 void show_help(void);
 void show_version(void);

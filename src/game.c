@@ -36,9 +36,6 @@ _scoring(void)
    int score;
    double end_time;
    char *user;
-   Etrophy_Gamescore *gamescore;
-   Etrophy_Level *level;
-   Etrophy_Score *escore;
 
    /* compute score using time, board size and mines count */
    end_time = ecore_loop_time_get() - t0 - delay;
@@ -47,26 +44,11 @@ _scoring(void)
    /* get system username for name */
    user = getenv("USER");
 
-   /* scoring functions from etrophy */
-   etrophy_init();
-
-   gamescore = etrophy_gamescore_load(PACKAGE);
-   escore = etrophy_score_new(user, score);
-
-   /* create a gamescore if missing in ~/.etrophy */
-   if (!gamescore)
-     {
-        gamescore = etrophy_gamescore_new(PACKAGE);
-        level =  etrophy_level_new("standard");
-        etrophy_gamescore_level_add(gamescore, level);
-     }
-
    /* add the score */
+   escore = etrophy_score_new(user, score);
    level = etrophy_gamescore_level_get(gamescore, "standard");
    etrophy_level_score_add(level, escore);
    etrophy_gamescore_save(gamescore, NULL);
-
-   etrophy_shutdown();
 
 }
 

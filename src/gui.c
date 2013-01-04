@@ -32,6 +32,7 @@ static double pause_time = 0;
 void
 _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
+   etrophy_shutdown();
    elm_exit();
 }
 
@@ -135,6 +136,16 @@ gui(char *theme, Eina_Bool fullscreen)
      {
         elm_win_fullscreen_set(window, EINA_TRUE);
         evas_object_move(window, 0, 0);
+     }
+
+   /* init score system */
+   etrophy_init();
+   gamescore = etrophy_gamescore_load(PACKAGE);
+   if (!gamescore)
+     {
+        gamescore = etrophy_gamescore_new(PACKAGE);
+        level =  etrophy_level_new("standard");
+        etrophy_gamescore_level_add(gamescore, level);
      }
 
    /* add a background */
