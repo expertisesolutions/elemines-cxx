@@ -123,6 +123,8 @@ gui(char *theme, Eina_Bool fullscreen)
         return EINA_FALSE;
      }
 
+   elm_theme_extension_add(NULL, edje_file);
+
    /* set general properties */
    window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
    elm_win_title_set(window, PACKAGE);
@@ -159,6 +161,7 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
    elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
+   elm_toolbar_item_append(toolbar, "score", "Score", _about, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
    elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
 

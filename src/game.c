@@ -53,7 +53,7 @@ _scoring(void)
    gamescore = etrophy_gamescore_load(PACKAGE);
    escore = etrophy_score_new(user, score);
 
-   /* create a gaescore if missing in ~/.etrophy */
+   /* create a gamescore if missing in ~/.etrophy */
    if (!gamescore)
      {
         gamescore = etrophy_gamescore_new(PACKAGE);

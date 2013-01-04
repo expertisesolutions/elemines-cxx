@@ -62,6 +62,25 @@ color_classes {
 
 collections {
 
+  /* new icon for toolbar */
+  group {
+    name: "elm/icon/score/default";
+    alias: "elm/icon/toolbar/score/default";
+    min: 32 32;
+    images.image: "trophy.png" COMP;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "trophy.png";
+	}
+      }
+    }
+  }
+
   /* generic white background */
   group {
     name: "white-bg";
