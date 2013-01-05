@@ -927,6 +927,42 @@ collections {
           color_class: "win2";
 	}
       }
+      part {
+        name: "score";
+	type: TEXT;
+	effect: SOFT_SHADOW;
+	scale: 1;
+	description {
+          state: "default" 0.0;
+	  text {
+	    text: "";
+	  }
+	  rel1 {
+            relative: 0.5 0.5;
+	    offset: 0 0;
+	  }
+          rel2 {
+            relative: 0.8 0.6;
+	    offset: 0 0;
+	  }
+	}
+	description {
+	  state: "win" 0.1;
+	  inherit: "default" 0.0;
+          color_class: "win";
+          text {
+            text: "";
+            font: "Title";
+            size: 28;
+            align: 0.5 0.5;
+          }
+	}
+	description {
+	  state: "win2" 0.2;
+	  inherit: "win" 0.1;
+          color_class: "win2";
+	}
+      }
     }
     programs {
       program {
@@ -935,12 +971,14 @@ collections {
 	target: "win bg";
         target: "sad bomb";
         target: "you win";
+        target: "score";
 	after: "win2";
       }
       program {
         name: "win2";
 	action: STATE_SET "win2" 0.2;
 	target: "you win";
+	target: "score";
 	transition: BOUNCE 2 0 20;
       }
       program {
@@ -949,6 +987,7 @@ collections {
 	target: "win bg";
         target: "sad bomb";
         target: "you win";
+        target: "score";
       }
     }
   }

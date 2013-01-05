@@ -30,7 +30,7 @@
 double t0;
 double dt = 0.1;
 
-static void
+static int
 _scoring(void)
 {
    int score;
@@ -57,6 +57,8 @@ _scoring(void)
 
    etrophy_level_score_add(level, escore);
    etrophy_gamescore_save(gamescore, NULL);
+
+   return score;
 
 }
 
@@ -87,7 +89,8 @@ _timer(void *data __UNUSED__)
 static void
 _finish(int x, int y, Eina_Bool win)
 {
-   int i,j;
+   int i,j, score;
+   char str[255];
 
    started = EINA_FALSE;
 
@@ -121,10 +124,12 @@ _finish(int x, int y, Eina_Bool win)
         evas_object_size_hint_align_set(congrat, EVAS_HINT_FILL, EVAS_HINT_FILL);
         elm_table_pack(table, congrat, 1, 1, SIZE_X, SIZE_Y);
 
+        score = _scoring();
+        snprintf(str, sizeof(str), "Score: %d", score);
         evas_object_show(congrat);
         elm_object_signal_emit(congrat, "you win", "");
+        elm_object_part_text_set(congrat, "score", str);
 
-        _scoring();
      }
 
    if (etimer)
