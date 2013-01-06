@@ -264,7 +264,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
      }
 
    /* middle button: open rest if we have enough mines */
-   if (ev->button == 2)
+   if ( (ev->button == 2) && (started == EINA_TRUE) )
      {
         int i, j;
         int flags = 0;
