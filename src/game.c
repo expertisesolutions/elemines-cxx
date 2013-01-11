@@ -39,7 +39,9 @@ _scoring(void)
 
    /* compute score using time, board size and mines count */
    end_time = ecore_loop_time_get() - t0 - delay;
-   score = 10 * SIZE_X * SIZE_Y * mines_total * mines_total / end_time;
+   score = (SIZE_X * SIZE_Y * mines_total) - (10 * end_time);
+   if ( score < 0 )
+     score = 0;
 
    /* get system username for name */
    user = getenv("USER");
