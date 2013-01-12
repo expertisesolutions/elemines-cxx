@@ -87,6 +87,9 @@ _board(void)
      {
         for (y = 1; y < SIZE_Y+1; y++)
           {
+             /* remove any existing cell */
+             evas_object_del(table_ptr[x][y]);
+
              cell = elm_layout_add(game.ui.window);
              elm_layout_file_set(cell, game.edje_file, "cell");
              evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND,
