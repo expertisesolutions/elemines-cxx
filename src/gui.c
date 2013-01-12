@@ -37,27 +37,69 @@ _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNU
 }
 
 static void
-_score_del(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_popup_del(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
-   Evas_Object *popup = data;
-   evas_object_hide(popup);
+   evas_object_hide(game.ui.popup);
 }
 
 static void
 _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
 
-   Evas_Object *popup, *button, *leaderboard;
+   Evas_Object *button, *leaderboard;
 
-   popup = elm_popup_add(game.ui.window);
-   elm_object_part_text_set(popup, "title,text", "High Scores");
-   button = elm_button_add(popup);
+   game.ui.popup = elm_popup_add(game.ui.window);
+   elm_object_part_text_set(game.ui.popup, "title,text", "High Scores");
+
+   leaderboard = etrophy_score_layout_add(game.ui.popup, game.trophy.gamescore);
+   elm_object_content_set(game.ui.popup, leaderboard);
+
+   button = elm_button_add(game.ui.popup);
    elm_object_text_set(button, "OK");
-   elm_object_part_content_set(popup, "button1", button);
-   leaderboard = etrophy_score_layout_add(popup, game.trophy.gamescore);
-   elm_object_content_set(popup, leaderboard);
-   evas_object_smart_callback_add(button, "clicked", _score_del, popup);
-   evas_object_show(popup);
+   elm_object_part_content_set(game.ui.popup, "button1", button);
+   evas_object_smart_callback_add(button, "clicked", _popup_del, NULL);
+   evas_object_show(game.ui.popup);
+}
+
+static void
+_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   int number;
+   Evas_Object *spin = data;
+
+   number = elm_spinner_value_get(spin);
+   if ( (number < 2) || (number > (SIZE_X * SIZE_Y)) )
+       number = MINES;
+
+   game.datas.mines_total = number;
+   evas_object_hide(game.ui.popup);
+   init(NULL, NULL, NULL);
+}
+
+static void
+_show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+{
+   Evas_Object *button, *spin;
+
+   game.ui.popup = elm_popup_add(game.ui.window);
+   elm_object_part_text_set(game.ui.popup, "title,text", "Configuration");
+
+   spin = elm_spinner_add(game.ui.window);
+   elm_spinner_label_format_set(spin, "%.0f mines");
+   elm_spinner_min_max_set(spin, 2, SIZE_X * SIZE_Y - 1);
+   elm_spinner_value_set(spin, game.datas.mines_total);
+   evas_object_size_hint_weight_set(spin, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(spin, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(spin);
+
+   elm_object_content_set(game.ui.popup, spin);
+
+   button = elm_button_add(game.ui.popup);
+   elm_object_text_set(button, "OK");
+   elm_object_part_content_set(game.ui.popup, "button1", button);
+   evas_object_smart_callback_add(button, "clicked", _config, spin);
+   evas_object_show(game.ui.popup);
+
 }
 
 static void
@@ -198,6 +240,7 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
    elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
+   elm_toolbar_item_append(toolbar, "config", "Config.", _show_config, NULL);
    elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
    elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);

@@ -70,6 +70,7 @@ struct ui_struct {
    Evas_Object *timer;
    Evas_Object *mines;
    Evas_Object *congrat;
+   Evas_Object *popup;
 };
 
 struct datas_struct {

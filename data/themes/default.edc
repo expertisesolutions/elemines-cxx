@@ -2,6 +2,7 @@ images {
   image: "bomb.png"  COMP;
   image: "bomb-sad.png"  COMP;
   image: "clock.png" COMP;
+  image: "config.png" COMP;
   image: "empty.png"  COMP;
   image: "fire1.png" COMP;
   image: "fire2.png" COMP;
@@ -62,7 +63,7 @@ color_classes {
 
 collections {
 
-  /* new icon for toolbar */
+  /* new icons for toolbar */
   group {
     name: "elm/icon/score/default";
     alias: "elm/icon/toolbar/score/default";
@@ -76,6 +77,23 @@ collections {
 	  aspect: 1.0 1.0;
 	  aspect_preference: BOTH;
 	  image.normal: "trophy.png";
+	}
+      }
+    }
+  }
+  group {
+    name: "elm/icon/config/default";
+    alias: "elm/icon/toolbar/config/default";
+    min: 32 32;
+    images.image: "config.png" COMP;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "config.png";
 	}
       }
     }

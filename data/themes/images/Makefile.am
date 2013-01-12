@@ -3,6 +3,7 @@ MAINTAINERCLEANFILES = Makefile.in
 EXTRA_DIST = bomb.png \
 	     bomb-sad.png \
 	     clock.png \
+	     config.png \
 	     empty.png \
 	     fire1.png \
 	     fire2.png \
