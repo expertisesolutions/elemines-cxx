@@ -103,35 +103,31 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_inf
 }
 
 static void
-_about_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
+_show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
-   evas_object_hide(obj);
-}
-
-static void
-_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
-{
-   Evas_Object *popup, *label;
+   Evas_Object *label, *button;
    char buffer[256];
 
-   /* Show the about window */
-   popup = elm_win_inwin_add(game.ui.window);
-   elm_object_style_set(popup, "minimal_vertical");
-   evas_object_show(popup);
+   game.ui.popup = elm_popup_add(game.ui.window);
+   elm_object_part_text_set(game.ui.popup, "title,text", "About");
 
    /* Construct a formatted label for the inwin */
    label = elm_label_add(game.ui.window);
    snprintf(buffer, sizeof(buffer), "<b>%s %s</b><br><br>"
             "%s<br><br>"
-            "Pictures and sounds derived from:<br>"
+            "Pictures derived from:<br>"
             " - http://www.wesnoth.org/<br>",
             PACKAGE, VERSION, COPYRIGHT);
    elm_object_text_set(label, buffer);
    evas_object_show(label);
-   elm_win_inwin_content_set(popup, label);
 
-   /* Close the inwin when clicked */
-   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _about_del, NULL);
+   elm_object_content_set(game.ui.popup, label);
+
+   button = elm_button_add(game.ui.popup);
+   elm_object_text_set(button, "OK");
+   elm_object_part_content_set(game.ui.popup, "button1", button);
+   evas_object_smart_callback_add(button, "clicked", _popup_del, NULL);
+   evas_object_show(game.ui.popup);
 }
 
 static void
@@ -242,7 +238,7 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
    elm_toolbar_item_append(toolbar, "config", "Config.", _show_config, NULL);
    elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
-   elm_toolbar_item_append(toolbar, "help-about", "About", _about, NULL);
+   elm_toolbar_item_append(toolbar, "help-about", "About", _show_about, NULL);
    elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
 
    /* box for timer and mine count */
