@@ -37,7 +37,7 @@ _generate(void)
 
    /* 1st table: the mines */
    srand(time(NULL));
-   for (i = 0; i < mines_total; i++)
+   for (i = 0; i < game.datas.mines_total; i++)
      {
         /* random coordinates */
         x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
@@ -87,13 +87,13 @@ _board(void)
      {
         for (y = 1; y < SIZE_Y+1; y++)
           {
-             cell = elm_layout_add(window);
-             elm_layout_file_set(cell, edje_file, "cell");
+             cell = elm_layout_add(game.ui.window);
+             elm_layout_file_set(cell, game.edje_file, "cell");
              evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND,
                                                     EVAS_HINT_EXPAND);
              evas_object_size_hint_align_set(cell, EVAS_HINT_FILL,
                                                    EVAS_HINT_FILL);
-             elm_table_pack(table, cell, x, y, 1, 1);
+             elm_table_pack(game.ui.table, cell, x, y, 1, 1);
 
              /* add some random scenery */
              scenery = (int)((double)100 * rand() / RAND_MAX + 1);
@@ -124,22 +124,22 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    char str[8];
 
    /* init variables */
-   started = EINA_FALSE;
-   remain = mines_total;
-   counter = SIZE_X * SIZE_Y - mines_total;
-   delay = 0;
+   game.clock.started = EINA_FALSE;
+   game.clock.delay = 0;
+   game.datas.remain = game.datas.mines_total;
+   game.datas.counter = SIZE_X * SIZE_Y - game.datas.mines_total;
 
    _generate();
    _board();
 
    /* reinit widgets if needed */
-   if (timer)
-     elm_object_part_text_set(timer, "time", "00:00.0");
-   snprintf(str, sizeof(str), "%d/%d", mines_total, mines_total);
-   if (mines)
-     elm_object_part_text_set(mines, "mines", str);
-   if (congrat)
-     elm_object_signal_emit(congrat, "normal", "");
+   if (game.ui.timer)
+     elm_object_part_text_set(game.ui.timer, "time", "00:00.0");
+   snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total, game.datas.mines_total);
+   if (game.ui.mines)
+     elm_object_part_text_set(game.ui.mines, "mines", str);
+   if (game.ui.congrat)
+     elm_object_signal_emit(game.ui.congrat, "normal", "");
 
 }
 

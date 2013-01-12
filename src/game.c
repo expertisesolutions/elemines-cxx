@@ -38,8 +38,8 @@ _scoring(void)
    char *user;
 
    /* compute score using time, board size and mines count */
-   end_time = ecore_loop_time_get() - t0 - delay;
-   score = (SIZE_X * SIZE_Y * mines_total) - (10 * end_time);
+   end_time = ecore_loop_time_get() - t0 - game.clock.delay;
+   score = (SIZE_X * SIZE_Y * game.datas.mines_total) - (10 * end_time);
    if ( score < 0 )
      score = 0;
 
@@ -47,18 +47,18 @@ _scoring(void)
    user = getenv("USER");
 
    /* add the score */
-   escore = etrophy_score_new(user, score);
-   if ( mines_total == MINES )
+   game.trophy.escore = etrophy_score_new(user, score);
+   if ( game.datas.mines_total == MINES )
      {
-        level = etrophy_gamescore_level_get(gamescore, "standard");
+        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore, "standard");
      }
    else
      {
-        level = etrophy_gamescore_level_get(gamescore, "custom");
+        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore, "custom");
      }
 
-   etrophy_level_score_add(level, escore);
-   etrophy_gamescore_save(gamescore, NULL);
+   etrophy_level_score_add(game.trophy.level, game.trophy.escore);
+   etrophy_gamescore_save(game.trophy.gamescore, NULL);
 
    return score;
 
@@ -71,10 +71,10 @@ _timer(void *data __UNUSED__)
    int min = 0;
    double t;
 
-   if (started == EINA_FALSE)
+   if (game.clock.started == EINA_FALSE)
      return EINA_FALSE;
 
-   t = ecore_loop_time_get() - t0 - delay;
+   t = ecore_loop_time_get() - t0 - game.clock.delay;
    while (t >= 60)
      {
         t -= 60;
@@ -82,8 +82,8 @@ _timer(void *data __UNUSED__)
      }
 
    snprintf(str, sizeof(str), "%02d:%04.1f", min, t);
-   if (counter != 0)
-     elm_object_part_text_set(timer, "time", str);
+   if (game.datas.counter != 0)
+     elm_object_part_text_set(game.ui.timer, "time", str);
 
    return EINA_TRUE;
 }
@@ -94,7 +94,7 @@ _finish(int x, int y, Eina_Bool win)
    int i,j, score;
    char str[255];
 
-   started = EINA_FALSE;
+   game.clock.started = EINA_FALSE;
 
    /* show bombs */
    for (i = 1; i < SIZE_X+1; i++)
@@ -120,24 +120,24 @@ _finish(int x, int y, Eina_Bool win)
    if (win == EINA_TRUE)
      {
         /* prepare the congratulation message */
-        congrat = elm_layout_add(window);
-        elm_layout_file_set(congrat, edje_file, "congratulation");
-        evas_object_size_hint_weight_set(congrat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(congrat, EVAS_HINT_FILL, EVAS_HINT_FILL);
-        elm_table_pack(table, congrat, 1, 1, SIZE_X, SIZE_Y);
+        game.ui.congrat = elm_layout_add(game.ui.window);
+        elm_layout_file_set(game.ui.congrat, game.edje_file, "congratulation");
+        evas_object_size_hint_weight_set(game.ui.congrat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(game.ui.congrat, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        elm_table_pack(game.ui.table, game.ui.congrat, 1, 1, SIZE_X, SIZE_Y);
 
         score = _scoring();
         snprintf(str, sizeof(str), "Score: %d", score);
-        evas_object_show(congrat);
-        elm_object_signal_emit(congrat, "you win", "");
-        elm_object_part_text_set(congrat, "score", str);
+        evas_object_show(game.ui.congrat);
+        elm_object_signal_emit(game.ui.congrat, "you win", "");
+        elm_object_part_text_set(game.ui.congrat, "score", str);
 
      }
 
-   if (etimer)
+   if (game.clock.etimer)
      {
-        ecore_timer_del(etimer);
-        etimer = NULL;
+        ecore_timer_del(game.clock.etimer);
+        game.clock.etimer = NULL;
      }
 }
 
@@ -186,8 +186,8 @@ _clean(int x, int y, Evas_Object *obj)
                }
           }
         /* keep track of this empty spot */
-        counter--;
-        if (counter == 0)
+        game.datas.counter--;
+        if (game.datas.counter == 0)
           _finish(x, y, EINA_TRUE);
      }
    return;
@@ -211,11 +211,11 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
    /* if we push 1st mouse button and there is no flag */
    if (ev->button == 1 && matrix[x][y][2] == 0)
      {
-        if (started == EINA_FALSE)
+        if (game.clock.started == EINA_FALSE)
           {
-             started = EINA_TRUE;
+             game.clock.started = EINA_TRUE;
              t0 = ecore_time_get();
-             etimer = ecore_timer_add(dt, _timer, NULL);
+             game.clock.etimer = ecore_timer_add(dt, _timer, NULL);
           }
 
         /* OMG IT'S A BOMB! */
@@ -238,35 +238,35 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           {
              elm_object_signal_emit(obj, "flag", "");
              matrix[x][y][2] = 1;
-             remain--;
+             game.datas.remain--;
           }
         /* already a flag, remove it */
         else
           {
              elm_object_signal_emit(obj, "default", "");
              matrix[x][y][2] = 0;
-             remain++;
+             game.datas.remain++;
           }
 
         /* show the remaining mines */
-        if (remain >= 0 && remain <= mines_total)
+        if (game.datas.remain >= 0 && game.datas.remain <= game.datas.mines_total)
           {
-             snprintf(str, sizeof(str), "%d/%d", remain, mines_total);
+             snprintf(str, sizeof(str), "%d/%d", game.datas.remain, game.datas.mines_total);
           }
-        else if (remain < 0)
+        else if (game.datas.remain < 0)
           {
-             snprintf(str, sizeof(str), "%d/%d", 0, mines_total);
+             snprintf(str, sizeof(str), "%d/%d", 0, game.datas.mines_total);
           }
-        else if (remain > mines_total)
+        else if (game.datas.remain > game.datas.mines_total)
           {
-             snprintf(str, sizeof(str), "%d/%d", mines_total, mines_total);
+             snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total, game.datas.mines_total);
           }
 
-         elm_object_part_text_set(mines, "mines", str);
+         elm_object_part_text_set(game.ui.mines, "mines", str);
      }
 
    /* middle button: open rest if we have enough mines */
-   if ( (ev->button == 2) && (started == EINA_TRUE) )
+   if ( (ev->button == 2) && (game.clock.started == EINA_TRUE) )
      {
         int i, j;
         int flags = 0;

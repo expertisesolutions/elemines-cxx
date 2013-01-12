@@ -47,16 +47,16 @@ static void
 _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
 
-   Evas_Object *popup, *bt, *leaderboard;
+   Evas_Object *popup, *button, *leaderboard;
 
-   popup = elm_popup_add(window);
-   elm_object_part_text_set(popup, "title,text", "Leaderboard");
-   bt = elm_button_add(popup);
-   elm_object_text_set(bt, "OK");
-   elm_object_part_content_set(popup, "button1", bt);
-   leaderboard = etrophy_score_layout_add(popup, gamescore);
+   popup = elm_popup_add(game.ui.window);
+   elm_object_part_text_set(popup, "title,text", "High Scores");
+   button = elm_button_add(popup);
+   elm_object_text_set(button, "OK");
+   elm_object_part_content_set(popup, "button1", button);
+   leaderboard = etrophy_score_layout_add(popup, game.trophy.gamescore);
    elm_object_content_set(popup, leaderboard);
-   evas_object_smart_callback_add(bt, "clicked", _score_del, popup);
+   evas_object_smart_callback_add(button, "clicked", _score_del, popup);
    evas_object_show(popup);
 }
 
@@ -73,12 +73,12 @@ _about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    char buffer[256];
 
    /* Show the about window */
-   popup = elm_win_inwin_add(window);
+   popup = elm_win_inwin_add(game.ui.window);
    elm_object_style_set(popup, "minimal_vertical");
    evas_object_show(popup);
 
    /* Construct a formatted label for the inwin */
-   label = elm_label_add(window);
+   label = elm_label_add(game.ui.window);
    snprintf(buffer, sizeof(buffer), "<b>%s %s</b><br><br>"
             "%s<br><br>"
             "Pictures and sounds derived from:<br>"
@@ -96,14 +96,14 @@ static void
 _pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
 {
    /* compute the pause delay to remove it from timer */
-   delay += ecore_time_get() - pause_time;
-   if (etimer)
+   game.clock.delay += ecore_time_get() - pause_time;
+   if (game.clock.etimer)
      {
-        ecore_timer_thaw(etimer);
+        ecore_timer_thaw(game.clock.etimer);
      }
    else
      {
-        delay = 0;
+        game.clock.delay = 0;
      }
    evas_object_hide(obj);
 }
@@ -114,16 +114,16 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    Evas_Object *popup, *layout;
 
    /* Show the pause window */
-   popup = elm_win_inwin_add(window);
+   popup = elm_win_inwin_add(game.ui.window);
    evas_object_show(popup);
 
    /* pause the timer */
    pause_time = ecore_time_get();
-   if (etimer) ecore_timer_freeze(etimer);
+   if (game.clock.etimer) ecore_timer_freeze(game.clock.etimer);
 
    /* Construct a formatted label for the inwin */
-   layout = elm_layout_add(window);
-   elm_layout_file_set(layout, edje_file, "pause");
+   layout = elm_layout_add(game.ui.window);
+   elm_layout_file_set(layout, game.edje_file, "pause");
    evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(layout);
@@ -141,55 +141,55 @@ gui(char *theme, Eina_Bool fullscreen)
    int x, y;
 
    /* get the edje theme file */
-   snprintf(edje_file, sizeof(edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
-   if (access(edje_file, R_OK) != 0)
+   snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
+   if (access(game.edje_file, R_OK) != 0)
      {
-        EINA_LOG_CRIT("Loading theme error: can not read %s", edje_file);
+        EINA_LOG_CRIT("Loading theme error: can not read %s", game.edje_file);
         return EINA_FALSE;
      }
 
-   elm_theme_extension_add(NULL, edje_file);
+   elm_theme_extension_add(NULL, game.edje_file);
 
    /* set general properties */
-   window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
-   elm_win_title_set(window, PACKAGE);
-   elm_win_autodel_set(window, EINA_TRUE);
+   game.ui.window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);
+   elm_win_title_set(game.ui.window, PACKAGE);
+   elm_win_autodel_set(game.ui.window, EINA_TRUE);
    elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
 
    if (fullscreen == EINA_TRUE)
      {
-        elm_win_fullscreen_set(window, EINA_TRUE);
-        evas_object_move(window, 0, 0);
+        elm_win_fullscreen_set(game.ui.window, EINA_TRUE);
+        evas_object_move(game.ui.window, 0, 0);
      }
 
    /* init score system */
    etrophy_init();
-   gamescore = etrophy_gamescore_load(PACKAGE);
-   if (!gamescore)
+   game.trophy.gamescore = etrophy_gamescore_load(PACKAGE);
+   if (!game.trophy.gamescore)
      {
-        gamescore = etrophy_gamescore_new(PACKAGE);
-        level =  etrophy_level_new("standard");
-        etrophy_gamescore_level_add(gamescore, level);
-        level =  etrophy_level_new("custom");
-        etrophy_gamescore_level_add(gamescore, level);
+        game.trophy.gamescore = etrophy_gamescore_new(PACKAGE);
+        game.trophy.level =  etrophy_level_new("standard");
+        etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
+        game.trophy.level =  etrophy_level_new("custom");
+        etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
      }
 
    /* add a background */
-   background = elm_bg_add(window);
+   background = elm_bg_add(game.ui.window);
    evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   elm_win_resize_object_add(window, background);
+   elm_win_resize_object_add(game.ui.window, background);
    evas_object_show(background);
 
    /* main box */
-   vbox = elm_box_add(window);
+   vbox = elm_box_add(game.ui.window);
    elm_box_homogeneous_set(vbox, EINA_FALSE);
-   elm_win_resize_object_add(window, vbox);
+   elm_win_resize_object_add(game.ui.window, vbox);
    evas_object_size_hint_weight_set(vbox, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(vbox);
 
    /* the toolbar */
-   toolbar = elm_toolbar_add(window);
+   toolbar = elm_toolbar_add(game.ui.window);
    elm_toolbar_shrink_mode_set(toolbar, ELM_TOOLBAR_SHRINK_SCROLL);
    elm_toolbar_select_mode_set(toolbar, ELM_OBJECT_SELECT_MODE_ALWAYS);
    evas_object_size_hint_weight_set(toolbar, 0.0, 0.0);
@@ -203,101 +203,101 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
 
    /* box for timer and mine count */
-   hbox = elm_box_add(window);
+   hbox = elm_box_add(game.ui.window);
    elm_box_homogeneous_set(hbox, EINA_FALSE);
    elm_box_horizontal_set(hbox, EINA_TRUE);
-   elm_win_resize_object_add(window, hbox);
+   elm_win_resize_object_add(game.ui.window, hbox);
    evas_object_size_hint_weight_set(hbox, EVAS_HINT_EXPAND, 0.1);
    evas_object_size_hint_align_set(hbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(hbox);
 
    /* timer */
-   timer = elm_layout_add(window);
-   elm_layout_file_set(timer, edje_file, "timer");
-   evas_object_size_hint_weight_set(timer, 0.5, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   evas_object_show(timer);
-   elm_box_pack_end(hbox, timer);
+   game.ui.timer = elm_layout_add(game.ui.window);
+   elm_layout_file_set(game.ui.timer, game.edje_file, "timer");
+   evas_object_size_hint_weight_set(game.ui.timer, 0.5, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(game.ui.timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(game.ui.timer);
+   elm_box_pack_end(hbox, game.ui.timer);
 
    /* remaining mines */
-   mines = elm_layout_add(window);
-   elm_layout_file_set(mines, edje_file, "mines");
-   evas_object_size_hint_weight_set(mines, 0.5, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   evas_object_show(mines);
-   elm_box_pack_end(hbox, mines);
+   game.ui.mines = elm_layout_add(game.ui.window);
+   elm_layout_file_set(game.ui.mines, game.edje_file, "mines");
+   evas_object_size_hint_weight_set(game.ui.mines, 0.5, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(game.ui.mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(game.ui.mines);
+   elm_box_pack_end(hbox, game.ui.mines);
    elm_box_pack_end(vbox, hbox);
 
    /* add the main table for storing cells */
-   table = elm_table_add(window);
-   elm_table_homogeneous_set(table, EINA_TRUE);
-   elm_win_resize_object_add(window, table);
-   evas_object_size_hint_weight_set(table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(table, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_box_pack_end(vbox, table);
-   evas_object_show(table);
+   game.ui.table = elm_table_add(game.ui.window);
+   elm_table_homogeneous_set(game.ui.table, EINA_TRUE);
+   elm_win_resize_object_add(game.ui.window, game.ui.table);
+   evas_object_size_hint_weight_set(game.ui.table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(game.ui.table, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   elm_box_pack_end(vbox, game.ui.table);
+   evas_object_show(game.ui.table);
 
    /* white background to ensure consistent look */
-   bg = elm_layout_add(window);
-   elm_layout_file_set(bg, edje_file, "white-bg");
-   evas_object_size_hint_weight_set(bg,EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   bg = elm_layout_add(game.ui.window);
+   elm_layout_file_set(bg, game.edje_file, "white-bg");
+   evas_object_size_hint_weight_set(bg, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(bg, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_table_pack(table, bg, 0, 0, SIZE_X+2, SIZE_Y+2);
+   elm_table_pack(game.ui.table, bg, 0, 0, SIZE_X+2, SIZE_Y+2);
    evas_object_show(bg);
 
    /* add a nice border around the board */
    for (x = 1; x < SIZE_X + 1; x++)
      {
-        icon = elm_layout_add(window);
-        elm_layout_file_set(icon, edje_file, "grass-s");
+        icon = elm_layout_add(game.ui.window);
+        elm_layout_file_set(icon, game.edje_file, "grass-s");
         evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
-        elm_table_pack(table, icon, x, 0, 1, 1);
+        elm_table_pack(game.ui.table, icon, x, 0, 1, 1);
         evas_object_show(icon);
 
-        icon = elm_layout_add(window);
-        elm_layout_file_set(icon, edje_file, "grass-n");
+        icon = elm_layout_add(game.ui.window);
+        elm_layout_file_set(icon, game.edje_file, "grass-n");
         evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
-        elm_table_pack(table, icon, x, SIZE_Y+1, 1, 1);
+        elm_table_pack(game.ui.table, icon, x, SIZE_Y+1, 1, 1);
         evas_object_show(icon);
      }
    for (y = 1; y < SIZE_Y + 1; y++)
      {
-        icon = elm_layout_add(window);
-        elm_layout_file_set(icon, edje_file, "grass-w");
+        icon = elm_layout_add(game.ui.window);
+        elm_layout_file_set(icon, game.edje_file, "grass-w");
         evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
-        elm_table_pack(table, icon, 0, y, 1, 1);
+        elm_table_pack(game.ui.table, icon, 0, y, 1, 1);
         evas_object_show(icon);
 
-        icon = elm_layout_add(window);
-        elm_layout_file_set(icon, edje_file, "grass-e");
+        icon = elm_layout_add(game.ui.window);
+        elm_layout_file_set(icon, game.edje_file, "grass-e");
         evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
-        elm_table_pack(table, icon, SIZE_X + 1, y, 1, 1);
+        elm_table_pack(game.ui.table, icon, SIZE_X + 1, y, 1, 1);
         evas_object_show(icon);
      }
 
    /* Add a blank cell on the bottom right to get a right/bottom margin */
-   blank = elm_layout_add(window);
-   elm_layout_file_set(blank, edje_file, "blank");
+   blank = elm_layout_add(game.ui.window);
+   elm_layout_file_set(blank, game.edje_file, "blank");
    evas_object_size_hint_weight_set(blank, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_table_pack(table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
+   elm_table_pack(game.ui.table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
    evas_object_show(blank);
 
    /* Get window's size from edje and resize it */
-   x = atoi(edje_file_data_get(edje_file, "width"));
-   y = atoi(edje_file_data_get(edje_file, "height"));
+   x = atoi(edje_file_data_get(game.edje_file, "width"));
+   y = atoi(edje_file_data_get(game.edje_file, "height"));
 
-   evas_object_resize(window, x, y);
-   elm_object_focus_set(window, EINA_TRUE);
-   evas_object_show(window);
+   evas_object_resize(game.ui.window, x, y);
+   elm_object_focus_set(game.ui.window, EINA_TRUE);
+   evas_object_show(game.ui.window);
 
    return EINA_TRUE;
 }

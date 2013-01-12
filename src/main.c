@@ -61,7 +61,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    Eina_Bool debug = EINA_FALSE;
    Eina_Bool fullscreen = EINA_FALSE;
 
-   mines_total = 0;
+   game.datas.mines_total = 0;
 
    while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)
      {
@@ -85,7 +85,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                }
              case 'm':
                {
-                  mines_total = atoi(optarg);
+                  game.datas.mines_total = atoi(optarg);
                   break;
                }
              case 'v':
@@ -110,9 +110,9 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
      }
 
    /* initialize the mines number */
-   if (mines_total == 0) mines_total = MINES;
+   if (game.datas.mines_total == 0) game.datas.mines_total = MINES;
 
-   started = EINA_FALSE;
+   game.clock.started = EINA_FALSE;
 
    if (gui(theme, fullscreen) != EINA_TRUE)
      return -1;

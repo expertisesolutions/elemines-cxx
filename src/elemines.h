@@ -64,15 +64,41 @@ int matrix[SIZE_X+2][SIZE_Y+2][4];
 Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
 
 /* global variables */
-Evas_Object *window, *table, *timer, *mines, *congrat;
-Eina_Bool started;
-Ecore_Timer *etimer;
-char edje_file[PATH_MAX];
-double delay;
-int mines_total, remain, counter;
-Etrophy_Gamescore *gamescore;
-Etrophy_Level *level;
-Etrophy_Score *escore;
+struct ui_struct {
+   Evas_Object *window;
+   Evas_Object *table;
+   Evas_Object *timer;
+   Evas_Object *mines;
+   Evas_Object *congrat;
+};
+
+struct datas_struct {
+   int mines_total;
+   int remain;
+   int counter;
+};
+
+struct clock_struct {
+   Eina_Bool started;
+   Ecore_Timer *etimer;
+   double delay;
+};
+
+struct trophy_struct {
+   Etrophy_Gamescore *gamescore;
+   Etrophy_Level *level;
+   Etrophy_Score *escore;
+};
+
+struct game_struct {
+   char edje_file[PATH_MAX];
+   struct ui_struct ui;
+   struct datas_struct datas;
+   struct clock_struct clock;
+   struct trophy_struct trophy;
+};
+struct game_struct game;
+
 
 void show_help(void);
 void show_version(void);
