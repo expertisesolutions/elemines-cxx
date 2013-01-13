@@ -238,9 +238,9 @@ gui(char *theme, Eina_Bool fullscreen)
    if (!game.trophy.gamescore)
      {
         game.trophy.gamescore = etrophy_gamescore_new(PACKAGE);
-        game.trophy.level =  etrophy_level_new("standard");
+        game.trophy.level =  etrophy_level_new("Standard");
         etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
-        game.trophy.level =  etrophy_level_new("custom");
+        game.trophy.level =  etrophy_level_new("Custom");
         etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
      }
 
