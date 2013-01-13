@@ -30,20 +30,23 @@
 static double pause_time = 0;
 
 void
-_quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+      void *event_info __UNUSED__)
 {
    etrophy_shutdown();
    elm_exit();
 }
 
 static void
-_popup_del(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_popup_del(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+           void *event_info __UNUSED__)
 {
    evas_object_hide(game.ui.popup);
 }
 
 static void
-_show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+            void *event_info __UNUSED__)
 {
 
    Evas_Object *button, *leaderboard;
@@ -51,7 +54,8 @@ _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info
    game.ui.popup = elm_popup_add(game.ui.window);
    elm_object_part_text_set(game.ui.popup, "title,text", "High Scores");
 
-   leaderboard = etrophy_score_layout_add(game.ui.popup, game.trophy.gamescore);
+   leaderboard = etrophy_score_layout_add(game.ui.popup,
+                                          game.trophy.gamescore);
    elm_object_content_set(game.ui.popup, leaderboard);
 
    button = elm_button_add(game.ui.popup);
@@ -62,7 +66,8 @@ _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info
 }
 
 static void
-_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+        void *event_info __UNUSED__)
 {
    int number;
    Evas_Object *spin = data;
@@ -77,7 +82,8 @@ _config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __U
 }
 
 static void
-_show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+             void *event_info __UNUSED__)
 {
    Evas_Object *vbox, *spin, *label, *button;
    char buffer[512];
@@ -102,9 +108,9 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_inf
 
    label = elm_label_add(game.ui.window);
    elm_label_line_wrap_set(label, ELM_WRAP_WORD);
-   snprintf(buffer, sizeof(buffer), "<b>Note:</b> default mine number is <b>%d</b> "
-            "with scoring in <b>Standard</b> category. If you change the mine "
-            "number to something else, your score will be put in the "
+   snprintf(buffer, sizeof(buffer), "<b>Note:</b> default mine number is "
+            "<b>%d</b> with scoring in <b>Standard</b> category. If you change "
+            "the mine number to something else, your score will be put in the "
             "<b>Custom</b> category.", MINES);
    elm_object_text_set(label, buffer);
    evas_object_size_hint_weight_set(label, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
@@ -123,7 +129,8 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_inf
 }
 
 static void
-_show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+            void *event_info __UNUSED__)
 {
    Evas_Object *label, *button;
    char buffer[256];
@@ -151,7 +158,8 @@ _show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info
 }
 
 static void
-_pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *event_info __UNUSED__)
+_pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj,
+           void *event_info __UNUSED__)
 {
    /* compute the pause delay to remove it from timer */
    game.clock.delay += ecore_time_get() - pause_time;
@@ -167,7 +175,8 @@ _pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj, void *ev
 }
 
 void
-_pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
+_pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
+       void *event_info __UNUSED__)
 {
    Evas_Object *popup, *layout;
 
@@ -182,13 +191,15 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UN
    /* Construct a formatted label for the inwin */
    layout = elm_layout_add(game.ui.window);
    elm_layout_file_set(layout, game.edje_file, "pause");
-   evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND,
+                                    EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(layout);
    elm_win_inwin_content_set(popup, layout);
 
    /* Close the inwin when clicked */
-   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del, NULL);
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del,
+                                  NULL);
 
 }
 
@@ -199,7 +210,8 @@ gui(char *theme, Eina_Bool fullscreen)
    int x, y;
 
    /* get the edje theme file */
-   snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj", PACKAGE_DATA_DIR, theme);
+   snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj",
+            PACKAGE_DATA_DIR, theme);
    if (access(game.edje_file, R_OK) != 0)
      {
         EINA_LOG_CRIT("Loading theme error: can not read %s", game.edje_file);
@@ -234,7 +246,8 @@ gui(char *theme, Eina_Bool fullscreen)
 
    /* add a background */
    background = elm_bg_add(game.ui.window);
-   evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND,
+                                    EVAS_HINT_EXPAND);
    elm_win_resize_object_add(game.ui.window, background);
    evas_object_show(background);
 
@@ -255,7 +268,8 @@ gui(char *theme, Eina_Bool fullscreen)
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
-   elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause, NULL);
+   elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause,
+                           NULL);
    elm_toolbar_item_append(toolbar, "config", "Config.", _show_config, NULL);
    elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
    elm_toolbar_item_append(toolbar, "help-about", "About", _show_about, NULL);
@@ -274,7 +288,8 @@ gui(char *theme, Eina_Bool fullscreen)
    game.ui.timer = elm_layout_add(game.ui.window);
    elm_layout_file_set(game.ui.timer, game.edje_file, "timer");
    evas_object_size_hint_weight_set(game.ui.timer, 0.5, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(game.ui.timer, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_size_hint_align_set(game.ui.timer, EVAS_HINT_FILL,
+                                   EVAS_HINT_FILL);
    evas_object_show(game.ui.timer);
    elm_box_pack_end(hbox, game.ui.timer);
 
@@ -282,7 +297,8 @@ gui(char *theme, Eina_Bool fullscreen)
    game.ui.mines = elm_layout_add(game.ui.window);
    elm_layout_file_set(game.ui.mines, game.edje_file, "mines");
    evas_object_size_hint_weight_set(game.ui.mines, 0.5, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(game.ui.mines, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_size_hint_align_set(game.ui.mines, EVAS_HINT_FILL,
+                                   EVAS_HINT_FILL);
    evas_object_show(game.ui.mines);
    elm_box_pack_end(hbox, game.ui.mines);
    elm_box_pack_end(vbox, hbox);
@@ -291,8 +307,10 @@ gui(char *theme, Eina_Bool fullscreen)
    game.ui.table = elm_table_add(game.ui.window);
    elm_table_homogeneous_set(game.ui.table, EINA_TRUE);
    elm_win_resize_object_add(game.ui.window, game.ui.table);
-   evas_object_size_hint_weight_set(game.ui.table, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(game.ui.table, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_size_hint_weight_set(game.ui.table, EVAS_HINT_EXPAND,
+                                    EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(game.ui.table, EVAS_HINT_FILL,
+                                   EVAS_HINT_FILL);
    elm_box_pack_end(vbox, game.ui.table);
    evas_object_show(game.ui.table);
 
@@ -309,7 +327,8 @@ gui(char *theme, Eina_Bool fullscreen)
      {
         icon = elm_layout_add(game.ui.window);
         elm_layout_file_set(icon, game.edje_file, "grass-s");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
+                                         EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
         elm_table_pack(game.ui.table, icon, x, 0, 1, 1);
@@ -317,7 +336,8 @@ gui(char *theme, Eina_Bool fullscreen)
 
         icon = elm_layout_add(game.ui.window);
         elm_layout_file_set(icon, game.edje_file, "grass-n");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
+                                         EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
         elm_table_pack(game.ui.table, icon, x, SIZE_Y+1, 1, 1);
@@ -327,7 +347,8 @@ gui(char *theme, Eina_Bool fullscreen)
      {
         icon = elm_layout_add(game.ui.window);
         elm_layout_file_set(icon, game.edje_file, "grass-w");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
+                                         EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
         elm_table_pack(game.ui.table, icon, 0, y, 1, 1);
@@ -335,7 +356,8 @@ gui(char *theme, Eina_Bool fullscreen)
 
         icon = elm_layout_add(game.ui.window);
         elm_layout_file_set(icon, game.edje_file, "grass-e");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
+                                         EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
         evas_object_show(icon);
         elm_table_pack(game.ui.table, icon, SIZE_X + 1, y, 1, 1);

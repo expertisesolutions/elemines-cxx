@@ -46,9 +46,9 @@ show_version(void)
 {
    printf("%s %s\n"
           "%s\n"
-          "This is free software; see the source for copying conditions.  There is NO\n"
-          "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n",
-          PACKAGE, VERSION, COPYRIGHT);
+          "This is free software; see the source for copying conditions.  "
+          "There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR "
+          "A PARTICULAR PURPOSE.\n", PACKAGE, VERSION, COPYRIGHT);
 }
 
 /* vim: set ts=8 sw=3 sts=3 expandtab cino=>5n-3f0^-2{2(0W1st0 : */

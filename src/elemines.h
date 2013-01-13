@@ -100,7 +100,7 @@ struct game_struct {
 };
 struct game_struct game;
 
-
+/* global functions */
 void show_help(void);
 void show_version(void);
 void init(void *data, Evas_Object *obj, void *event_info);

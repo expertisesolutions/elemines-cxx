@@ -50,11 +50,13 @@ _scoring(void)
    game.trophy.escore = etrophy_score_new(user, score);
    if ( game.datas.mines_total == MINES )
      {
-        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore, "standard");
+        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore,
+                                                        "standard");
      }
    else
      {
-        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore, "custom");
+        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore,
+                                                        "custom");
      }
 
    etrophy_level_score_add(game.trophy.level, game.trophy.escore);
@@ -102,7 +104,8 @@ _finish(int x, int y, Eina_Bool win)
         for (j = 1; j < SIZE_Y+1; j++)
           {
              /* disable click */
-             evas_object_event_callback_del(table_ptr[i][j], EVAS_CALLBACK_MOUSE_DOWN, click);
+             evas_object_event_callback_del(table_ptr[i][j],
+                                            EVAS_CALLBACK_MOUSE_DOWN, click);
              if (win == EINA_TRUE)
                {
                   elm_object_signal_emit(table_ptr[i][j], "win", "");
@@ -122,8 +125,10 @@ _finish(int x, int y, Eina_Bool win)
         /* prepare the congratulation message */
         game.ui.congrat = elm_layout_add(game.ui.window);
         elm_layout_file_set(game.ui.congrat, game.edje_file, "congratulation");
-        evas_object_size_hint_weight_set(game.ui.congrat, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(game.ui.congrat, EVAS_HINT_FILL, EVAS_HINT_FILL);
+        evas_object_size_hint_weight_set(game.ui.congrat, EVAS_HINT_EXPAND,
+                                         EVAS_HINT_EXPAND);
+        evas_object_size_hint_align_set(game.ui.congrat, EVAS_HINT_FILL,
+                                        EVAS_HINT_FILL);
         elm_table_pack(game.ui.table, game.ui.congrat, 1, 1, SIZE_X, SIZE_Y);
 
         score = _scoring();
@@ -249,9 +254,11 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           }
 
         /* show the remaining mines */
-        if (game.datas.remain >= 0 && game.datas.remain <= game.datas.mines_total)
+        if ( (game.datas.remain >= 0)
+             && (game.datas.remain <= game.datas.mines_total) )
           {
-             snprintf(str, sizeof(str), "%d/%d", game.datas.remain, game.datas.mines_total);
+             snprintf(str, sizeof(str), "%d/%d", game.datas.remain,
+                      game.datas.mines_total);
           }
         else if (game.datas.remain < 0)
           {
@@ -259,7 +266,8 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           }
         else if (game.datas.remain > game.datas.mines_total)
           {
-             snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total, game.datas.mines_total);
+             snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total,
+                      game.datas.mines_total);
           }
 
          elm_object_part_text_set(game.ui.mines, "mines", str);

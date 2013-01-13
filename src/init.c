@@ -138,7 +138,8 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* reinit widgets if needed */
    if (game.ui.timer)
      elm_object_part_text_set(game.ui.timer, "time", "00:00.0");
-   snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total, game.datas.mines_total);
+   snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total,
+            game.datas.mines_total);
    if (game.ui.mines)
      elm_object_part_text_set(game.ui.mines, "mines", str);
    if (game.ui.congrat)
