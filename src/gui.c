@@ -79,10 +79,17 @@ _config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __U
 static void
 _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
-   Evas_Object *button, *spin;
+   Evas_Object *vbox, *spin, *label, *button;
+   char buffer[512];
 
    game.ui.popup = elm_popup_add(game.ui.window);
    elm_object_part_text_set(game.ui.popup, "title,text", "Configuration");
+
+   vbox = elm_box_add(game.ui.window);
+   elm_box_homogeneous_set(vbox, EINA_FALSE);
+   evas_object_size_hint_weight_set(vbox, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(vbox);
 
    spin = elm_spinner_add(game.ui.window);
    elm_spinner_label_format_set(spin, "%.0f mines");
@@ -91,8 +98,21 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__, void *event_inf
    evas_object_size_hint_weight_set(spin, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(spin, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(spin);
+   elm_box_pack_end(vbox, spin);
 
-   elm_object_content_set(game.ui.popup, spin);
+   label = elm_label_add(game.ui.window);
+   elm_label_line_wrap_set(label, ELM_WRAP_WORD);
+   snprintf(buffer, sizeof(buffer), "<b>Note:</b> default mine number is <b>%d</b> "
+            "with scoring in <b>Standard</b> category. If you change the mine "
+            "number to something else, your score will be put in the "
+            "<b>Custom</b> category.", MINES);
+   elm_object_text_set(label, buffer);
+   evas_object_size_hint_weight_set(label, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+   evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
+   evas_object_show(label);
+   elm_box_pack_end(vbox, label);
+
+   elm_object_content_set(game.ui.popup, vbox);
 
    button = elm_button_add(game.ui.popup);
    elm_object_text_set(button, "OK");
