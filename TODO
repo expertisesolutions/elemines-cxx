@@ -1,4 +1,5 @@
 For elemines 0.3:
-- make it works better on Tizen (theme/gameplay)
-- Settings panel to record preferences (mines/board size)
+- make the scores system wide
 - translations
+- Record preference ? (mines)
+- make it works better on Tizen (theme/gameplay)
