@@ -54,6 +54,7 @@ _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    game.ui.popup = elm_popup_add(game.ui.window);
    elm_object_part_text_set(game.ui.popup, "title,text", "High Scores");
 
+   /* we use the default layout from etrophy library */
    leaderboard = etrophy_score_layout_add(game.ui.popup,
                                           game.trophy.gamescore);
    elm_object_content_set(game.ui.popup, leaderboard);
@@ -72,6 +73,7 @@ _config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    int number;
    Evas_Object *spin = data;
 
+   /* we get back the mine number from user and init again the game */
    number = elm_spinner_value_get(spin);
    if ( (number < 2) || (number > (SIZE_X * SIZE_Y)) )
        number = MINES;
@@ -97,6 +99,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    evas_object_size_hint_align_set(vbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(vbox);
 
+   /* spinner to change mine number */
    spin = elm_spinner_add(game.ui.window);
    elm_spinner_label_format_set(spin, "%.0f mines");
    elm_spinner_min_max_set(spin, 2, SIZE_X * SIZE_Y - 1);
@@ -106,6 +109,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    evas_object_show(spin);
    elm_box_pack_end(vbox, spin);
 
+   /* Add some comments about scoring */
    label = elm_label_add(game.ui.window);
    elm_label_line_wrap_set(label, ELM_WRAP_WORD);
    snprintf(buffer, sizeof(buffer), "<b>Note:</b> default mine number is "
@@ -120,6 +124,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 
    elm_object_content_set(game.ui.popup, vbox);
 
+   /* button for validating */
    button = elm_button_add(game.ui.popup);
    elm_object_text_set(button, "OK");
    elm_object_part_content_set(game.ui.popup, "button1", button);
@@ -138,7 +143,7 @@ _show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    game.ui.popup = elm_popup_add(game.ui.window);
    elm_object_part_text_set(game.ui.popup, "title,text", "About");
 
-   /* Construct a formatted label for the inwin */
+   /* Construct a formatted label for the about popup */
    label = elm_label_add(game.ui.window);
    snprintf(buffer, sizeof(buffer), "<b>%s %s</b><br><br>"
             "%s<br><br>"
