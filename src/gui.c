@@ -211,7 +211,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 Eina_Bool
 gui(char *theme, Eina_Bool fullscreen)
 {
-   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *bg, *blank;
+   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *bg, *blank, *conform;
    int x, y;
 
    /* get the edje theme file */
@@ -231,11 +231,6 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_win_autodel_set(game.ui.window, EINA_TRUE);
    elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
 
-   if (fullscreen == EINA_TRUE)
-     {
-        elm_win_fullscreen_set(game.ui.window, EINA_TRUE);
-        evas_object_move(game.ui.window, 0, 0);
-     }
 
    /* init score system */
    etrophy_init();
@@ -377,11 +372,26 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_table_pack(game.ui.table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
    evas_object_show(blank);
 
-   /* Get window's size from edje and resize it */
-   x = atoi(edje_file_data_get(game.edje_file, "width"));
-   y = atoi(edje_file_data_get(game.edje_file, "height"));
+   if (fullscreen == EINA_TRUE)
+     {
+        /* use conformant */
+        elm_win_conformant_set(game.ui.window, EINA_TRUE);
+        elm_win_fullscreen_set(game.ui.window, EINA_TRUE);
+        evas_object_move(game.ui.window, 0, 0);
+        conform = elm_conformant_add(game.ui.window);
+        elm_win_resize_object_add(game.ui.window, conform);
+        evas_object_size_hint_weight_set(conform, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_show(conform);
+        elm_object_content_set(conform, vbox);
+     }
+   else
+     {
+        /* Get window's size from edje and resize it */
+        x = atoi(edje_file_data_get(game.edje_file, "width"));
+        y = atoi(edje_file_data_get(game.edje_file, "height"));
+        evas_object_resize(game.ui.window, x, y);
+     }
 
-   evas_object_resize(game.ui.window, x, y);
    elm_object_focus_set(game.ui.window, EINA_TRUE);
    evas_object_show(game.ui.window);
 
