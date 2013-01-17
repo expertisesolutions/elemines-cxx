@@ -61,6 +61,13 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    Eina_Bool debug = EINA_FALSE;
    Eina_Bool fullscreen = EINA_FALSE;
 
+#if ENABLE_NLS
+   setlocale(LC_ALL, "");
+   bindtextdomain(PACKAGE, LOCALEDIR);
+   bind_textdomain_codeset(PACKAGE, "UTF-8");
+   textdomain(PACKAGE);
+#endif
+
    game.datas.mines_total = 0;
 
    while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)

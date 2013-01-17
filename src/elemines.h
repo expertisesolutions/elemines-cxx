@@ -45,6 +45,11 @@
 #include <Elementary_Cursor.h>
 #include <Etrophy.h>
 
+#include "gettext.h"
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop (String)
+
 #define COPYRIGHT "Copyright © 2012-2013  Jérôme Pinot <ngc891@gmail.com>"
 
 #define SIZE_X  10

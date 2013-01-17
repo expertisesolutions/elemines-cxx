@@ -14,5 +14,9 @@ elemines_SOURCES = \
 		   main.c
 
 elemines_LDADD = @ELEMINES_LIBS@
+elemines_LDFLAGS = $(LTLIBINTL)
 
-EXTRA_DIST = elemines.h
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+
+EXTRA_DIST = elemines.h gettext.h

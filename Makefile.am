@@ -1,8 +1,10 @@
 MAINTAINERCLEANFILES = \
+		       ABOUT-NLS \
 		       Makefile.in \
 		       aclocal.m4 \
 		       config.guess \
 		       config.h.in \
+		       config.rpath \
 		       config.sub \
 		       configure \
 		       depcomp \
@@ -14,10 +16,19 @@ MAINTAINERCLEANFILES = \
 		       m4/ltsugar.m4 \
 		       m4/ltversion.m4 \
 		       m4/lt~obsolete.m4 \
+		       po/boldquot.sed \
+		       po/en@boldquot.header \
+		       po/en@quot.header \
+		       po/insert-header.sin \
+		       po/Makefile.in.in \
+		       po/Makevars.template \
+		       po/quot.sed \
+		       po/remove-potcdate.sin \
+		       po/Rules-quot \
 		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
 		       $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2
 
-SUBDIRS = data doc packaging src
+SUBDIRS = data doc packaging po src
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -39,6 +50,7 @@ EXTRA_DIST = \
 	     OFL.txt \
 	     README.artwork \
 	     autogen.sh \
+	     config.rpath \
 	     configure \
 	     m4/efl_attribute.m4 \
 	     m4/efl_binary.m4 \

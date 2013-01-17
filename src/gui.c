@@ -52,7 +52,7 @@ _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    Evas_Object *button, *leaderboard;
 
    game.ui.popup = elm_popup_add(game.ui.window);
-   elm_object_part_text_set(game.ui.popup, "title,text", "High Scores");
+   elm_object_part_text_set(game.ui.popup, "title,text", _("High Scores"));
 
    /* we use the default layout from etrophy library */
    leaderboard = etrophy_score_layout_add(game.ui.popup,
@@ -91,7 +91,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    char buffer[512];
 
    game.ui.popup = elm_popup_add(game.ui.window);
-   elm_object_part_text_set(game.ui.popup, "title,text", "Configuration");
+   elm_object_part_text_set(game.ui.popup, "title,text", _("Configuration"));
 
    vbox = elm_box_add(game.ui.window);
    elm_box_homogeneous_set(vbox, EINA_FALSE);
@@ -101,7 +101,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 
    /* spinner to change mine number */
    spin = elm_spinner_add(game.ui.window);
-   elm_spinner_label_format_set(spin, "%.0f mines");
+   elm_spinner_label_format_set(spin, _("%.0f mines"));
    elm_spinner_min_max_set(spin, 2, SIZE_X * SIZE_Y - 1);
    elm_spinner_value_set(spin, game.datas.mines_total);
    evas_object_size_hint_weight_set(spin, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
@@ -112,10 +112,10 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* Add some comments about scoring */
    label = elm_label_add(game.ui.window);
    elm_label_line_wrap_set(label, ELM_WRAP_WORD);
-   snprintf(buffer, sizeof(buffer), "<b>Note:</b> default mine number is "
+   snprintf(buffer, sizeof(buffer), _("<b>Note:</b> default mine number is "
             "<b>%d</b> with scoring in <b>Standard</b> category. If you change "
             "the mine number to something else, your score will be put in the "
-            "<b>Custom</b> category.", MINES);
+            "<b>Custom</b> category."), MINES);
    elm_object_text_set(label, buffer);
    evas_object_size_hint_weight_set(label, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
@@ -126,7 +126,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 
    /* button for validating */
    button = elm_button_add(game.ui.popup);
-   elm_object_text_set(button, "OK");
+   elm_object_text_set(button, _("OK"));
    elm_object_part_content_set(game.ui.popup, "button1", button);
    evas_object_smart_callback_add(button, "clicked", _config, spin);
    evas_object_show(game.ui.popup);
@@ -141,14 +141,14 @@ _show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    char buffer[256];
 
    game.ui.popup = elm_popup_add(game.ui.window);
-   elm_object_part_text_set(game.ui.popup, "title,text", "About");
+   elm_object_part_text_set(game.ui.popup, "title,text", _("About"));
 
    /* Construct a formatted label for the about popup */
    label = elm_label_add(game.ui.window);
-   snprintf(buffer, sizeof(buffer), "<b>%s %s</b><br><br>"
+   snprintf(buffer, sizeof(buffer), _("<b>%s %s</b><br><br>"
             "%s<br><br>"
-            "Pictures derived from:<br>"
-            " - http://www.wesnoth.org/<br>",
+            "Pictures derived from Battle For Wesnoth:<br>"
+            "http://www.wesnoth.org/<br>"),
             PACKAGE, VERSION, COPYRIGHT);
    elm_object_text_set(label, buffer);
    evas_object_show(label);
@@ -156,7 +156,7 @@ _show_about(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    elm_object_content_set(game.ui.popup, label);
 
    button = elm_button_add(game.ui.popup);
-   elm_object_text_set(button, "OK");
+   elm_object_text_set(button, _("OK"));
    elm_object_part_content_set(game.ui.popup, "button1", button);
    evas_object_smart_callback_add(button, "clicked", _popup_del, NULL);
    evas_object_show(game.ui.popup);
@@ -268,12 +268,12 @@ gui(char *theme, Eina_Bool fullscreen)
    evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
-   elm_toolbar_item_append(toolbar, "reset", "Reset", init, NULL);
-   elm_toolbar_item_append(toolbar, "pause", "Pause", _pause, NULL);
-   elm_toolbar_item_append(toolbar, "config", "Config.", _show_config, NULL);
-   elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
-   elm_toolbar_item_append(toolbar, "about", "About", _show_about, NULL);
-   elm_toolbar_item_append(toolbar, "quit", "Quit", _quit, NULL);
+   elm_toolbar_item_append(toolbar, "refresh", _("Refresh"), init, NULL);
+   elm_toolbar_item_append(toolbar, "pause", _("Pause"), _pause, NULL);
+   elm_toolbar_item_append(toolbar, "config", _("Configuration"), _show_config, NULL);
+   elm_toolbar_item_append(toolbar, "score", _("Scores"), _show_score, NULL);
+   elm_toolbar_item_append(toolbar, "about", _("About"), _show_about, NULL);
+   elm_toolbar_item_append(toolbar, "quit", _("Quit"), _quit, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(game.ui.window);

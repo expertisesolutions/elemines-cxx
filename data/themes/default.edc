@@ -27,7 +27,7 @@ images {
   image: "sky.png" COMP;
   image: "stones.png"  COMP;
   /* icons */
-  image: "reset.png"  COMP;
+  image: "refresh.png"  COMP;
   image: "pause.png"  COMP;
   image: "config.png" COMP;
   image: "trophy.png"  COMP;
@@ -70,8 +70,8 @@ collections {
 
   /* new icons for toolbar */
   group {
-    name: "elm/icon/reset/default";
-    alias: "elm/icon/toolbar/reset/default";
+    name: "elm/icon/refresh/default";
+    alias: "elm/icon/toolbar/refresh/default";
     min: 32 32;
     parts {
       part {
@@ -80,7 +80,7 @@ collections {
 	  state: "default" 0.0;
 	  aspect: 1.0 1.0;
 	  aspect_preference: BOTH;
-	  image.normal: "reset.png";
+	  image.normal: "refresh.png";
 	}
       }
     }

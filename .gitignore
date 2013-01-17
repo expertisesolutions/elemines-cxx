@@ -5,6 +5,9 @@ src/*.o
 src/.deps
 src/elemines
 packaging/slackware/elemines-*.txz
+elemines-*.tar.?z*
+po/*.gmo
+po/POTFILES
 
 # autotools crap
 m4/*.m4
@@ -27,3 +30,17 @@ libtool
 ltmain.sh
 missing
 stamp-h1
+
+# gettext crap
+ABOUT-NLS
+po/Makefile.in.in
+po/Makevars.template
+po/Rules-quot
+po/boldquot.sed
+po/en@boldquot.header
+po/en@quot.header
+po/insert-header.sin
+po/quot.sed
+po/remove-potcdate.sed
+po/remove-potcdate.sin
+po/stamp-po

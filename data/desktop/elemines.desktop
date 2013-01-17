@@ -2,9 +2,10 @@
 Version=1.0
 Type=Application
 Name=elemines
+GenericName=mine sweeper
+GenericName[fr]=démineur
 Comment=EFL mine sweeper
+Comment[fr]=démineur basé sur les EFL
 Exec=elemines
-Terminal=false
-StartupNotify=true
 Icon=elemines
-Categories=Applications;Game;
+Categories=Application;Game;BoardGame;

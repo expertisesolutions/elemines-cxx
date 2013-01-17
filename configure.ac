@@ -32,6 +32,12 @@ PKG_CHECK_MODULES([ELEMINES],
 # Check edje_cc
 EFL_WITH_BIN([edje], [edje-cc], [edje_cc])
 
+# Checks for library functions.
+AC_CHECK_FUNCS([setlocale])
+
+AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT([external])
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
@@ -42,6 +48,7 @@ data/themes/images/Makefile
 doc/Makefile
 packaging/Makefile
 packaging/slackware/Makefile
+po/Makefile.in
 src/Makefile
 ])
 AC_OUTPUT

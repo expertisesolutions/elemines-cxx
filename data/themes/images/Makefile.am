@@ -28,7 +28,7 @@ EXTRA_DIST = about.png \
 	     mushrooms.png \
 	     pause.png \
 	     quit.png \
-	     reset.png \
+	     refresh.png \
 	     sand.png \
 	     sky.png \
 	     stones.png \

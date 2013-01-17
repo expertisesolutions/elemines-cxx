@@ -1,5 +1,5 @@
-For elemines 0.3:
-- make the scores system wide ?
-- translations
-- Record preference ? (mines)
-- make it works better on Tizen (theme/gameplay)
+- make the scores system wide
+- make the board size configurable
+- more translations
+- Record preference
+- make it works better on small devices
