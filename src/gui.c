@@ -211,7 +211,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 Eina_Bool
 gui(char *theme, Eina_Bool fullscreen)
 {
-   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *bg, *blank, *conform;
+   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *blank, *conform;
    int x, y;
 
    /* get the edje theme file */
@@ -246,6 +246,7 @@ gui(char *theme, Eina_Bool fullscreen)
 
    /* add a background */
    background = elm_bg_add(game.ui.window);
+   elm_bg_file_set(background, game.edje_file, "bg");
    evas_object_size_hint_weight_set(background, EVAS_HINT_EXPAND,
                                     EVAS_HINT_EXPAND);
    elm_win_resize_object_add(game.ui.window, background);
@@ -313,14 +314,6 @@ gui(char *theme, Eina_Bool fullscreen)
                                    EVAS_HINT_FILL);
    elm_box_pack_end(vbox, game.ui.table);
    evas_object_show(game.ui.table);
-
-   /* white background to ensure consistent look */
-   bg = elm_layout_add(game.ui.window);
-   elm_layout_file_set(bg, game.edje_file, "white-bg");
-   evas_object_size_hint_weight_set(bg, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(bg, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_table_pack(game.ui.table, bg, 0, 0, SIZE_X+2, SIZE_Y+2);
-   evas_object_show(bg);
 
    /* add a nice border around the board */
    for (x = 1; x < SIZE_X + 1; x++)

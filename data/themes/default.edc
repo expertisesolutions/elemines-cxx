@@ -68,7 +68,6 @@ collections {
     name: "elm/icon/score/default";
     alias: "elm/icon/toolbar/score/default";
     min: 32 32;
-    images.image: "trophy.png" COMP;
     parts {
       part {
         name: "base";
@@ -85,7 +84,6 @@ collections {
     name: "elm/icon/config/default";
     alias: "elm/icon/toolbar/config/default";
     min: 32 32;
-    images.image: "config.png" COMP;
     parts {
       part {
         name: "base";
@@ -99,23 +97,21 @@ collections {
     }
   }
 
-  /* generic white background */
+  /* background */
   group {
-    name: "white-bg";
+    name: "bg";
     parts {
       part {
         name: "bg";
-	type: RECT;
+	type: IMAGE;
 	description {
           state: "default" 0.0;
-	  color: 255 255 255 255;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
+	  image.normal: "sky.png";
+	  fill {
+            size {
+              relative: 0.0 0.0;
+              offset: 150 180;
+            }
           }
         }
       }
@@ -126,22 +122,6 @@ collections {
   group {
     name: "timer";
     parts {
-      part {
-        name: "bg";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 255 255 255 255;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-      }
       part {
         name: "clock";
 	type: IMAGE;
@@ -191,22 +171,6 @@ collections {
   group {
     name: "mines";
     parts {
-      part {
-        name: "bg";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 255 255 255 255;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-      }
       part {
         name: "icon";
         type: IMAGE;
