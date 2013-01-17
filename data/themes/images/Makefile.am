@@ -1,6 +1,7 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-EXTRA_DIST = bomb.png \
+EXTRA_DIST = about.png \
+	     bomb.png \
 	     bomb-sad.png \
 	     clock.png \
 	     config.png \
@@ -25,6 +26,9 @@ EXTRA_DIST = bomb.png \
 	     grass-w.png \
 	     hole.png \
 	     mushrooms.png \
+	     pause.png \
+	     quit.png \
+	     reset.png \
 	     sand.png \
 	     sky.png \
 	     stones.png \

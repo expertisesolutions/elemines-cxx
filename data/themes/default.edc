@@ -2,7 +2,6 @@ images {
   image: "bomb.png"  COMP;
   image: "bomb-sad.png"  COMP;
   image: "clock.png" COMP;
-  image: "config.png" COMP;
   image: "empty.png"  COMP;
   image: "fire1.png" COMP;
   image: "fire2.png" COMP;
@@ -27,7 +26,13 @@ images {
   image: "sand.png"  COMP;
   image: "sky.png" COMP;
   image: "stones.png"  COMP;
+  /* icons */
+  image: "reset.png"  COMP;
+  image: "pause.png"  COMP;
+  image: "config.png" COMP;
   image: "trophy.png"  COMP;
+  image: "about.png"  COMP;
+  image: "quit.png"  COMP;
 }
 
 fonts {
@@ -65,8 +70,8 @@ collections {
 
   /* new icons for toolbar */
   group {
-    name: "elm/icon/score/default";
-    alias: "elm/icon/toolbar/score/default";
+    name: "elm/icon/reset/default";
+    alias: "elm/icon/toolbar/reset/default";
     min: 32 32;
     parts {
       part {
@@ -75,7 +80,23 @@ collections {
 	  state: "default" 0.0;
 	  aspect: 1.0 1.0;
 	  aspect_preference: BOTH;
-	  image.normal: "trophy.png";
+	  image.normal: "reset.png";
+	}
+      }
+    }
+  }
+  group {
+    name: "elm/icon/pause/default";
+    alias: "elm/icon/toolbar/pause/default";
+    min: 32 32;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "pause.png";
 	}
       }
     }
@@ -96,7 +117,55 @@ collections {
       }
     }
   }
-
+  group {
+    name: "elm/icon/score/default";
+    alias: "elm/icon/toolbar/score/default";
+    min: 32 32;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "trophy.png";
+	}
+      }
+    }
+  }
+  group {
+    name: "elm/icon/about/default";
+    alias: "elm/icon/toolbar/about/default";
+    min: 32 32;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "about.png";
+	}
+      }
+    }
+  }
+  group {
+    name: "elm/icon/quit/default";
+    alias: "elm/icon/toolbar/quit/default";
+    min: 32 32;
+    parts {
+      part {
+        name: "base";
+	description {
+	  state: "default" 0.0;
+	  aspect: 1.0 1.0;
+	  aspect_preference: BOTH;
+	  image.normal: "quit.png";
+	}
+      }
+    }
+  }
+ 
   /* background */
   group {
     name: "bg";

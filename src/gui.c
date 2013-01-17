@@ -268,13 +268,12 @@ gui(char *theme, Eina_Bool fullscreen)
    evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
-   elm_toolbar_item_append(toolbar, "refresh", "Refresh", init, NULL);
-   elm_toolbar_item_append(toolbar, "media-playback-pause", "Pause", _pause,
-                           NULL);
+   elm_toolbar_item_append(toolbar, "reset", "Reset", init, NULL);
+   elm_toolbar_item_append(toolbar, "pause", "Pause", _pause, NULL);
    elm_toolbar_item_append(toolbar, "config", "Config.", _show_config, NULL);
    elm_toolbar_item_append(toolbar, "score", "Score", _show_score, NULL);
-   elm_toolbar_item_append(toolbar, "help-about", "About", _show_about, NULL);
-   elm_toolbar_item_append(toolbar, "close", "Quit", _quit, NULL);
+   elm_toolbar_item_append(toolbar, "about", "About", _show_about, NULL);
+   elm_toolbar_item_append(toolbar, "quit", "Quit", _quit, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(game.ui.window);
