@@ -34,6 +34,8 @@ _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
       void *event_info __UNUSED__)
 {
    etrophy_shutdown();
+   elm_theme_extension_del(NULL, game.edje_file);
+   elm_theme_flush(NULL);
    elm_exit();
 }
 
