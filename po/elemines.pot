@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elemines 0.2\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-01-18 07:29+0900\n"
+"POT-Creation-Date: 2013-01-20 12:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gui.c:55
+#: src/gui.c:57
 msgid "High Scores"
 msgstr ""
 
-#: src/gui.c:94 src/gui.c:273
+#: src/gui.c:96 src/gui.c:275
 msgid "Configuration"
 msgstr ""
 
-#: src/gui.c:104
+#: src/gui.c:106
 #, c-format
 msgid "%.0f mines"
 msgstr ""
 
-#: src/gui.c:115
+#: src/gui.c:117
 #, c-format
 msgid ""
 "<b>Note:</b> default mine number is <b>%d</b> with scoring in <b>Standard</"
@@ -38,33 +38,33 @@ msgid ""
 "will be put in the <b>Custom</b> category."
 msgstr ""
 
-#: src/gui.c:129 src/gui.c:159
+#: src/gui.c:131 src/gui.c:161
 msgid "OK"
 msgstr ""
 
-#: src/gui.c:144 src/gui.c:275
+#: src/gui.c:146 src/gui.c:277
 msgid "About"
 msgstr ""
 
-#: src/gui.c:148
+#: src/gui.c:150
 #, c-format
 msgid ""
 "<b>%s %s</b><br><br>%s<br><br>Pictures derived from Battle For Wesnoth:"
 "<br>http://www.wesnoth.org/<br>"
 msgstr ""
 
-#: src/gui.c:271
+#: src/gui.c:273
 msgid "Refresh"
 msgstr ""
 
-#: src/gui.c:272
+#: src/gui.c:274
 msgid "Pause"
 msgstr ""
 
-#: src/gui.c:274
+#: src/gui.c:276
 msgid "Scores"
 msgstr ""
 
-#: src/gui.c:276
+#: src/gui.c:278
 msgid "Quit"
 msgstr ""
