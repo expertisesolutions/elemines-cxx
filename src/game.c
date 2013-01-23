@@ -134,9 +134,16 @@ _finish(int x, int y, Eina_Bool win)
         score = _scoring();
         snprintf(str, sizeof(str), "Score: %d", score);
         evas_object_show(game.ui.congrat);
-        elm_object_signal_emit(game.ui.congrat, "you win", "");
         elm_object_part_text_set(game.ui.congrat, "score", str);
-
+        if ( score >= etrophy_gamescore_level_hi_score_get(game.trophy.gamescore, game.trophy.game_type) )
+          {
+             elm_object_part_text_set(game.ui.congrat, "best score", "High Score!!");
+          }
+        else
+          {
+             elm_object_part_text_set(game.ui.congrat, "best score", "");
+          }
+        elm_object_signal_emit(game.ui.congrat, "you win", "");
      }
 
    if (game.clock.etimer)
