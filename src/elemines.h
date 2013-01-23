@@ -55,6 +55,8 @@
 #define SIZE_X  10
 #define SIZE_Y  10
 #define MINES   12
+#define STANDARD "Standard"
+#define CUSTOM "Custom"
 
 /* 4 layers for the matrix of data:
  * 1st -> mines (0/1)
@@ -94,6 +96,7 @@ struct trophy_struct {
    Etrophy_Gamescore *gamescore;
    Etrophy_Level *level;
    Etrophy_Score *escore;
+   char *game_type;
 };
 
 struct game_struct {

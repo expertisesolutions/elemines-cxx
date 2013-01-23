@@ -115,9 +115,9 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    label = elm_label_add(game.ui.window);
    elm_label_line_wrap_set(label, ELM_WRAP_WORD);
    snprintf(buffer, sizeof(buffer), _("<b>Note:</b> default mine number is "
-            "<b>%d</b> with scoring in <b>Standard</b> category. If you change "
+            "<b>%d</b> with scoring in <b>%s</b> category. If you change "
             "the mine number to something else, your score will be put in the "
-            "<b>Custom</b> category."), MINES);
+            "<b>%s</b> category."), MINES, STANDARD, CUSTOM);
    elm_object_text_set(label, buffer);
    evas_object_size_hint_weight_set(label, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
@@ -240,9 +240,9 @@ gui(char *theme, Eina_Bool fullscreen)
    if (!game.trophy.gamescore)
      {
         game.trophy.gamescore = etrophy_gamescore_new(PACKAGE);
-        game.trophy.level =  etrophy_level_new("Standard");
+        game.trophy.level =  etrophy_level_new(STANDARD);
         etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
-        game.trophy.level =  etrophy_level_new("Custom");
+        game.trophy.level =  etrophy_level_new(CUSTOM);
         etrophy_gamescore_level_add(game.trophy.gamescore, game.trophy.level);
      }
 

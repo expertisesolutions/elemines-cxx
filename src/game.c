@@ -50,15 +50,15 @@ _scoring(void)
    game.trophy.escore = etrophy_score_new(user, score);
    if ( game.datas.mines_total == MINES )
      {
-        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore,
-                                                        "Standard");
+        game.trophy.game_type = STANDARD;
      }
    else
      {
-        game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore,
-                                                        "Custom");
+        game.trophy.game_type = CUSTOM;
      }
 
+   game.trophy.level = etrophy_gamescore_level_get(game.trophy.gamescore,
+                                                   game.trophy.game_type);
    etrophy_level_score_add(game.trophy.level, game.trophy.escore);
    etrophy_gamescore_save(game.trophy.gamescore, NULL);
 
