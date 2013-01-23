@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elemines 0.2\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-01-20 12:48+0900\n"
+"POT-Creation-Date: 2013-01-23 10:51+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,9 +33,9 @@ msgstr ""
 #: src/gui.c:117
 #, c-format
 msgid ""
-"<b>Note:</b> default mine number is <b>%d</b> with scoring in <b>Standard</"
-"b> category. If you change the mine number to something else, your score "
-"will be put in the <b>Custom</b> category."
+"<b>Note:</b> default mine number is <b>%d</b> with scoring in <b>%s</b> "
+"category. If you change the mine number to something else, your score will "
+"be put in the <b>%s</b> category."
 msgstr ""
 
 #: src/gui.c:131 src/gui.c:161
