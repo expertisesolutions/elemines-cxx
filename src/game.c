@@ -281,30 +281,30 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
      }
 
    /* middle button: open rest if we have enough mines */
-   if ( (ev->button == 2) && (game.clock.started == EINA_TRUE) )
+   if ( (ev->button == 2) && (matrix[x][y][3] == 1) )
      {
         int i, j;
         int flags = 0;
 
         /* count surrounding flags */
-        for (i = -1; i < 2; i++)
+        for (i=x-1; i<=x+1; i++)
           {
-             for (j = -1; j < 2; j++)
+             for (j=y-1; j<=y+1; j++)
                {
-                  if (!((j == 0) && (i == 0)) &&
-                      (matrix[x+i][y+j][2] == 1))
+                  if (!((i == x) && (j == y)) && (matrix[i][j][2] == 1)
+                      && (matrix[i][j][0] == 1))
                     flags++;
                }
           }
         if (flags == matrix[x][y][1])
           {
-             for (i = -1; i < 2; i++)
+             for (i=x-1; i<=x+1; i++)
                {
-                  for (j = -1; j < 2; j++)
+                  for (j=y-1; j <=y+1; j++)
                     {
-                       if (matrix[x+i][y+j][3] == 0)
+                       if (matrix[i][j][3] == 0)
                          {
-                            _clean(x+i, y+j, table_ptr[x+i][y+j]);
+                            _clean(i, j, table_ptr[i][j]);
                          }
                     }
                }
