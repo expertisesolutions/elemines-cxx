@@ -76,12 +76,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "refresh.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "refresh.png";
+        }
       }
     }
   }
@@ -92,12 +92,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "pause.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "pause.png";
+        }
       }
     }
   }
@@ -108,12 +108,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "config.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "config.png";
+        }
       }
     }
   }
@@ -124,12 +124,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "trophy.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "trophy.png";
+        }
       }
     }
   }
@@ -140,12 +140,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "about.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "about.png";
+        }
       }
     }
   }
@@ -156,12 +156,12 @@ collections {
     parts {
       part {
         name: "base";
-	description {
-	  state: "default" 0.0;
-	  aspect: 1.0 1.0;
-	  aspect_preference: BOTH;
-	  image.normal: "quit.png";
-	}
+        description {
+          state: "default" 0.0;
+          aspect: 1.0 1.0;
+          aspect_preference: BOTH;
+          image.normal: "quit.png";
+        }
       }
     }
   }
@@ -172,11 +172,11 @@ collections {
     parts {
       part {
         name: "bg";
-	type: IMAGE;
-	description {
+        type: IMAGE;
+        description {
           state: "default" 0.0;
-	  image.normal: "sky.png";
-	  fill {
+          image.normal: "sky.png";
+          fill {
             size {
               relative: 0.0 0.0;
               offset: 150 180;
@@ -193,12 +193,12 @@ collections {
     parts {
       part {
         name: "clock";
-	type: IMAGE;
-	description {
+        type: IMAGE;
+        description {
           state: "default" 0.0;
-	  image {
-	    normal: "clock.png";
-	  }
+          image {
+            normal: "clock.png";
+          }
           rel1 {
             relative: 0.0 0.0;
             offset: 50 0;
@@ -207,7 +207,7 @@ collections {
             relative: 0.0 0.0;
             offset: 100 50;
           }
-	}
+        }
       }
       part {
         name: "time";
@@ -913,38 +913,38 @@ collections {
         }
         description {
           state: "win" 0.1;
-	  inherit: "default" 0.0;
-	  color: 200 200 200 80;
-	}
+          inherit: "default" 0.0;
+          color: 200 200 200 80;
+        }
       }
       part {
         name: "sad bomb";
-	type: IMAGE;
-	description {
-	  state: "default" 0.0;
-	  image {
-	    normal: "empty.png";
-	  }
-	  rel1 {
-	    relative: 0.1 0.3;
-	    offset: 0 0;
-	  }
-	  rel2 {
-	    relative: 0.4 0.6;
-	    offset: 0 0;
-	  }
-	}
-	description {
-	  state: "win" 0.1;
-	  inherit: "default" 0.0;
-	  image {
-	    normal: "bomb-sad.png";
-	  }
-	}
+        type: IMAGE;
+        description {
+          state: "default" 0.0;
+          image {
+            normal: "empty.png";
+          }
+          rel1 {
+            relative: 0.1 0.3;
+            offset: 0 0;
+          }
+          rel2 {
+            relative: 0.4 0.6;
+            offset: 0 0;
+          }
+        }
+        description {
+          state: "win" 0.1;
+          inherit: "default" 0.0;
+          image {
+            normal: "bomb-sad.png";
+          }
+        }
       }
       part {
         name: "you win";
-	type: TEXT;
+        type: TEXT;
         effect: SOFT_SHADOW;
         scale: 1;
         description {
@@ -961,9 +961,9 @@ collections {
             offset: 0 0;
           }
         }
-	description {
-	  state: "win" 0.1;
-	  inherit: "default" 0.0;
+        description {
+          state: "win" 0.1;
+          inherit: "default" 0.0;
           color_class: "win";
           text {
             text: "You win!";
@@ -971,35 +971,35 @@ collections {
             size: 56;
             align: 0.5 0.5;
           }
-	}
-	description {
-	  state: "win2" 0.2;
-	  inherit: "win" 0.1;
+        }
+        description {
+          state: "win2" 0.2;
+          inherit: "win" 0.1;
           color_class: "win2";
-	}
+        }
       }
       part {
         name: "score";
-	type: TEXT;
-	effect: SOFT_SHADOW;
-	scale: 1;
-	description {
+        type: TEXT;
+        effect: SOFT_SHADOW;
+        scale: 1;
+        description {
           state: "default" 0.0;
-	  text {
-	    text: "";
-	  }
-	  rel1 {
+          text {
+            text: "";
+          }
+          rel1 {
             relative: 0.4 0.5;
-	    offset: 0 0;
-	  }
+            offset: 0 0;
+          }
           rel2 {
             relative: 0.9 0.6;
-	    offset: 0 0;
-	  }
-	}
-	description {
-	  state: "win" 0.1;
-	  inherit: "default" 0.0;
+            offset: 0 0;
+          }
+        }
+        description {
+          state: "win" 0.1;
+          inherit: "default" 0.0;
           color_class: "win";
           text {
             text: "";
@@ -1007,39 +1007,39 @@ collections {
             size: 28;
             align: 0.5 0.5;
           }
-	}
-	description {
-	  state: "win2" 0.2;
-	  inherit: "win" 0.1;
+        }
+        description {
+          state: "win2" 0.2;
+          inherit: "win" 0.1;
           color_class: "win2";
-	}
+        }
       }
       part {
         name: "best score";
-	type: TEXT;
-	effect: SOFT_SHADOW;
-	scale: 1;
-	description {
+        type: TEXT;
+        effect: SOFT_SHADOW;
+        scale: 1;
+        description {
           state: "default" 0.0;
-	  text {
-	    text: "";
-	  }
-	  rel1 {
+          text {
+            text: "";
+          }
+          rel1 {
             relative: 0.1 0.7;
-	    offset: 0 0;
-	  }
+            offset: 0 0;
+          }
           rel2 {
             relative: 0.9 0.9;
-	    offset: 0 0;
-	  }
-	}
-	description {
-	  state: "win" 0.1;
-	  inherit: "default" 0.0;
-	}
-	description {
-	  state: "win2" 0.1;
-	  inherit: "default" 0.0;
+            offset: 0 0;
+          }
+        }
+        description {
+          state: "win" 0.1;
+          inherit: "default" 0.0;
+        }
+        description {
+          state: "win2" 0.1;
+          inherit: "default" 0.0;
           color_class: "win";
           text {
             text: "";
@@ -1047,7 +1047,7 @@ collections {
             size: 46;
             align: 0.5 0.5;
           }
-	}
+        }
       }
 
     }
@@ -1055,29 +1055,29 @@ collections {
       program {
         signal: "you win";
         action: STATE_SET "win" 0.1;
-	target: "win bg";
+        target: "win bg";
         target: "sad bomb";
         target: "you win";
         target: "score";
-	target: "best score";
-	after: "win2";
+        target: "best score";
+        after: "win2";
       }
       program {
         name: "win2";
-	action: STATE_SET "win2" 0.2;
-	target: "you win";
-	target: "score";
-	target: "best score";
-	transition: BOUNCE 2 0 20;
+        action: STATE_SET "win2" 0.2;
+        target: "you win";
+        target: "score";
+        target: "best score";
+        transition: BOUNCE 2 0 20;
       }
       program {
         signal: "normal";
         action: STATE_SET "default" 0.0;
-	target: "win bg";
+        target: "win bg";
         target: "sad bomb";
         target: "you win";
         target: "score";
-	target: "best score";
+        target: "best score";
       }
     }
   }
