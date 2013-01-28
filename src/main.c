@@ -68,7 +68,8 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    textdomain(PACKAGE);
 #endif
 
-   game.datas.mines_total = 0;
+   /* Set default values */
+   game.datas.mines_total = MINES;
 
    while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)
      {
@@ -115,9 +116,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
              default: return EXIT_FAILURE;
           }
      }
-
-   /* initialize the mines number */
-   if (game.datas.mines_total == 0) game.datas.mines_total = MINES;
 
    game.clock.started = EINA_FALSE;
 

@@ -39,16 +39,18 @@ _scoring(void)
 
    /* compute score using time, board size and mines count */
    end_time = ecore_loop_time_get() - t0 - game.clock.delay;
-   score = (SIZE_X * SIZE_Y * game.datas.mines_total) - (10 * end_time);
-   if ( score < 0 )
-     score = 0;
+   score = (SIZE_X * SIZE_Y * game.datas.mines_total)
+            - (10 * end_time);
+   /* Don't be rude with bad players */
+   if ( score < 0 ) score = 0;
 
    /* get system username for name */
    user = getenv("USER");
 
    /* add the score */
    game.trophy.escore = etrophy_score_new(user, score);
-   if ( game.datas.mines_total == MINES )
+   /* Level is Standard if using default board values */
+   if (game.datas.mines_total == MINES)
      {
         game.trophy.game_type = STANDARD;
      }
