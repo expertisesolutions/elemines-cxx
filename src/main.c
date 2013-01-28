@@ -37,7 +37,7 @@ _debug(void)
      {
         for (x = 0; x < SIZE_X+2; x++)
           {
-             printf("%d ", matrix[x][y][0]);
+             printf("%d ", matrix[x][y].mine);
           }
         printf("\n");
      }
@@ -47,7 +47,7 @@ _debug(void)
      {
         for (x = 0; x < SIZE_X+2; x++)
           {
-             printf("%d ", matrix[x][y][1]);
+             printf("%d ", matrix[x][y].neighbours);
           }
         printf("\n");
      }

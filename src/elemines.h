@@ -58,17 +58,17 @@
 #define STANDARD "Standard"
 #define CUSTOM "Custom"
 
-/* 4 layers for the matrix of data:
- * 1st -> mines (0/1)
- * 2nd -> neighbours (0-8, 9 for bombs)
- * 3rd -> flags (0/1)
- * 4th -> uncover status (0/1)
- */
-int matrix[SIZE_X+2][SIZE_Y+2][4];
+/* structure to hold datas for each cell */
+struct cell_struct {
+   Evas_Object *layout; /* edje */
+   int mine;            /* (0/1) */
+   int neighbours;      /* (0-8, 9 for bomb) */
+   int flag;            /* (0/1) */
+   int uncover;         /* (0/1) */
+};
 
-/* We can't access easily elm table cell content, so keep
- * a table of pointer to edje layouts */
-Evas_Object *table_ptr[SIZE_X+2][SIZE_Y+2];
+/* main matrix of data */
+struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
 
 /* global variables */
 struct ui_struct {

@@ -106,22 +106,22 @@ _finish(int x, int y, Eina_Bool win)
         for (j = 1; j < SIZE_Y+1; j++)
           {
              /* disable click */
-             evas_object_event_callback_del(table_ptr[i][j],
+             evas_object_event_callback_del(matrix[i][j].layout,
                                             EVAS_CALLBACK_MOUSE_DOWN, click);
              if (win == EINA_TRUE)
                {
-                  elm_object_signal_emit(table_ptr[i][j], "win", "");
+                  elm_object_signal_emit(matrix[i][j].layout, "win", "");
                }
              else
                {
-                  if (matrix[i][j][0] == 1)
-                    elm_object_signal_emit(table_ptr[i][j], "bomb", "");
-                  elm_object_signal_emit(table_ptr[i][j], "lose", "");
+                  if (matrix[i][j].mine == 1)
+                    elm_object_signal_emit(matrix[i][j].layout, "bomb", "");
+                  elm_object_signal_emit(matrix[i][j].layout, "lose", "");
                }
           }
      }
    /* highlight the fatal bomb */
-   if (win == EINA_FALSE) elm_object_signal_emit(table_ptr[x][y], "boom", "");
+   if (win == EINA_FALSE) elm_object_signal_emit(matrix[x][y].layout, "boom", "");
    if (win == EINA_TRUE)
      {
         /* prepare the congratulation message */
@@ -166,7 +166,7 @@ _clean(int x, int y, Evas_Object *obj)
      return;
 
    /* nothing here and not already uncovered */
-   if (matrix[x][y][0] == 0 && matrix[x][y][3] == 0)
+   if (matrix[x][y].mine == 0 && matrix[x][y].uncover == 0)
      {
         /* clean scenery */
         elm_object_signal_emit(obj, "noflowers", "");
@@ -177,11 +177,11 @@ _clean(int x, int y, Evas_Object *obj)
         scenery = (int)((double)100 * rand() / RAND_MAX + 1);
         if (scenery < 15)
           elm_object_signal_emit(obj, "stones", "");
-        matrix[x][y][3] = 1;
+        matrix[x][y].uncover = 1;
         /* at least 1 neighbour */
-        if (matrix[x][y][1] != 0)
+        if (matrix[x][y].neighbours != 0)
           {
-             snprintf(str, sizeof(str), "%d", matrix[x][y][1]);
+             snprintf(str, sizeof(str), "%d", matrix[x][y].neighbours);
              elm_object_signal_emit(obj, str, "");
              elm_object_part_text_set(obj, "hint", str);
           }
@@ -194,7 +194,7 @@ _clean(int x, int y, Evas_Object *obj)
                     {
                        if (!(i == x && j == y))
                          {
-                            _clean(i, j, table_ptr[i][j]);
+                            _clean(i, j, matrix[i][j].layout);
                          }
                     }
                }
@@ -223,7 +223,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
    y = coord[1];
 
    /* if we push 1st mouse button and there is no flag */
-   if (ev->button == 1 && matrix[x][y][2] == 0)
+   if (ev->button == 1 && matrix[x][y].flag == 0)
      {
         if (game.clock.started == EINA_FALSE)
           {
@@ -233,7 +233,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           }
 
         /* OMG IT'S A BOMB! */
-        if (matrix[x][y][0] == 1)
+        if (matrix[x][y].mine == 1)
           {
              _finish(x, y, EINA_FALSE);
              return;
@@ -248,17 +248,17 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
    if (ev->button == 3)
      {
         /* there was no flag and we didn't digg */
-        if (matrix[x][y][2] == 0 && matrix[x][y][3] != 1)
+        if (matrix[x][y].flag == 0 && matrix[x][y].uncover != 1)
           {
              elm_object_signal_emit(obj, "flag", "");
-             matrix[x][y][2] = 1;
+             matrix[x][y].flag = 1;
              game.datas.remain--;
           }
         /* already a flag, remove it */
         else
           {
              elm_object_signal_emit(obj, "default", "");
-             matrix[x][y][2] = 0;
+             matrix[x][y].flag = 0;
              game.datas.remain++;
           }
 
@@ -283,7 +283,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
      }
 
    /* middle button: open rest if we have enough mines */
-   if ( (ev->button == 2) && (matrix[x][y][3] == 1) )
+   if ( (ev->button == 2) && (matrix[x][y].uncover == 1) )
      {
         int i, j;
         int flags = 0;
@@ -293,20 +293,20 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           {
              for (j=y-1; j<=y+1; j++)
                {
-                  if (!((i == x) && (j == y)) && (matrix[i][j][2] == 1)
-                      && (matrix[i][j][0] == 1))
+                  if (!((i == x) && (j == y)) && (matrix[i][j].flag == 1)
+                      && (matrix[i][j].mine == 1))
                     flags++;
                }
           }
-        if (flags == matrix[x][y][1])
+        if (flags == matrix[x][y].neighbours)
           {
              for (i=x-1; i<=x+1; i++)
                {
                   for (j=y-1; j <=y+1; j++)
                     {
-                       if (matrix[i][j][3] == 0)
+                       if (matrix[i][j].uncover == 0)
                          {
-                            _clean(i, j, table_ptr[i][j]);
+                            _clean(i, j, matrix[i][j].layout);
                          }
                     }
                }

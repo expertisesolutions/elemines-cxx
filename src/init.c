@@ -43,9 +43,9 @@ _generate(void)
         x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
         y = (int)((double)SIZE_Y * rand() / RAND_MAX + 1);
 
-        if ( matrix[x][y][0] == 0 )
+        if ( matrix[x][y].mine == 0 )
           {
-             matrix[x][y][0] = 1;
+             matrix[x][y].mine = 1;
           }
         else /* if there is already a bomb here, try again */
           {
@@ -64,11 +64,11 @@ _generate(void)
                   for (j = -1; j < 2; j++)
                     {
                        if (!((j == 0) && (i == 0)))
-                         matrix[x][y][1] += matrix[x+i][y+j][0];
+                         matrix[x][y].neighbours += matrix[x+i][y+j].mine;
                     }
                }
               /* mark a mine place with a 9 */
-               if (matrix[x][y][0] == 1) matrix[x][y][1] = 9;
+               if (matrix[x][y].mine == 1) matrix[x][y].neighbours = 9;
           }
      }
    return EINA_TRUE;
@@ -88,7 +88,7 @@ _board(void)
         for (y = 1; y < SIZE_Y+1; y++)
           {
              /* remove any existing cell */
-             evas_object_del(table_ptr[x][y]);
+             evas_object_del(matrix[x][y].layout);
 
              cell = elm_layout_add(game.ui.window);
              elm_layout_file_set(cell, game.edje_file, "cell");
@@ -105,7 +105,7 @@ _board(void)
              if ((scenery > 12) && (scenery < 18))
                elm_object_signal_emit(cell, "mushrooms", "");
  
-             table_ptr[x][y] = cell;
+             matrix[x][y].layout = cell;
              evas_object_show(cell);
 
              /* we need to feed the callback with coordinates */
