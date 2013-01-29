@@ -121,25 +121,29 @@ _finish(int x, int y, Eina_Bool win)
           }
      }
    /* highlight the fatal bomb */
-   if (win == EINA_FALSE) elm_object_signal_emit(matrix[x][y].layout, "boom", "");
+   if (win == EINA_FALSE) elm_object_signal_emit(matrix[x][y].layout,
+                                                 "boom", "");
    if (win == EINA_TRUE)
      {
         /* prepare the congratulation message */
         game.ui.congrat = elm_layout_add(game.ui.window);
         elm_layout_file_set(game.ui.congrat, game.edje_file, "congratulation");
         evas_object_size_hint_weight_set(game.ui.congrat, EVAS_HINT_EXPAND,
-                                         EVAS_HINT_EXPAND);
+                                                          EVAS_HINT_EXPAND);
         evas_object_size_hint_align_set(game.ui.congrat, EVAS_HINT_FILL,
-                                        EVAS_HINT_FILL);
+                                                         EVAS_HINT_FILL);
         elm_table_pack(game.ui.table, game.ui.congrat, 1, 1, SIZE_X, SIZE_Y);
 
         score = _scoring();
         snprintf(str, sizeof(str), "Score: %d", score);
         evas_object_show(game.ui.congrat);
         elm_object_part_text_set(game.ui.congrat, "score", str);
-        if ( score >= etrophy_gamescore_level_hi_score_get(game.trophy.gamescore, game.trophy.game_type) )
+        if ( score >= 
+             etrophy_gamescore_level_hi_score_get(game.trophy.gamescore,
+                                                  game.trophy.game_type) )
           {
-             elm_object_part_text_set(game.ui.congrat, "best score", "High Score!!");
+             elm_object_part_text_set(game.ui.congrat, "best score",
+                                      "High Score!!");
           }
         else
           {

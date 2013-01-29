@@ -198,15 +198,14 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* Construct a formatted label for the inwin */
    layout = elm_layout_add(game.ui.window);
    elm_layout_file_set(layout, game.edje_file, "pause");
-   evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND,
-                                    EVAS_HINT_EXPAND);
+   evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(layout);
    elm_win_inwin_content_set(popup, layout);
 
    /* Close the inwin when clicked */
-   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN, _pause_del,
-                                  NULL);
+   evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN,
+                                  _pause_del, NULL);
 
 }
 
@@ -272,7 +271,8 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_box_pack_end(vbox, toolbar);
    elm_toolbar_item_append(toolbar, "refresh", _("Refresh"), init, NULL);
    elm_toolbar_item_append(toolbar, "pause", _("Pause"), _pause, NULL);
-   elm_toolbar_item_append(toolbar, "config", _("Configuration"), _show_config, NULL);
+   elm_toolbar_item_append(toolbar, "config", _("Configuration"),
+                           _show_config, NULL);
    elm_toolbar_item_append(toolbar, "score", _("Scores"), _show_score, NULL);
    elm_toolbar_item_append(toolbar, "about", _("About"), _show_about, NULL);
    elm_toolbar_item_append(toolbar, "quit", _("Quit"), _quit, NULL);
@@ -374,7 +374,8 @@ gui(char *theme, Eina_Bool fullscreen)
         evas_object_move(game.ui.window, 0, 0);
         conform = elm_conformant_add(game.ui.window);
         elm_win_resize_object_add(game.ui.window, conform);
-        evas_object_size_hint_weight_set(conform, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+        evas_object_size_hint_weight_set(conform, EVAS_HINT_EXPAND,
+                                                  EVAS_HINT_EXPAND);
         evas_object_show(conform);
         elm_object_content_set(conform, vbox);
      }
