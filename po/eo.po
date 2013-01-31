@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: elemines 0.2\n"
+"Project-Id-Version: elemines 0.2.1\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-01-23 10:51+0900\n"
+"POT-Creation-Date: 2013-01-31 16:20+0900\n"
 "PO-Revision-Date: 2013-01-20 13:52+0000\n"
 "Last-Translator: Eliovir <eliovir@gmail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "High Scores"
 msgstr "Grandaj poentaroj"
 
-#: src/gui.c:96 src/gui.c:275
+#: src/gui.c:96 src/gui.c:274
 msgid "Configuration"
 msgstr "Agordoj"
 
@@ -57,11 +57,11 @@ msgstr ""
 "<b>%s %s</b><br><br>%s<br><br>Bildoj modifitaj el Battle For Wesnoth:"
 "<br>http://www.wesnoth.org/<br>"
 
-#: src/gui.c:273
+#: src/gui.c:272
 msgid "Refresh"
 msgstr "Aktualigi"
 
-#: src/gui.c:274
+#: src/gui.c:273
 msgid "Pause"
 msgstr "Paŭzigi"
 

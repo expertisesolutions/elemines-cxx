@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: elemines 0.2\n"
+"Project-Id-Version: elemines 0.2.1\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-01-23 10:51+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2013-01-31 16:20+0900\n"
+"PO-Revision-Date: 2013-01-24 16:20+0900\n"
 "Last-Translator: Park Eunri <park.eunri@gmail.com>\n"
 "Language-Team: korean\n"
 "Language: ko\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "High Scores"
 msgstr "최고 기록"
 
-#: src/gui.c:96 src/gui.c:275
+#: src/gui.c:96 src/gui.c:274
 msgid "Configuration"
 msgstr "설정"
 
@@ -56,11 +56,11 @@ msgstr ""
 "<b>%s %s</b><br><br>%s<br><br>이미지는 Battle For Wesnoth에서 가져옴:"
 "<br>http://www.wesnoth.org/<br>"
 
-#: src/gui.c:273
+#: src/gui.c:272
 msgid "Refresh"
 msgstr "다시 시작"
 
-#: src/gui.c:274
+#: src/gui.c:273
 msgid "Pause"
 msgstr "일시중지"
 
