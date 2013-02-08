@@ -162,16 +162,24 @@ _finish(int x, int y, Eina_Bool win)
 static void
 _clean(int x, int y, Evas_Object *obj)
 {
-   int i, j, scenery;
-   char str[8];
-
    /* we are out of board */
    if (x == 0 || x == SIZE_X+1 || y == 0 || y == SIZE_Y+1)
      return;
 
-   /* nothing here and not already uncovered */
-   if (matrix[x][y].mine == 0 && matrix[x][y].uncover == 0)
+   /* do nothing if the square is already uncovered */
+   if (matrix[x][y].uncover == 1)
+      return;
+
+   /* flagged square can not be opened */
+   if (matrix[x][y].flag == 1)
+      return;
+
+   /* no mine */
+   if (matrix[x][y].mine == 0)
      {
+        int scenery;
+        char str[8];
+
         /* clean scenery */
         elm_object_signal_emit(obj, "noflowers", "");
         elm_object_signal_emit(obj, "nomushrooms", "");
@@ -192,14 +200,12 @@ _clean(int x, int y, Evas_Object *obj)
         /* no neighbour */
         else
           {
+             int i, j;
              for (i=x-1; i<=x+1; i++)
                {
                   for (j=y-1; j<=y+1; j++)
                     {
-                       if (!(i == x && j == y))
-                         {
-                            _clean(i, j, matrix[i][j].layout);
-                         }
+                       _clean(i, j, matrix[i][j].layout);
                     }
                }
           }
@@ -207,6 +213,10 @@ _clean(int x, int y, Evas_Object *obj)
         game.datas.counter--;
         if (game.datas.counter == 0)
           _finish(x, y, EINA_TRUE);
+     }
+   else /* BOOM! */
+     {
+        _finish(x, y, EINA_FALSE);
      }
    return;
 
@@ -236,16 +246,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
              game.clock.etimer = ecore_timer_add(dt, _timer, NULL);
           }
 
-        /* OMG IT'S A BOMB! */
-        if (matrix[x][y].mine == 1)
-          {
-             _finish(x, y, EINA_FALSE);
-             return;
-          }
-        else
-          {
-             _clean(x, y, obj);
-          }
+        _clean(x, y, obj);
      }
 
    /* second button: put a flag */
@@ -308,10 +309,7 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
                {
                   for (j=y-1; j <=y+1; j++)
                     {
-                       if (matrix[i][j].uncover == 0)
-                         {
-                            _clean(i, j, matrix[i][j].layout);
-                         }
+                       _clean(i, j, matrix[i][j].layout);
                     }
                }
           }
