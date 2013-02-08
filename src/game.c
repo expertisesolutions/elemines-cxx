@@ -298,11 +298,11 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
           {
              for (j=y-1; j<=y+1; j++)
                {
-                  if (!((i == x) && (j == y)) && (matrix[i][j].flag == 1)
-                      && (matrix[i][j].mine == 1))
+                  if (!((i == x) && (j == y)) && (matrix[i][j].flag == 1))
                     flags++;
                }
           }
+        /* open surrounding squares if correct number of flags is set */
         if (flags == matrix[x][y].neighbours)
           {
              for (i=x-1; i<=x+1; i++)
