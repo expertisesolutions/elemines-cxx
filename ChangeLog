@@ -3,6 +3,7 @@ current
 
 Fix the middle click feature once again
 Fix flags accounting
+Validate user data to prevent endless loop
 New translations:
 - russian
 

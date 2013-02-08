@@ -71,6 +71,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    /* Set default values */
    game.datas.mines_total = MINES;
 
+   /* Get user values */
    while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)
      {
         switch (opt)
@@ -89,7 +90,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                {
                   show_help();
                   return EXIT_SUCCESS;
-                  break;
                }
              case 'm':
                {
@@ -100,7 +100,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                {
                   show_version();
                   return EXIT_SUCCESS;
-                  break;
                }
              case 't':
                {
@@ -111,11 +110,16 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
                {
                   show_help();
                   return EXIT_SUCCESS;
-                  break;
                }
              default: return EXIT_FAILURE;
           }
      }
+
+   /* Validate user values */
+   if (game.datas.mines_total < 0)
+     game.datas.mines_total = 0;
+   if (game.datas.mines_total > SIZE_X * SIZE_Y)
+     game.datas.mines_total = SIZE_X * SIZE_Y;
 
    game.clock.started = EINA_FALSE;
 
