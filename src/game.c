@@ -252,39 +252,27 @@ click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info)
    /* second button: put a flag */
    if (ev->button == 3)
      {
-        /* there was no flag and we didn't digg */
-        if (matrix[x][y].flag == 0 && matrix[x][y].uncover != 1)
+        if (matrix[x][y].uncover != 1)
           {
-             elm_object_signal_emit(obj, "flag", "");
-             matrix[x][y].flag = 1;
-             game.datas.remain--;
-          }
-        /* already a flag, remove it */
-        else
-          {
-             elm_object_signal_emit(obj, "default", "");
-             matrix[x][y].flag = 0;
-             game.datas.remain++;
+             if (matrix[x][y].flag == 0) /* set flag */
+               {
+                  elm_object_signal_emit(obj, "flag", "");
+                  matrix[x][y].flag = 1;
+                  game.datas.remain--;
+               }
+             else /* already a flag, remove it */
+               {
+                  elm_object_signal_emit(obj, "default", "");
+                  matrix[x][y].flag = 0;
+                  game.datas.remain++;
+               }
           }
 
         /* show the remaining mines */
-        if ( (game.datas.remain >= 0)
-             && (game.datas.remain <= game.datas.mines_total) )
-          {
-             snprintf(str, sizeof(str), "%d/%d", game.datas.remain,
-                      game.datas.mines_total);
-          }
-        else if (game.datas.remain < 0)
-          {
-             snprintf(str, sizeof(str), "%d/%d", 0, game.datas.mines_total);
-          }
-        else if (game.datas.remain > game.datas.mines_total)
-          {
-             snprintf(str, sizeof(str), "%d/%d", game.datas.mines_total,
-                      game.datas.mines_total);
-          }
+        snprintf(str, sizeof(str), "%d/%d", game.datas.remain,
+                 game.datas.mines_total);
 
-         elm_object_part_text_set(game.ui.mines, "mines", str);
+        elm_object_part_text_set(game.ui.mines, "mines", str);
      }
 
    /* middle button: open rest if we have enough mines */
