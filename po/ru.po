@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: elemines 0.2.1\n"
+"Project-Id-Version: elemines 0.2.2\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-01-31 16:20+0900\n"
+"POT-Creation-Date: 2013-02-10 12:20+0900\n"
 "PO-Revision-Date: 2013-02-01 02:00+0400\n"
 "Last-Translator: Igor Murzov <e-mail@date.by>\n"
 "Language-Team: Russian <enlightenment-intl@lists.sourceforge.net>\n"
