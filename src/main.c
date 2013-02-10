@@ -116,10 +116,10 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
      }
 
    /* Validate user values */
-   if (game.datas.mines_total < 0)
-     game.datas.mines_total = 0;
-   if (game.datas.mines_total > SIZE_X * SIZE_Y)
-     game.datas.mines_total = SIZE_X * SIZE_Y;
+   if (game.datas.mines_total < 1)
+     game.datas.mines_total = 1;
+   if (game.datas.mines_total > (SIZE_X * SIZE_Y - 1))
+     game.datas.mines_total = SIZE_X * SIZE_Y - 1;
 
    game.clock.started = EINA_FALSE;
 
