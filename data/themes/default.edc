@@ -30,7 +30,7 @@ images {
   image: "refresh.png"  COMP;
   image: "pause.png"  COMP;
   image: "config.png" COMP;
-  image: "trophy.png"  COMP;
+  image: "score.png"  COMP;
   image: "about.png"  COMP;
   image: "quit.png"  COMP;
 }
@@ -69,102 +69,30 @@ color_classes {
 collections {
 
   /* new icons for toolbar */
-  group {
-    name: "elm/icon/refresh/default";
-    alias: "elm/icon/toolbar/refresh/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "refresh.png";
-        }
-      }
-    }
-  }
-  group {
-    name: "elm/icon/pause/default";
-    alias: "elm/icon/toolbar/pause/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "pause.png";
-        }
-      }
-    }
-  }
-  group {
-    name: "elm/icon/config/default";
-    alias: "elm/icon/toolbar/config/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "config.png";
-        }
-      }
-    }
-  }
-  group {
-    name: "elm/icon/score/default";
-    alias: "elm/icon/toolbar/score/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "trophy.png";
-        }
-      }
-    }
-  }
-  group {
-    name: "elm/icon/about/default";
-    alias: "elm/icon/toolbar/about/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "about.png";
-        }
-      }
-    }
-  }
-  group {
-    name: "elm/icon/quit/default";
-    alias: "elm/icon/toolbar/quit/default";
-    min: 32 32;
-    parts {
-      part {
-        name: "base";
-        description {
-          state: "default" 0.0;
-          aspect: 1.0 1.0;
-          aspect_preference: BOTH;
-          image.normal: "quit.png";
-        }
-      }
-    }
-  }
+#define ELM_ICON(Name)                                                  \
+   group {                                                              \
+      name: "elm/icon/"Name"/default";                                  \
+      alias: "elm/icon/toolbar/"Name"/default";                         \
+      min: 32 32;                                                       \
+      parts {                                                           \
+         part {                                                         \
+            name: "base";                                               \
+            description {                                               \
+               state: "default" 0.0;                                    \
+               aspect: 1.0 1.0;                                         \
+               aspect_preference: BOTH;                                 \
+               image.normal: Name".png";                                \
+            }                                                           \
+         }                                                              \
+      }                                                                 \
+   }
+
+   ELM_ICON(refresh);
+   ELM_ICON(pause);
+   ELM_ICON(config);
+   ELM_ICON(score);
+   ELM_ICON(about);
+   ELM_ICON(quit);
  
   /* background */
   group {
