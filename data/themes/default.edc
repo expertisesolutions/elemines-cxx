@@ -213,98 +213,132 @@ collections {
     }
   }
 
-  /* grass around the board */
-  group {
-    name: "grass-s";
-    parts {
-      part {
-        name: "grass-s";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "grass-s.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
-        }
-      }
-    }
+  /* The board and its content */
+#define GRASS(Side)                                                     \
+  group {                                                               \
+     name: "grass/"Side;                                                \
+     parts {                                                            \
+        part {                                                          \
+           type: IMAGE;                                                 \
+           mouse_events: 0;                                             \
+           repeat_events: 0;                                            \
+           description {                                                \
+              image.normal: "grass-"Side".png";                         \
+              visible: 1;                                               \
+           }                                                            \
+        }                                                               \
+     }                                                                  \
   }
+  GRASS(e);
+  GRASS(n);
+  GRASS(s);
+  GRASS(w);
+
   group {
-    name: "grass-n";
-    parts {
-      part {
-        name: "grass-n";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "grass-n.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+     name: "board";
+     broadcast_signal: 0;
+     parts {
+        part {
+           name: "board";
+           type: TABLE;
+
+           description {
+              table.homogeneous: TABLE;
+           }
+
+#define ITEM(X, Y, Source)                                              \
+           item {                                                       \
+              name: #X"/"#Y;                                            \
+              type: GROUP;                                              \
+              source: Source;                                           \
+              position: X Y;                                            \
+              weight: 1 1;                                              \
+              align: -1 -1;                                             \
+           }
+
+#define ITEM_TOP_BOTTOM(X)                                              \
+           ITEM(X, 0, "grass/s");                                       \
+           ITEM(X, 11, "grass/n");
+
+#define LINE(Y)                                                         \
+           ITEM(0, Y, "grass/w");                                       \
+           ITEM(1, Y, "cell");                                          \
+           ITEM(2, Y, "cell");                                          \
+           ITEM(3, Y, "cell");                                          \
+           ITEM(4, Y, "cell");                                          \
+           ITEM(5, Y, "cell");                                          \
+           ITEM(6, Y, "cell");                                          \
+           ITEM(7, Y, "cell");                                          \
+           ITEM(8, Y, "cell");                                          \
+           ITEM(9, Y, "cell");                                          \
+           ITEM(10, Y, "cell");                                         \
+           ITEM(11, Y, "grass/e");
+
+           table {
+              items  {
+                 ITEM_TOP_BOTTOM(1);
+                 ITEM_TOP_BOTTOM(2);
+                 ITEM_TOP_BOTTOM(3);
+                 ITEM_TOP_BOTTOM(4);
+                 ITEM_TOP_BOTTOM(5);
+                 ITEM_TOP_BOTTOM(6);
+                 ITEM_TOP_BOTTOM(7);
+                 ITEM_TOP_BOTTOM(8);
+                 ITEM_TOP_BOTTOM(9);
+                 ITEM_TOP_BOTTOM(10);
+                 LINE(1);
+                 LINE(2);
+                 LINE(3);
+                 LINE(4);
+                 LINE(5);
+                 LINE(6);
+                 LINE(7);
+                 LINE(8);
+                 LINE(9);
+                 LINE(10);
+              }
+           }
         }
-      }
-    }
-  }
-  group {
-    name: "grass-e";
-    parts {
-      part {
-        name: "grass-e";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "grass-e.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+        part {
+           name: "congrat";
+           type: GROUP;
+           source: "congratulation";
+           description {
+              visible: 0;
+              color: 0 0 0 0;
+           }
+           description {
+              state: congrat 0.0;
+              inherit: default 0.0;
+              visible: 1;
+           }
+           description {
+              state: congrat 1.0;
+              inherit: congrat 0.0;
+              color: 255 255 255 255;
+           }
         }
-      }
-    }
-  }
-  group {
-    name: "grass-w";
-    parts {
-      part {
-        name: "grass-w";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "grass-w.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+     }
+
+     programs {
+        program {
+           signal: "congrat";
+           action: STATE_SET congrat 0.0;
+           target: congrat;
+           after: congrat/anim;
         }
-      }
-    }
+        program {
+           name: congrat/anim;
+           action: STATE_SET congrat 1.0;
+           transition: LINEAR 1.0;
+           target: congrat;
+        }
+        program {
+           signal: reset;
+           action: STATE_SET default 0.0;
+           target: congrat;
+        }
+     }
   }
 
   /* blank cell, for centering the board */
@@ -381,305 +415,296 @@ collections {
 
   /* main group: cell control */
   group { 
-    name: "cell";
-    parts {
-      /* red selection box */
-      part {
-        name: "border";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 255 255 255 0;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
+     name: "cell";
+     parts {
+        /* red selection box */
+        part {
+           name: "border";
+           type: RECT;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              color: 255 255 255 0;
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 0 0;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: 0 0;
+              }
+           }
+           description {
+              state: "over" 0.0;
+              inherit: "default" 0.0;
+              color: 255 0 0 255;
+           }
         }
-        description {
-          state: "over" 0.0;
-          inherit: "default" 0.0;
-          color: 255 0 0 255;
+        /* 2 standard backgrounds */
+        part {
+           name: "bg";
+           type: IMAGE;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              image {
+                 normal: "grass.png";
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "clean" 0.1;
+              inherit: "default" 0.0;
+              image {
+                 normal: "sand.png";
+              }
+           }
         }
-      }
-      /* 2 standard backgrounds */
-      part {
-        name: "bg";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "grass.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+        /* end game: overlay all the board */
+        part {
+           name: "cover";
+           type: RECT;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              color: 0 0 0 0;
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "grey" 0.1;
+              inherit: "default" 0.0;
+              color: 150 150 150 150;
+           }
+           description {
+              state: "lose" 0.2;
+              inherit: "default" 0.0;
+              color: 255 126 0 120;
+           }
+           description {
+              state: "win" 0.3;
+              inherit: "default" 0.0;
+              color: 0 0 0 0;
+           }
         }
-        description {
-          state: "clean" 0.1;
-          inherit: "default" 0.0;
-          image {
-            normal: "sand.png";
-          }
+        /* scenery objects layers */
+        part {
+           name: "flowers";
+           type: IMAGE;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              image {
+                 normal: "empty.png";
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "flowers" 0.1;
+              inherit: "default" 0.0;
+              image {
+                 normal: "flowers.png";
+              }
+           }
         }
-      }
-      /* end game: overlay all the board */
-      part {
-        name: "cover";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 0 0 0 0;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+        part {
+           name: "mushrooms";
+           type: IMAGE;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              image {
+                 normal: "empty.png";
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "mushrooms" 0.1;
+              inherit: "default" 0.0;
+              image {
+                 normal: "mushrooms.png";
+              }
+           }
         }
-        description {
-          state: "grey" 0.1;
-          inherit: "default" 0.0;
-          color: 150 150 150 150;
+        part {
+           name: "stones";
+           type: IMAGE;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              image {
+                 normal: "empty.png";
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "stones" 0.1;
+              inherit: "default" 0.0;
+              image {
+                 normal: "stones.png";
+              }
+           }
         }
-        description {
-          state: "lose" 0.2;
-          inherit: "default" 0.0;
-          color: 255 126 0 120;
+        /* text that shows neighbours */
+        part {
+           name: "hint";
+           type: TEXT;
+           effect: SOFT_SHADOW;
+           scale: 1;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              color: 0 0 0 255;
+              color2: 255 255 255 140;
+              color3: 100 100 100 140;
+              text {
+                 text: "";
+                 font: "Sans";
+                 size: 28;
+                 align: 0.5 0.5;
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 0 0;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: 0 0;
+              }
+           }
+           /* change colours according to neighbours */
+#define CELL_TEXT_COLOR(State, Color)                                   \
+           description {                                                \
+              state: State 0.1;                                         \
+              inherit: "default" 0.0;                                   \
+              color: Color;                                             \
+              text.text: State;                                         \
+           }
+           CELL_TEXT_COLOR("1", 14 87 12 255);
+           CELL_TEXT_COLOR("2", 21 17 231 255);
+           CELL_TEXT_COLOR("3", 233 232 16 255);
+           CELL_TEXT_COLOR("4", 233 98 15 255);
+           CELL_TEXT_COLOR("5", 230 15 13 255);
+           CELL_TEXT_COLOR("6", 240 0 240 255);
+           CELL_TEXT_COLOR("7", 255 255 255 255);
+           CELL_TEXT_COLOR("8", 0 0 0 255);
         }
-        description {
-          state: "win" 0.3;
-          inherit: "default" 0.0;
-          color: 0 0 0 0;
+        /* flag/bomb/boom */
+        part {
+           name: "image";
+           type: IMAGE;
+           mouse_events: 0;
+           repeat_events: 0;
+           description {
+              state: "default" 0.0;
+              visible: 0;
+              image {
+                 normal: "flag1.png";
+              }
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 1 1;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: -1 -1;
+              }
+           }
+           description {
+              state: "flag" 0.1;
+              inherit: "default" 0.0;
+              visible: 1;
+              image {
+                 normal: "flag1.png";
+                 tween: "flag2.png";
+                 tween: "flag3.png";
+                 tween: "flag4.png";
+              }
+           }
+           description {
+              state: "boom" 0.2;
+              inherit: "default" 0.0;
+              visible: 1;
+              image {
+                 normal: "hole.png";
+                 tween: "fire1.png";
+                 tween: "fire2.png";
+                 tween: "fire3.png";
+                 tween: "fire4.png";
+                 tween: "fire5.png";
+                 tween: "fire6.png";
+                 tween: "fire7.png";
+                 tween: "fire8.png";
+                 tween: "hole.png";
+              }
+           }
+           description {
+              state: "bomb" 0.3;
+              inherit: "default" 0.0;
+              visible: 1;
+              image {
+                 normal: "bomb.png";
+              }
+           }
         }
-      }
-      /* scenery objects layers */
-      part {
-        name: "flowers";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "empty.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
+        /* to detect mouse move */
+        part {
+           name: "overlay";
+           type: RECT;
+           description {
+              state: "default" 0.0;
+              color: 255 255 255 0;
+              rel1 {
+                 relative: 0.0 0.0;
+                 offset: 0 0;
+              }
+              rel2 {
+                 relative: 1.0 1.0;
+                 offset: 0 0;
+              }
+           }
         }
-        description {
-          state: "flowers" 0.1;
-          inherit: "default" 0.0;
-          image {
-            normal: "flowers.png";
-          }
-        }
-      }
-      part {
-        name: "mushrooms";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "empty.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
-        }
-        description {
-          state: "mushrooms" 0.1;
-          inherit: "default" 0.0;
-          image {
-            normal: "mushrooms.png";
-          }
-        }
-      }
-      part {
-        name: "stones";
-        type: IMAGE;
-        description {
-          state: "default" 0.0;
-          image {
-            normal: "empty.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
-        }
-        description {
-          state: "stones" 0.1;
-          inherit: "default" 0.0;
-          image {
-            normal: "stones.png";
-          }
-        }
-      }
-      /* text that shows neighbours */
-      part {
-        name: "hint";
-        type: TEXT;
-        effect: SOFT_SHADOW;
-        scale: 1;
-        description {
-          state: "default" 0.0;
-          color: 0 0 0 255;
-          color2: 255 255 255 140;
-          color3: 100 100 100 140;
-          text {
-            text: "";
-            font: "Sans";
-            size: 28;
-            align: 0.5 0.5;
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-        /* change colours according to neighbours */
-        description {
-          state: "1" 0.1;
-          inherit: "default" 0.0;
-          color: 14 87 12 255;
-        }
-        description {
-          state: "2" 0.2;
-          inherit: "default" 0.0;
-          color: 21 17 231 255;
-        }
-        description {
-          state: "3" 0.3;
-          inherit: "default" 0.0;
-          color: 233 232 16 255;
-        }
-        description {
-          state: "4" 0.4;
-          inherit: "default" 0.0;
-          color: 233 98 15 255;
-        }
-        description {
-          state: "5" 0.5;
-          inherit: "default" 0.0;
-          color: 230 15 13 255;
-        }
-        description {
-          state: "6" 0.6;
-          inherit: "default" 0.0;
-          color: 240 0 240 255;
-        }
-        description {
-          state: "7" 0.7;
-          inherit: "default" 0.0;
-          color: 255 255 255 255;
-        }
-        description {
-          state: "8" 0.8;
-          inherit: "default" 0.0;
-          color: 0 0 0 255;
-        }
-      }
-      /* flag/bomb/boom */
-      part {
-        name: "image";
-        type: IMAGE;
-        description {
-          state: "defaut" 0.0;
-          visible: 0;
-          image {
-            normal: "flag1.png";
-          }
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
-        }
-        description {
-          state: "flag" 0.1;
-          inherit: "default" 0.0;
-          visible: 1;
-          image {
-            normal: "flag1.png";
-            tween: "flag2.png";
-            tween: "flag3.png";
-            tween: "flag4.png";
-          }
-        }
-        description {
-          state: "boom" 0.2;
-          inherit: "default" 0.0;
-          visible: 1;
-          image {
-            normal: "hole.png";
-            tween: "fire1.png";
-            tween: "fire2.png";
-            tween: "fire3.png";
-            tween: "fire4.png";
-            tween: "fire5.png";
-            tween: "fire6.png";
-            tween: "fire7.png";
-            tween: "fire8.png";
-            tween: "hole.png";
-          }
-        }
-        description {
-          state: "bomb" 0.3;
-          inherit: "default" 0.0;
-          visible: 1;
-          image {
-            normal: "bomb.png";
-          }
-        }
-      }
-      /* to detect mouse move */
-      part {
-        name: "overlay";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 255 255 255 0;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 0 0;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: 0 0;
-          }
-        }
-      }
 
       programs {
 
@@ -699,6 +724,29 @@ collections {
           transition: SINUSOIDAL 0.7;
         }
         program {
+           signal: "reset";
+           action: STATE_SET "default" 0.0;
+           target: "flowers";
+           target: "mushrooms";
+           target: "image";
+           target: "cover";
+           target: "bg";
+           target: "hint";
+        }
+        program {
+           signal: "digg";
+           action: STATE_SET "default" 0.0;
+           target: "flowers";
+           target: "mushrooms";
+           after: "digg/bg";
+        }
+        program {
+           name: "digg/bg";
+           action: STATE_SET "clean" 0.0;
+           target: "bg";
+        }
+
+        program {
           signal: "default";
           action: STATE_SET "default" 0.0;
           target: "image";
@@ -715,89 +763,27 @@ collections {
           transition: LINEAR 2.0;
           target: "image";
         }
-        program {
-          signal: "bomb";
-          action: STATE_SET "bomb" 0.3;
-          target: "image";
+#define CELL_STATE_SET(Signal, Target)                                  \
+        program {                                                       \
+           signal: Signal;                                              \
+           action: STATE_SET Signal 0.3;                                \
+           target: Target;                                              \
         }
-        program {
-          signal: "clean";
-          action: STATE_SET "clean" 0.1;
-          target: "bg";
-        }
+        CELL_STATE_SET("bomb", "image");
         /* change colours */
-        program {
-          signal: "1";
-          action: STATE_SET "1" 0.1;
-          target: "hint";
-        }
-        program {
-          signal: "2";
-          action: STATE_SET "2" 0.2;
-          target: "hint";
-        }
-        program {
-          signal: "3";
-          action: STATE_SET "3" 0.3;
-          target: "hint";
-        }
-        program {
-          signal: "4";
-          action: STATE_SET "4" 0.4;
-          target: "hint";
-        }
-        program {
-          signal: "5";
-          action: STATE_SET "5" 0.5;
-          target: "hint";
-        }
-        program {
-          signal: "6";
-          action: STATE_SET "6" 0.6;
-          target: "hint";
-        }
-        program {
-          signal: "7";
-          action: STATE_SET "7" 0.7;
-          target: "hint";
-        }
-        program {
-          signal: "8";
-          action: STATE_SET "8" 0.8;
-          target: "hint";
-        }
+        CELL_STATE_SET("1", "hint");
+        CELL_STATE_SET("2", "hint");
+        CELL_STATE_SET("3", "hint");
+        CELL_STATE_SET("4", "hint");
+        CELL_STATE_SET("5", "hint");
+        CELL_STATE_SET("6", "hint");
+        CELL_STATE_SET("7", "hint");
+        CELL_STATE_SET("8", "hint");
         /* scenery */
-        program {
-          signal: "flowers";
-          action: STATE_SET "flowers" 0.1;
-          target: "flowers";
-        }
-        program {
-          signal: "noflowers";
-          action: STATE_SET "default" 0.0;
-          target: "flowers";
-        }
-        program {
-          signal: "mushrooms";
-          action: STATE_SET "mushrooms" 0.1;
-          target: "mushrooms";
-        }
-        program {
-          signal: "nomushrooms";
-          action: STATE_SET "default" 0.0;
-          target: "mushrooms";
-        }
-        program {
-          signal: "stones";
-          action: STATE_SET "stones" 0.1;
-          target: "stones";
-        }
+        CELL_STATE_SET("flowers", "flowers");
+        CELL_STATE_SET("mushrooms", "mushrooms");
+        CELL_STATE_SET("stones", "stones");
         /* win/lose */
-        program {
-          signal: "neutral";
-          action: STATE_SET "default" 0.0;
-          target: "cover";
-        }
         program {
           name: "grey";
           signal: "grey";

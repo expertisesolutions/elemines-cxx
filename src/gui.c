@@ -269,19 +269,11 @@ gui(char *theme, Eina_Bool fullscreen)
    evas_object_size_hint_align_set(toolbar, EVAS_HINT_FILL, 0.0);
    evas_object_show(toolbar);
    elm_box_pack_end(vbox, toolbar);
-   elm_toolbar_item_append(toolbar, "refresh", _("Refresh"), init, NULL);
-   elm_toolbar_item_append(toolbar, "pause", _("Pause"), _pause, NULL);
-   elm_toolbar_item_append(toolbar, "config", _("Configuration"),
-                           _show_config, NULL);
-   elm_toolbar_item_append(toolbar, "score", _("Scores"), _show_score, NULL);
-   elm_toolbar_item_append(toolbar, "about", _("About"), _show_about, NULL);
-   elm_toolbar_item_append(toolbar, "quit", _("Quit"), _quit, NULL);
 
    /* box for timer and mine count */
    hbox = elm_box_add(game.ui.window);
    elm_box_homogeneous_set(hbox, EINA_FALSE);
    elm_box_horizontal_set(hbox, EINA_TRUE);
-   elm_win_resize_object_add(game.ui.window, hbox);
    evas_object_size_hint_weight_set(hbox, EVAS_HINT_EXPAND, 0.1);
    evas_object_size_hint_align_set(hbox, EVAS_HINT_FILL, EVAS_HINT_FILL);
    evas_object_show(hbox);
@@ -306,65 +298,14 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_box_pack_end(vbox, hbox);
 
    /* add the main table for storing cells */
-   game.ui.table = elm_table_add(game.ui.window);
-   elm_table_homogeneous_set(game.ui.table, EINA_TRUE);
-   elm_win_resize_object_add(game.ui.window, game.ui.table);
+   game.ui.table = elm_layout_add(game.ui.window);
+   elm_layout_file_set(game.ui.table, game.edje_file, "board");
    evas_object_size_hint_weight_set(game.ui.table, EVAS_HINT_EXPAND,
                                     EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(game.ui.table, EVAS_HINT_FILL,
                                    EVAS_HINT_FILL);
    elm_box_pack_end(vbox, game.ui.table);
    evas_object_show(game.ui.table);
-
-   /* add a nice border around the board */
-   for (x = 1; x < SIZE_X + 1; x++)
-     {
-        icon = elm_layout_add(game.ui.window);
-        elm_layout_file_set(icon, game.edje_file, "grass-s");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
-                                         EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
-        evas_object_show(icon);
-        elm_table_pack(game.ui.table, icon, x, 0, 1, 1);
-        evas_object_show(icon);
-
-        icon = elm_layout_add(game.ui.window);
-        elm_layout_file_set(icon, game.edje_file, "grass-n");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
-                                         EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
-        evas_object_show(icon);
-        elm_table_pack(game.ui.table, icon, x, SIZE_Y+1, 1, 1);
-        evas_object_show(icon);
-     }
-   for (y = 1; y < SIZE_Y + 1; y++)
-     {
-        icon = elm_layout_add(game.ui.window);
-        elm_layout_file_set(icon, game.edje_file, "grass-w");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
-                                         EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
-        evas_object_show(icon);
-        elm_table_pack(game.ui.table, icon, 0, y, 1, 1);
-        evas_object_show(icon);
-
-        icon = elm_layout_add(game.ui.window);
-        elm_layout_file_set(icon, game.edje_file, "grass-e");
-        evas_object_size_hint_weight_set(icon, EVAS_HINT_EXPAND,
-                                         EVAS_HINT_EXPAND);
-        evas_object_size_hint_align_set(icon, EVAS_HINT_FILL, EVAS_HINT_FILL);
-        evas_object_show(icon);
-        elm_table_pack(game.ui.table, icon, SIZE_X + 1, y, 1, 1);
-        evas_object_show(icon);
-     }
-
-   /* Add a blank cell on the bottom right to get a right/bottom margin */
-   blank = elm_layout_add(game.ui.window);
-   elm_layout_file_set(blank, game.edje_file, "blank");
-   evas_object_size_hint_weight_set(blank, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-   evas_object_size_hint_align_set(blank, EVAS_HINT_FILL, EVAS_HINT_FILL);
-   elm_table_pack(game.ui.table, blank, SIZE_X+1, SIZE_Y+1, 1, 1);
-   evas_object_show(blank);
 
    if (fullscreen == EINA_TRUE)
      {
@@ -373,7 +314,6 @@ gui(char *theme, Eina_Bool fullscreen)
         elm_win_fullscreen_set(game.ui.window, EINA_TRUE);
         evas_object_move(game.ui.window, 0, 0);
         conform = elm_conformant_add(game.ui.window);
-        elm_win_resize_object_add(game.ui.window, conform);
         evas_object_size_hint_weight_set(conform, EVAS_HINT_EXPAND,
                                                   EVAS_HINT_EXPAND);
         evas_object_show(conform);
@@ -386,6 +326,15 @@ gui(char *theme, Eina_Bool fullscreen)
         y = atoi(edje_file_data_get(game.edje_file, "height"));
         evas_object_resize(game.ui.window, x, y);
      }
+
+   /* Add item to the toolbar now so everything is initialized in the UI */
+   elm_toolbar_item_append(toolbar, "refresh", _("Refresh"), init, NULL);
+   elm_toolbar_item_append(toolbar, "pause", _("Pause"), _pause, NULL);
+   elm_toolbar_item_append(toolbar, "config", _("Configuration"),
+                           _show_config, NULL);
+   elm_toolbar_item_append(toolbar, "score", _("Scores"), _show_score, NULL);
+   elm_toolbar_item_append(toolbar, "about", _("About"), _show_about, NULL);
+   elm_toolbar_item_append(toolbar, "quit", _("Quit"), _quit, NULL);
 
    elm_object_focus_set(game.ui.window, EINA_TRUE);
    evas_object_show(game.ui.window);

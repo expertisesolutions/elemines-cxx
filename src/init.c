@@ -78,43 +78,31 @@ static Eina_Bool
 _board(void)
 {
    Evas_Object *cell;
+   Evas_Object *edje;
    int x, y, scenery;
-   int coord[2];
-   void *data;
+
+   edje = elm_layout_edje_get(game.ui.table);
+   edje_object_signal_callback_del_full(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
+   edje_object_signal_callback_add(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
+   edje_object_signal_emit(edje, "reset", "");
 
    /* prepare the board */
    for (x = 1; x < SIZE_X+1; x++)
      {
         for (y = 1; y < SIZE_Y+1; y++)
           {
-             /* remove any existing cell */
-             evas_object_del(matrix[x][y].layout);
-
-             cell = elm_layout_add(game.ui.window);
-             elm_layout_file_set(cell, game.edje_file, "cell");
-             evas_object_size_hint_weight_set(cell, EVAS_HINT_EXPAND,
-                                                    EVAS_HINT_EXPAND);
-             evas_object_size_hint_align_set(cell, EVAS_HINT_FILL,
-                                                   EVAS_HINT_FILL);
-             elm_table_pack(game.ui.table, cell, x, y, 1, 1);
+	     /* remove any existing cell */
+             cell = edje_object_part_table_child_get(edje, "board", x, y);
 
              /* add some random scenery */
              scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+             edje_object_signal_emit(cell, "reset", "");
              if (scenery < 15)
-               elm_object_signal_emit(cell, "flowers", "");
+               edje_object_signal_emit(cell, "flowers", "");
              if ((scenery > 12) && (scenery < 18))
-               elm_object_signal_emit(cell, "mushrooms", "");
+               edje_object_signal_emit(cell, "mushrooms", "");
  
              matrix[x][y].layout = cell;
-             evas_object_show(cell);
-
-             /* we need to feed the callback with coordinates */
-             coord[0] = x;
-             coord[1] = y;
-             data = malloc(sizeof(coord));
-             memcpy(data, coord, sizeof(coord));
-             evas_object_event_callback_add(cell, EVAS_CALLBACK_MOUSE_DOWN,
-                                            click, data);
           }
      }
    return EINA_TRUE;
@@ -142,8 +130,6 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
             game.datas.mines_total);
    if (game.ui.mines)
      elm_object_part_text_set(game.ui.mines, "mines", str);
-   if (game.ui.congrat)
-     elm_object_signal_emit(game.ui.congrat, "normal", "");
 
 }
 

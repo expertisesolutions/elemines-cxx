@@ -61,10 +61,10 @@
 /* structure to hold datas for each cell */
 struct cell_struct {
    Evas_Object *layout; /* edje */
-   int mine;            /* (0/1) */
-   int neighbours;      /* (0-8, 9 for bomb) */
-   int flag;            /* (0/1) */
-   int uncover;         /* (0/1) */
+   unsigned char neighbours : 4;      /* (0-8, 9 for bomb) */
+   Eina_Bool mine : 1;            /* (0/1) */
+   Eina_Bool flag : 1;            /* (0/1) */
+   Eina_Bool uncover : 1;         /* (0/1) */
 };
 
 /* main matrix of data */
@@ -76,7 +76,6 @@ struct ui_struct {
    Evas_Object *table;
    Evas_Object *timer;
    Evas_Object *mines;
-   Evas_Object *congrat;
    Evas_Object *popup;
 };
 
@@ -113,7 +112,7 @@ void show_help(void);
 void show_version(void);
 void init(void *data, Evas_Object *obj, void *event_info);
 Eina_Bool gui(char *theme, Eina_Bool fullscreen);
-void click(void *data, Evas *e __UNUSED__, Evas_Object *obj, void *event_info);
+void _click(void *data, Evas_Object *obj, const char *emission, const char *source);
 
 #endif
 
