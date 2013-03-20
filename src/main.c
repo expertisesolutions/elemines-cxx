@@ -29,30 +29,52 @@
 
 #include "elemines.h"
 
+// This would have been cleaner with an Eina_Iterator
+void
+_walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h,
+      void (*callback)(const char *target, unsigned char x, unsigned char y, void *data),
+      const void *data)
+{
+   unsigned char i;
+   unsigned char j;
+
+   for (j = y; j < y + h; j++)
+     for (i = x; i < x + w; i++)
+       {
+          char tmp[128];
+
+          sprintf(tmp, "board[%i/%i]", i, j);
+          callback(tmp, i, j, (void*) data);
+       }
+}
+
+static unsigned char prev_y = 0;
+static void
+_printf_mine(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
+{
+   if (prev_y != y) printf("\n");
+   printf("%d ", matrix[x][y].mine);
+   prev_y = y;
+}
+
+static void
+_printf_neighbours(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
+{
+   if (prev_y != y) printf("\n");
+   printf("%d ", matrix[x][y].neighbours);
+   prev_y = y;
+}
+
 static void
 _debug(void)
 {
-   int x, y;
-
    printf("== bomb positions =====\n");
-   for (y = 0; y < SIZE_Y+2; y++)
-     {
-        for (x = 0; x < SIZE_X+2; x++)
-          {
-             printf("%d ", matrix[x][y].mine);
-          }
-        printf("\n");
-     }
+   _walk(0, 0, SIZE_X+2, SIZE_Y+2, _printf_mine, NULL);
 
-   printf("== neighbours count ===\n");
-   for (y = 0; y < SIZE_Y+2; y++)
-     {
-        for (x = 0; x < SIZE_X+2; x++)
-          {
-             printf("%d ", matrix[x][y].neighbours);
-          }
-        printf("\n");
-     }
+   printf("\n\n== neighbours count ===\n");
+   prev_y = 0;
+   _walk(0, 0, SIZE_X+2, SIZE_Y+2, _printf_neighbours, NULL);
+   printf("\n");
 }
 
 static const Ecore_Getopt optdesc = {

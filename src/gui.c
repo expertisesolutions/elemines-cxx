@@ -212,7 +212,7 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 Eina_Bool
 gui(char *theme, Eina_Bool fullscreen)
 {
-   Evas_Object *background, *vbox, *toolbar, *hbox, *icon, *blank, *conform;
+   Evas_Object *background, *vbox, *toolbar, *hbox, *conform;
    int x, y;
 
    /* get the edje theme file */

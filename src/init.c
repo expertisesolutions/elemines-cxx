@@ -27,10 +27,36 @@
 
 #include "elemines.h"
 
+struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
+
+static void
+_mine_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data)
+{
+   int *count = data;
+
+   if (matrix[x][y].mine)
+     (*count)++;
+}
+
+static void
+_update_mine_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
+{
+   int neighbours = 9;
+
+   /* mark a mine place with a 9 */
+   if (!matrix[x][y].mine)
+     {
+        neighbours = 0;
+        _walk(x - 1, y - 1, 3, 3, _mine_count, &neighbours);
+     }
+
+   matrix[x][y].neighbours = neighbours;
+}
+
 static Eina_Bool
 _generate(void)
 {
-   int i, j, x, y;
+   int i, x, y;
 
    /* empty the matrix */
    memset(matrix, 0, sizeof(matrix));
@@ -43,68 +69,53 @@ _generate(void)
         x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
         y = (int)((double)SIZE_Y * rand() / RAND_MAX + 1);
 
-        if ( matrix[x][y].mine == 0 )
-          {
-             matrix[x][y].mine = 1;
-          }
+        if (matrix[x][y].mine == 0 )
+          matrix[x][y].mine = 1;
         else /* if there is already a bomb here, try again */
-          {
-             i--;
-          }
+          i--;
      }
 
    /* 2nd table: neighbours */
-   for (x = 1; x < SIZE_X+1; x++)
-     {
-        for (y = 1; y < SIZE_Y+1; y++)
-          {
-             /* count neighbours */
-             for (i = -1; i < 2; i++)
-               {
-                  for (j = -1; j < 2; j++)
-                    {
-                       if (!((j == 0) && (i == 0)))
-                         matrix[x][y].neighbours += matrix[x+i][y+j].mine;
-                    }
-               }
-              /* mark a mine place with a 9 */
-               if (matrix[x][y].mine == 1) matrix[x][y].neighbours = 9;
-          }
-     }
+   _walk(1, 1, SIZE_X, SIZE_Y, _update_mine_count, NULL);
    return EINA_TRUE;
+}
+
+static void
+_reset(const char *target, unsigned char x EINA_UNUSED, unsigned char y EINA_UNUSED, void *data EINA_UNUSED)
+{
+   char tmp[128];
+   int scenery;
+
+   sprintf(tmp, "%s:reset", target);
+   elm_object_signal_emit(game.ui.table, tmp, "");
+
+   /* add some random scenery */
+   scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+   if (scenery < 15)
+     {
+        sprintf(tmp, "%s:flowers", target);
+        elm_object_signal_emit(game.ui.table, tmp, "");
+     }
+   if ((scenery > 12) && (scenery < 18))
+     {
+        sprintf(tmp, "%s:mushrooms", target);
+        elm_object_signal_emit(game.ui.table, tmp, "");
+     }
 }
 
 static Eina_Bool
 _board(void)
 {
-   Evas_Object *cell;
    Evas_Object *edje;
-   int x, y, scenery;
 
    edje = elm_layout_edje_get(game.ui.table);
+   elm_object_signal_emit(game.ui.table, "reset", "");
+
    edje_object_signal_callback_del_full(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
    edje_object_signal_callback_add(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
-   edje_object_signal_emit(edje, "reset", "");
 
    /* prepare the board */
-   for (x = 1; x < SIZE_X+1; x++)
-     {
-        for (y = 1; y < SIZE_Y+1; y++)
-          {
-	     /* remove any existing cell */
-             cell = edje_object_part_table_child_get(edje, "board", x, y);
-
-             /* add some random scenery */
-             scenery = (int)((double)100 * rand() / RAND_MAX + 1);
-             edje_object_signal_emit(cell, "reset", "");
-             if (scenery < 15)
-               edje_object_signal_emit(cell, "flowers", "");
-             if ((scenery > 12) && (scenery < 18))
-               edje_object_signal_emit(cell, "mushrooms", "");
- 
-             matrix[x][y].layout = cell;
-          }
-     }
+   _walk(1, 1, SIZE_X, SIZE_Y, _reset, NULL);
    return EINA_TRUE;
 }
 
@@ -119,6 +130,8 @@ init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    game.clock.delay = 0;
    game.datas.remain = game.datas.mines_total;
    game.datas.counter = SIZE_X * SIZE_Y - game.datas.mines_total;
+
+   memset(matrix, 0, sizeof (matrix));
 
    _generate();
    _board();

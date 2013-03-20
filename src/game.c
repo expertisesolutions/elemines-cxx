@@ -93,39 +93,49 @@ _timer(void *data __UNUSED__)
 }
 
 static void
-_finish(const char *cell, int x, int y, Eina_Bool win)
+_finish_grid(const char *target, unsigned char x, unsigned char y, void *data)
+{
+   Eina_Bool *win = data;
+   char tmp[128];
+
+   if (*win == EINA_TRUE)
+     {
+        sprintf(tmp, "%s:win", target);
+     }
+   else
+     {
+        if (matrix[x][y].mine == 1)
+          {
+             sprintf(tmp, "%s:bomb", target);
+             elm_object_signal_emit(game.ui.table, tmp, "");
+          }
+        sprintf(tmp, "%s:lose", target);
+     }
+   elm_object_signal_emit(game.ui.table, tmp, "");
+}
+
+static void
+_finish(const char *target, Eina_Bool win)
 {
    Evas_Object *edje;
-   int i,j, score;
+   int score;
    char str[255];
 
    game.clock.started = EINA_FALSE;
 
-   edje = elm_layout_edje_get(game.ui.table);
-
    /* disable click */           
+   edje = elm_layout_edje_get(game.ui.table);
    edje_object_signal_callback_del_full(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
 
    /* show bombs */
-   for (i = 1; i < SIZE_X+1; i++)
-     {
-        for (j = 1; j < SIZE_Y+1; j++)
-          {
-             if (win == EINA_TRUE)
-               {
-                  edje_object_signal_emit(matrix[i][j].layout, "win", "");
-               }
-             else
-               {
-                  if (matrix[i][j].mine == 1)
-                    edje_object_signal_emit(matrix[i][j].layout, "bomb", "");
-                  edje_object_signal_emit(matrix[i][j].layout, "lose", "");
-               }
-          }
-     }
+   _walk(1, 1, SIZE_X, SIZE_Y, _finish_grid, &win);
+
    /* highlight the fatal bomb */
    if (win == EINA_FALSE)
-     edje_object_signal_emit(matrix[x][y].layout, "boom", "");
+     {
+        sprintf(str, "%s:boom", target);
+        elm_object_signal_emit(game.ui.table, str, "");
+     }
    else
      {
         /* prepare the congratulation message */
@@ -134,9 +144,9 @@ _finish(const char *cell, int x, int y, Eina_Bool win)
         score = _scoring();
         snprintf(str, sizeof(str), "Score: %d", score);
         elm_object_part_text_set(game.ui.table, "congrat:score", str);
-        if ( score >= 
-             etrophy_gamescore_level_hi_score_get(game.trophy.gamescore,
-                                                  game.trophy.game_type) )
+
+        if (score >= etrophy_gamescore_level_hi_score_get(game.trophy.gamescore,
+                                                          game.trophy.game_type))
           {
              elm_object_part_text_set(game.ui.table, "congrat:best score",
                                       "High Score!!");
@@ -145,6 +155,7 @@ _finish(const char *cell, int x, int y, Eina_Bool win)
           {
              elm_object_part_text_set(game.ui.table, "congrat:best score", "");
           }
+
         elm_object_signal_emit(game.ui.table, "congrat:you win", "");
      }
 
@@ -156,7 +167,7 @@ _finish(const char *cell, int x, int y, Eina_Bool win)
 }
 
 static void
-_clean(const char *cell, int x, int y, Evas_Object *obj)
+_clean_walk(const char *target, unsigned char x, unsigned char y, void *data EINA_UNUSED)
 {
    /* we are out of board */
    if (x == 0 || x == SIZE_X+1 || y == 0 || y == SIZE_Y+1)
@@ -174,7 +185,7 @@ _clean(const char *cell, int x, int y, Evas_Object *obj)
    if (matrix[x][y].mine == 0)
      {
         int scenery;
-        char str[8];
+        char str[128];
 
         /* clean scenery */
         matrix[x][y].uncover = 1;
@@ -182,47 +193,51 @@ _clean(const char *cell, int x, int y, Evas_Object *obj)
         /* add some stones */
         scenery = (int)((double)100 * rand() / RAND_MAX + 1);
         if (scenery < 15)
-          edje_object_signal_emit(obj, "stones", "");
+          {
+             sprintf(str, "%s:stones", target);
+             elm_object_signal_emit(game.ui.table, str, "");
+          }
 
-	edje_object_signal_emit(obj, "digg", "");
+        sprintf(str, "%s:digg", target);
+	elm_object_signal_emit(game.ui.table, str, "");
+
         /* at least 1 neighbour */
         if (matrix[x][y].neighbours != 0)
           {
-             snprintf(str, sizeof(str), "%d", matrix[x][y].neighbours);
-             edje_object_signal_emit(obj, str, "");
+             sprintf(str, "%s:%d", target, matrix[x][y].neighbours);
+             elm_object_signal_emit(game.ui.table, str, "");
           }
         /* no neighbour */
         else
           {
-             int i, j;
-             for (i=x-1; i<=x+1; i++)
-               {
-                  for (j=y-1; j<=y+1; j++)
-                    {
-                       char tmp[128];
-                       sprintf(tmp, "board[%i/%i]:overlay", i, j);
-                       _clean(tmp, i, j, matrix[i][j].layout);
-                    }
-               }
+             _walk(x - 1, y - 1, 3, 3, _clean_walk, NULL);
           }
         /* keep track of this empty spot */
         game.datas.counter--;
         if (game.datas.counter == 0)
-          _finish(cell, x, y, EINA_TRUE);
+          _finish(target, EINA_TRUE);
      }
    else /* BOOM! */
      {
-        _finish(cell, x, y, EINA_FALSE);
+        _finish(target, EINA_FALSE);
      }
-   return;
+   return;   
+}
 
+static void
+_flags_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data)
+{
+   int *flags = data;
+
+   if (matrix[x][y].flag == 1)
+     (*flags)++;
 }
 
 void
-_click(void *data, Evas_Object *obj, const char *emission, const char *source)
+_click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char *emission, const char *source)
 {
    int x, y;
-   char str[16];
+   char str[128];
 
    /* get back the coordinates of the cell */
    sscanf(source, "board[%i/%i]:overlay", &x, &y);
@@ -237,7 +252,8 @@ _click(void *data, Evas_Object *obj, const char *emission, const char *source)
              game.clock.etimer = ecore_timer_add(dt, _timer, NULL);
           }
 
-        _clean(source, x, y, matrix[x][y].layout);
+        sprintf(str, "board[%i/%i]", x, y);
+        _clean_walk(str, x, y, NULL);
      }
 
    /* second button: put a flag */
@@ -245,18 +261,18 @@ _click(void *data, Evas_Object *obj, const char *emission, const char *source)
      {
         if (matrix[x][y].uncover != 1)
           {
-             if (matrix[x][y].flag == 0) /* set flag */
+             if (!matrix[x][y].flag) /* set flag */
                {
-                  edje_object_signal_emit(matrix[x][y].layout, "flag", "");
-                  matrix[x][y].flag = 1;
+                  sprintf(str, "board[%i/%i]:flag", x, y);
                   game.datas.remain--;
                }
              else /* already a flag, remove it */
                {
-                  edje_object_signal_emit(matrix[x][y].layout, "default", "");
-                  matrix[x][y].flag = 0;
+                  sprintf(str, "board[%i/%i]:default", x, y);
                   game.datas.remain++;
                }
+             matrix[x][y].flag = !matrix[x][y].flag;
+             elm_object_signal_emit(game.ui.table, str, "");
           }
 
         /* show the remaining mines */
@@ -269,31 +285,15 @@ _click(void *data, Evas_Object *obj, const char *emission, const char *source)
    /* middle button: open rest if we have enough mines */
    if (!strcmp(emission, "mouse,clicked,2") && (matrix[x][y].uncover == 1) )
      {
-        int i, j;
         int flags = 0;
 
         /* count surrounding flags */
-        for (i=x-1; i<=x+1; i++)
-          {
-             for (j=y-1; j<=y+1; j++)
-               {
-                  if (!((i == x) && (j == y)) && (matrix[i][j].flag == 1))
-                    flags++;
-               }
-          }
+        _walk(x - 1, y - 1, 3, 3, _flags_count, &flags);
+        if (matrix[x][y].flag == 1) flags--;
+
         /* open surrounding squares if correct number of flags is set */
         if (flags == matrix[x][y].neighbours)
-          {
-             for (i=x-1; i<=x+1; i++)
-               {
-                  for (j=y-1; j <=y+1; j++)
-                    {
-                       char tmp[128];
-                       sprintf(tmp, "board[%i/%i]:overlay", i, j);
-                       _clean(tmp, i, j, matrix[i][j].layout);
-                    }
-               }
-          }
+          _walk(x - 1, y - 1, 3, 3, _clean_walk, NULL);
      }
 }
 

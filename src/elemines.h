@@ -60,15 +60,14 @@
 
 /* structure to hold datas for each cell */
 struct cell_struct {
-   Evas_Object *layout; /* edje */
-   unsigned char neighbours : 4;      /* (0-8, 9 for bomb) */
+   unsigned char neighbours : 4;  /* (0-8, 9 for bomb) */
    Eina_Bool mine : 1;            /* (0/1) */
    Eina_Bool flag : 1;            /* (0/1) */
    Eina_Bool uncover : 1;         /* (0/1) */
 };
 
 /* main matrix of data */
-struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
+extern struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
 
 /* global variables */
 struct ui_struct {
@@ -113,6 +112,9 @@ void show_version(void);
 void init(void *data, Evas_Object *obj, void *event_info);
 Eina_Bool gui(char *theme, Eina_Bool fullscreen);
 void _click(void *data, Evas_Object *obj, const char *emission, const char *source);
+void _walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h,
+           void (*callback)(const char *target, unsigned char x, unsigned char y, void *data),
+           const void *data);
 
 #endif
 
