@@ -2,12 +2,15 @@
 *~
 data/themes/*.edj
 src/*.o
+src/*.lo
+src/*.la
 src/.deps
 src/elemines
 packaging/slackware/elemines-*.txz
 elemines-*.tar.?z*
 po/*.gmo
 po/POTFILES
+src/.libs
 
 # autotools crap
 m4/*.m4
@@ -44,3 +47,5 @@ po/quot.sed
 po/remove-potcdate.sed
 po/remove-potcdate.sin
 po/stamp-po
+
+src/eleminesql
