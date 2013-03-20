@@ -25,6 +25,8 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <Ecore_Getopt.h>
+
 #include "elemines.h"
 
 static void
@@ -53,13 +55,46 @@ _debug(void)
      }
 }
 
+static const Ecore_Getopt optdesc = {
+  "elemines",
+  "%prog [options]",
+  PACKAGE_VERSION,
+  "(C) 2010 Enlightenment",
+  "BSD with advertisement clause",
+  "Simple application to view edje files.",
+  0,
+  {
+    ECORE_GETOPT_STORE_TRUE('d', "debug", "turn on debugging"),
+    ECORE_GETOPT_STORE_TRUE('f', "fullscreen", "make the application fullscreen"),
+    ECORE_GETOPT_STORE_STR('t', "theme", "change theme"),
+    ECORE_GETOPT_STORE_INT('m', "mines", "define the number of mines on the grid"),
+    ECORE_GETOPT_LICENSE('L', "license"),
+    ECORE_GETOPT_COPYRIGHT('C', "copyright"),
+    ECORE_GETOPT_VERSION('V', "version"),
+    ECORE_GETOPT_HELP('h', "help"),
+    ECORE_GETOPT_SENTINEL
+  }
+};
+
 EAPI_MAIN int
 elm_main(int argc __UNUSED__, char **argv __UNUSED__)
 {
-   int opt;
    char *theme = "default";
+   int args;
    Eina_Bool debug = EINA_FALSE;
    Eina_Bool fullscreen = EINA_FALSE;
+   Eina_Bool quit_option = EINA_FALSE;
+   Ecore_Getopt_Value values[] = {
+     ECORE_GETOPT_VALUE_BOOL(debug),
+     ECORE_GETOPT_VALUE_BOOL(fullscreen),
+     ECORE_GETOPT_VALUE_STR(theme),
+     ECORE_GETOPT_VALUE_INT(game.datas.mines_total),
+     ECORE_GETOPT_VALUE_BOOL(quit_option),
+     ECORE_GETOPT_VALUE_BOOL(quit_option),
+     ECORE_GETOPT_VALUE_BOOL(quit_option),
+     ECORE_GETOPT_VALUE_BOOL(quit_option),
+     ECORE_GETOPT_VALUE_NONE
+   };
 
 #if ENABLE_NLS
    setlocale(LC_ALL, "");
@@ -72,47 +107,15 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    game.datas.mines_total = MINES;
 
    /* Get user values */
-   while ((opt = getopt(argc, argv, "dfhm:vt:")) != -1)
+   args = ecore_getopt_parse(&optdesc, values, argc, argv);
+   if (args < 0)
      {
-        switch (opt)
-          {
-             case 'd':
-               {
-                  debug = EINA_TRUE;
-                  break;
-               }
-             case 'f':
-               {
-                  fullscreen = EINA_TRUE;
-                  break;
-               }
-             case 'h':
-               {
-                  show_help();
-                  return EXIT_SUCCESS;
-               }
-             case 'm':
-               {
-                  game.datas.mines_total = atoi(optarg);
-                  break;
-               }
-             case 'v':
-               {
-                  show_version();
-                  return EXIT_SUCCESS;
-               }
-             case 't':
-               {
-                  theme = optarg;
-                  break;
-               }
-             case '?':
-               {
-                  show_help();
-                  return EXIT_SUCCESS;
-               }
-             default: return EXIT_FAILURE;
-          }
+       fputs("Could not parse arguments.\n", stderr);
+       goto end;
+     }
+   else if (quit_option)
+     {
+       goto end;
      }
 
    /* Validate user values */
@@ -130,6 +133,8 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    if (debug == EINA_TRUE) _debug();
 
    elm_run();
+
+ end:
    elm_shutdown();
 
    return 0;
