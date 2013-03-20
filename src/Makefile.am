@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 elemines_SOURCES = \
 		   game.c \
 		   gui.c \
-		   help.c \
 		   init.c \
 		   main.c
 
