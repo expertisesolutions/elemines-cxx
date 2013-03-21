@@ -1,4 +1,4 @@
-AC_INIT([elemines], [0.2.2], [ngc891@gmail.com])
+AC_INIT([elemines], [0.2.3], [ngc891@gmail.com])
 AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_HEADERS([config.h])
