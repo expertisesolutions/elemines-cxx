@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elemines 0.2.2\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-02-10 12:20+0900\n"
+"POT-Creation-Date: 2013-03-21 17:58+0900\n"
 "PO-Revision-Date: 2013-01-24 16:20+0900\n"
 "Last-Translator: Park Eunri <park.eunri@gmail.com>\n"
 "Language-Team: korean\n"
@@ -16,20 +16,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gui.c:57
+#: src/gui.c:58
 msgid "High Scores"
 msgstr "최고 기록"
 
-#: src/gui.c:96 src/gui.c:274
+#: src/gui.c:97 src/gui.c:334
 msgid "Configuration"
 msgstr "설정"
 
-#: src/gui.c:106
+#: src/gui.c:107
 #, c-format
 msgid "%.0f mines"
 msgstr "%.0f 지뢰"
 
-#: src/gui.c:117
+#: src/gui.c:118
 #, c-format
 msgid ""
 "<b>Note:</b> default mine number is <b>%d</b> with scoring in <b>%s</b> "
@@ -39,15 +39,15 @@ msgstr ""
 "<b>주의:</b> 기본 지뢰수 <b>%d</d>개는 <b>%s</b> 범주에서 기록. 만일 다른 지"
 "뢰수로 변경하고자 할때는 <b>%s</b> 범주에서 기록."
 
-#: src/gui.c:131 src/gui.c:161
+#: src/gui.c:132 src/gui.c:162
 msgid "OK"
 msgstr "확인"
 
-#: src/gui.c:146 src/gui.c:277
+#: src/gui.c:147 src/gui.c:337
 msgid "About"
 msgstr "정보"
 
-#: src/gui.c:150
+#: src/gui.c:151
 #, c-format
 msgid ""
 "<b>%s %s</b><br><br>%s<br><br>Pictures derived from Battle For Wesnoth:"
@@ -56,18 +56,18 @@ msgstr ""
 "<b>%s %s</b><br><br>%s<br><br>이미지는 Battle For Wesnoth에서 가져옴:"
 "<br>http://www.wesnoth.org/<br>"
 
-#: src/gui.c:272
+#: src/gui.c:332
 msgid "Refresh"
 msgstr "다시 시작"
 
-#: src/gui.c:273
+#: src/gui.c:333
 msgid "Pause"
 msgstr "일시중지"
 
-#: src/gui.c:276
+#: src/gui.c:336
 msgid "Scores"
 msgstr "기록"
 
-#: src/gui.c:278
+#: src/gui.c:338
 msgid "Quit"
 msgstr "닫기"
