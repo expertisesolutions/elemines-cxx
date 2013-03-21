@@ -1,11 +1,11 @@
-.TH ELEMINES 1 "10 Feb 2013" "elemines 0.2.2"
+.TH ELEMINES 1 "21 Mar 2013" "elemines 0.2.2"
 
 .SH NAME
 elemines \- a minesweeper clone based on the EFL
 
 .SH SYNOPSIS
 .B elemines
-[-h] [-f] [-m MINES] [-t THEME] [-v]
+[-d] [-f] [-t=THEME] [-m=MINES] [-L] [-C] [-V] [-h]
 
 .SH DESCRIPTION
 
@@ -21,40 +21,52 @@ With no option, the program starts with a 10x10 grid and 12 mines to find.
 .SH CONTROLS
 
 .TP
-.I Left Mouse Button
+.B Left Mouse Button
 Reveal a square.
 
 .TP
-.I Right Mouse Button
+.B Right Mouse Button
 Add (or remove) a flag.
 
 .TP
-.I Middle Mouse Button
+.B Middle Mouse Button
 Clear around a revealed square once the correct number of mines have been flagged around it.
 
 .SH OPTIONS
 
 .TP
-.I -h
-Print list of options with short description and exit.
+.B -d, --debug
+Turn on debugging.
 
 .TP
-.I -f
+.B -f, --fullscreen
 Run fullscreen. This is useful on mobile devices.
 
 .TP
-.I -m MINES
-Specify the number of mines hidden in the field. MINES must be an integer smaller
-than the number of cells (100).
-
-.TP
-.I -t THEME
+.B -t=THEME, --theme=THEME
 Use THEME.edj as theme file. Theme files must be in the $(datarootdir)/elemines/themes/
 folder.
 
 .TP
-.I -v
-Print version and license informations and exit.
+.B -m=MINES, --mines=MINES
+Specify the number of mines hidden in the field. MINES must be an integer smaller
+than the number of cells (100).
+
+.TP
+.B -L, --license
+Show license.
+
+.TP
+.B -C, --copyright
+Show copyright.
+
+.TP
+.B -V, --version
+Show program version.
+
+.TP
+.B -h, --help
+Print list of options with short description.
 
 
 .SH BUGS
@@ -67,6 +79,6 @@ Reports are welcome.
 http://elemines.sourceforge.net 
 
 
-.SH AUTHOR
+.SH AUTHORS
 
-Jerome Pinot <ngc891@gmail.com>
+Jerome Pinot <ngc891@gmail.com> and various contributors.
