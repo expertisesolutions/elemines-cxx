@@ -57,8 +57,13 @@ fi
 SCFLAGS='-O2'
 if [ "${ARCH}" = "i486" ]; then
   SCFLAGS="${SCFLAGS} -march=i486 -mtune=i686"
+  LIBDIR="/usr/lib"
 elif [ "${ARCH}" = "x86_64" ]; then
   SCFLAGS="${SCFLAGS} -fPIC"
+  LIBDIR="/usr/lib64"
+elif [ "${ARCH}" = "arm" ]; then
+  SCFLAGS="${SCFLAGS} -march=armv4 -mtune=xscale"
+  LIBDIR="/usr/lib"
 fi
 
 # Creating directories
@@ -73,6 +78,7 @@ cd ../..
 CFLAGS="${SCFLAGS}" \
   ./configure \
     --prefix=/usr \
+    --libdir=${LIBDIR} \
     --mandir=/usr/man \
     --docdir=/usr/doc/${NAME}-${VERSION}
 
@@ -84,8 +90,10 @@ make DESTDIR=${PKG} install
 
 # Cleaning
 cd ${PKG}
-strip --strip-unneeded usr/bin/${NAME}
 gzip -9 usr/man/man1/${NAME}.1
+
+find ${PKG} | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+find ${PKG} | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
 # Building the package
 mkdir install
