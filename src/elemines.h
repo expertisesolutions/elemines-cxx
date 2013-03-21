@@ -1,6 +1,7 @@
 /*
  * elemines: an EFL minesweeper
- * Copyright (C) 2012-2013 Jerome Pinot <ngc891@gmail.com>
+ * Copyright (C) 2012-2013 Jerome Pinot <ngc891@gmail.com> and various
+ * contributors (see AUTHORS).
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +51,7 @@
 #define _(String) gettext(String)
 #define N_(String) gettext_noop (String)
 
-#define COPYRIGHT "Copyright © 2012-2013  Jérôme Pinot <ngc891@gmail.com>"
+#define COPYRIGHT "Copyright © 2012-2013 Jérôme Pinot <ngc891@gmail.com> and various contributors (see AUTHORS)."
 
 #define SIZE_X  10
 #define SIZE_Y  10

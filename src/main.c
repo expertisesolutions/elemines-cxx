@@ -1,6 +1,7 @@
 /*
  * elemines: an EFL minesweeper
- * Copyright (C) 2012-2013 Jerome Pinot <ngc891@gmail.com>
+ * Copyright (C) 2012-2013 Jerome Pinot <ngc891@gmail.com> and various
+ * contributors (see AUTHORS).
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,9 +82,9 @@ static const Ecore_Getopt optdesc = {
   "elemines",
   "%prog [options]",
   PACKAGE_VERSION,
-  "(C) 2010 Enlightenment",
+  COPYRIGHT,
   "BSD with advertisement clause",
-  "Simple application to view edje files.",
+  "An EFL minesweeper clone",
   0,
   {
     ECORE_GETOPT_STORE_TRUE('d', "debug", "turn on debugging"),
