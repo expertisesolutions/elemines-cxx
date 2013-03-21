@@ -2,6 +2,7 @@ MAINTAINERCLEANFILES = \
 		       ABOUT-NLS \
 		       Makefile.in \
 		       aclocal.m4 \
+		       compile \
 		       config.guess \
 		       config.h.in \
 		       config.rpath \

@@ -30,6 +30,6 @@ EXTRA_DIST = about.png \
 	     quit.png \
 	     refresh.png \
 	     sand.png \
+	     score.png \
 	     sky.png \
-	     stones.png \
-	     trophy.png
+	     stones.png
