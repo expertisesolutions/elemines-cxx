@@ -55,7 +55,7 @@ _walk_iterator_next(Elemines_Iterator *it, void **data)
    it->walker.cell = &matrix[it->col][it->row];
    it->walker.x = it->col;
    it->walker.y = it->row;
-   sprintf((char*) it->walker.target, "board[%i/%i]", it->walker.x, it->walker.y);
+   sprintf((char*) it->walker.target, "board[%i,%i]", it->walker.x, it->walker.y);
 
    it->col++;
    if (it->col == it->x + it->width)

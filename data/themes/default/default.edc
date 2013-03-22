@@ -157,56 +157,23 @@ collections {
               table.homogeneous: TABLE;
            }
 
-#define ITEM(X, Y, Source)                                              \
+#define ITEM(X, Y, W, H, Source)                                        \
            item {                                                       \
-              name: #X"/"#Y;                                            \
               type: GROUP;                                              \
               source: Source;                                           \
               position: X Y;                                            \
               weight: 1 1;                                              \
               align: -1 -1;                                             \
+              spread: W H;                                              \
            }
-
-#define ITEM_TOP_BOTTOM(X)                                              \
-           ITEM(X, 0, "grass/s");                                       \
-           ITEM(X, 11, "grass/n");
-
-#define LINE(Y)                                                         \
-           ITEM(0, Y, "grass/w");                                       \
-           ITEM(1, Y, "cell");                                          \
-           ITEM(2, Y, "cell");                                          \
-           ITEM(3, Y, "cell");                                          \
-           ITEM(4, Y, "cell");                                          \
-           ITEM(5, Y, "cell");                                          \
-           ITEM(6, Y, "cell");                                          \
-           ITEM(7, Y, "cell");                                          \
-           ITEM(8, Y, "cell");                                          \
-           ITEM(9, Y, "cell");                                          \
-           ITEM(10, Y, "cell");                                         \
-           ITEM(11, Y, "grass/e");
 
            table {
               items  {
-                 ITEM_TOP_BOTTOM(1);
-                 ITEM_TOP_BOTTOM(2);
-                 ITEM_TOP_BOTTOM(3);
-                 ITEM_TOP_BOTTOM(4);
-                 ITEM_TOP_BOTTOM(5);
-                 ITEM_TOP_BOTTOM(6);
-                 ITEM_TOP_BOTTOM(7);
-                 ITEM_TOP_BOTTOM(8);
-                 ITEM_TOP_BOTTOM(9);
-                 ITEM_TOP_BOTTOM(10);
-                 LINE(1);
-                 LINE(2);
-                 LINE(3);
-                 LINE(4);
-                 LINE(5);
-                 LINE(6);
-                 LINE(7);
-                 LINE(8);
-                 LINE(9);
-                 LINE(10);
+                 ITEM(1, 0, 10, 1, "grass/s");
+                 ITEM(1, 11, 10, 1, "grass/n");
+                 ITEM(1, 1, 10, 10, "cell");
+                 ITEM(0, 1, 1, 10, "grass/w");
+                 ITEM(11, 1, 1, 10, "grass/e");
               }
            }
         }

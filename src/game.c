@@ -238,7 +238,7 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED,
    char str[128];
 
    /* get back the coordinates of the cell */
-   sscanf(source, "board[%i/%i]:overlay", &x, &y);
+   sscanf(source, "board[%i,%i]:overlay", &x, &y);
 
    /* if we push 1st mouse button and there is no flag */
    if (!strcmp(emission, "mouse,clicked,1") && matrix[x][y].flag == 0)
@@ -250,7 +250,7 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED,
              game.clock.etimer = ecore_timer_add(dt, _timer, NULL);
           }
 
-        sprintf(str, "board[%i/%i]", x, y);
+        sprintf(str, "board[%i,%i]", x, y);
         _clean_walk(str, x, y);
      }
 
@@ -261,12 +261,12 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED,
           {
              if (!matrix[x][y].flag) /* set flag */
                {
-                  sprintf(str, "board[%i/%i]:flag", x, y);
+                  sprintf(str, "board[%i,%i]:flag", x, y);
                   game.datas.remain--;
                }
              else /* already a flag, remove it */
                {
-                  sprintf(str, "board[%i/%i]:default", x, y);
+                  sprintf(str, "board[%i,%i]:default", x, y);
                   game.datas.remain++;
                }
              matrix[x][y].flag = !matrix[x][y].flag;
