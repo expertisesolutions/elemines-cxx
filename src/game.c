@@ -94,30 +94,10 @@ _timer(void *data __UNUSED__)
 }
 
 static void
-_finish_grid(const char *target, unsigned char x, unsigned char y, void *data)
-{
-   Eina_Bool *win = data;
-   char tmp[128];
-
-   if (*win == EINA_TRUE)
-     {
-        sprintf(tmp, "%s:win", target);
-     }
-   else
-     {
-        if (matrix[x][y].mine == 1)
-          {
-             sprintf(tmp, "%s:bomb", target);
-             elm_object_signal_emit(game.ui.table, tmp, "");
-          }
-        sprintf(tmp, "%s:lose", target);
-     }
-   elm_object_signal_emit(game.ui.table, tmp, "");
-}
-
-static void
 _finish(const char *target, Eina_Bool win)
 {
+   Elemines_Walker *walker;
+   Eina_Iterator *it;
    Evas_Object *edje;
    int score;
    char str[255];
@@ -129,7 +109,25 @@ _finish(const char *target, Eina_Bool win)
    edje_object_signal_callback_del_full(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
 
    /* show bombs */
-   _walk(1, 1, SIZE_X, SIZE_Y, _finish_grid, &win);
+   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        if (win == EINA_TRUE)
+          {
+             sprintf(str, "%s:win", walker->target);
+          }
+        else
+          {
+             if (walker->cell->mine == 1)
+               {
+                  sprintf(str, "%s:bomb", walker->target);
+                  elm_object_signal_emit(game.ui.table, str, "");
+               }
+             sprintf(str, "%s:lose", walker->target);
+          }
+        elm_object_signal_emit(game.ui.table, str, "");
+     }
+   eina_iterator_free(it);
 
    /* highlight the fatal bomb */
    if (win == EINA_FALSE)
@@ -168,7 +166,7 @@ _finish(const char *target, Eina_Bool win)
 }
 
 static void
-_clean_walk(const char *target, unsigned char x, unsigned char y, void *data EINA_UNUSED)
+_clean_walk(const char *target, unsigned char x, unsigned char y)
 {
    /* we are out of board */
    if (x == 0 || x == SIZE_X+1 || y == 0 || y == SIZE_Y+1)
@@ -211,7 +209,13 @@ _clean_walk(const char *target, unsigned char x, unsigned char y, void *data EIN
         /* no neighbour */
         else
           {
-             _walk(x - 1, y - 1, 3, 3, _clean_walk, NULL);
+             Elemines_Walker *walker;
+             Eina_Iterator *it;
+
+             it =  _walk(x - 1, y - 1, 3, 3);
+             EINA_ITERATOR_FOREACH(it, walker)
+               _clean_walk(walker->target, walker->x, walker->y);
+             eina_iterator_free(it);
           }
         /* keep track of this empty spot */
         game.datas.counter--;
@@ -223,15 +227,6 @@ _clean_walk(const char *target, unsigned char x, unsigned char y, void *data EIN
         _finish(target, EINA_FALSE);
      }
    return;   
-}
-
-static void
-_flags_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data)
-{
-   int *flags = data;
-
-   if (matrix[x][y].flag == 1)
-     (*flags)++;
 }
 
 void
@@ -254,7 +249,7 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char *emissio
           }
 
         sprintf(str, "board[%i/%i]", x, y);
-        _clean_walk(str, x, y, NULL);
+        _clean_walk(str, x, y);
      }
 
    /* second button: put a flag */
@@ -286,15 +281,29 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char *emissio
    /* middle button: open rest if we have enough mines */
    if (!strcmp(emission, "mouse,clicked,2") && (matrix[x][y].uncover == 1) )
      {
+        Elemines_Walker *walker;
+        Eina_Iterator *it;
         int flags = 0;
 
         /* count surrounding flags */
-        _walk(x - 1, y - 1, 3, 3, _flags_count, &flags);
-        if (matrix[x][y].flag == 1) flags--;
+        it = _walk(x - 1, y - 1, 3, 3);
+        EINA_ITERATOR_FOREACH(it, walker)
+          {
+             if (walker->x == x && walker->y == y)
+               continue ;
+             if (walker->cell->flag == 1)
+               flags++;
+          }
+        eina_iterator_free(it);
 
         /* open surrounding squares if correct number of flags is set */
         if (flags == matrix[x][y].neighbours)
-          _walk(x - 1, y - 1, 3, 3, _clean_walk, NULL);
+          {
+             it = _walk(x - 1, y - 1, 3, 3);
+             EINA_ITERATOR_FOREACH(it, walker)
+               _clean_walk(walker->target, walker->x, walker->y);
+             eina_iterator_free(it);
+          }
      }
 }
 

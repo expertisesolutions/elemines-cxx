@@ -59,8 +59,11 @@
 #define STANDARD "Standard"
 #define CUSTOM "Custom"
 
+typedef struct _Elemines_Cell Elemines_Cell;
+typedef struct _Elemines_Walker Elemines_Walker;
+
 /* structure to hold datas for each cell */
-struct cell_struct {
+struct _Elemines_Cell {
    unsigned char neighbours : 4;  /* (0-8, 9 for bomb) */
    Eina_Bool mine : 1;            /* (0/1) */
    Eina_Bool flag : 1;            /* (0/1) */
@@ -68,7 +71,7 @@ struct cell_struct {
 };
 
 /* main matrix of data */
-extern struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
+extern Elemines_Cell matrix[SIZE_X+2][SIZE_Y+2];
 
 /* global variables */
 struct ui_struct {
@@ -105,7 +108,16 @@ struct game_struct {
    struct clock_struct clock;
    struct trophy_struct trophy;
 };
+
 struct game_struct game;
+
+struct _Elemines_Walker
+{
+   Elemines_Cell *cell;
+   const char *target;
+   unsigned char x;
+   unsigned char y;
+};
 
 /* global functions */
 void show_help(void);
@@ -113,9 +125,7 @@ void show_version(void);
 void init(void *data, Evas_Object *obj, void *event_info);
 Eina_Bool gui(char *theme, Eina_Bool fullscreen);
 void _click(void *data, Evas_Object *obj, const char *emission, const char *source);
-void _walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h,
-           void (*callback)(const char *target, unsigned char x, unsigned char y, void *data),
-           const void *data);
+Eina_Iterator *_walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h);
 
 #endif
 

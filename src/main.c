@@ -26,55 +26,119 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <Eina.h>
 #include <Ecore_Getopt.h>
 
 #include "elemines.h"
 
+typedef struct _Elemines_Iterator Elemines_Iterator;
+struct _Elemines_Iterator
+{
+   Eina_Iterator iterator;
+
+   Elemines_Walker walker;
+
+   unsigned char col;
+   unsigned char row;
+   unsigned char x;
+   unsigned char y;
+   unsigned char width;
+   unsigned char height;
+};
+
+static Eina_Bool
+_walk_iterator_next(Elemines_Iterator *it, void **data)
+{
+   if (!(it->col < it->x + it->width &&
+         it->row < it->y + it->height))
+     return EINA_FALSE;
+
+   *data = &it->walker;
+
+   it->walker.cell = &matrix[it->col][it->row];
+   it->walker.x = it->col;
+   it->walker.y = it->row;
+   sprintf((char*) it->walker.target, "board[%i/%i]", it->walker.x, it->walker.y);
+
+   it->col++;
+   if (it->col == it->x + it->width)
+     {
+        it->col = it->x;
+        it->row++;
+     }
+
+   return EINA_TRUE;
+}
+
+static void *
+_walk_iterator_container(Elemines_Iterator *it EINA_UNUSED)
+{
+   return matrix;
+}
+
+static void
+_walk_iterator_free(Elemines_Iterator *it)
+{
+   EINA_MAGIC_SET(&it->iterator, 0);
+   free(it);
+}
+
 // This would have been cleaner with an Eina_Iterator
-void
-_walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h,
-      void (*callback)(const char *target, unsigned char x, unsigned char y, void *data),
-      const void *data)
+Eina_Iterator *
+_walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h)
 {
-   unsigned char i;
-   unsigned char j;
+   Elemines_Iterator *r;
 
-   for (j = y; j < y + h; j++)
-     for (i = x; i < x + w; i++)
-       {
-          char tmp[128];
+   r = calloc(1, sizeof (Elemines_Iterator) + strlen("board[00,00]") + 1);
+   if (!r) return NULL;
 
-          sprintf(tmp, "board[%i/%i]", i, j);
-          callback(tmp, i, j, (void*) data);
-       }
-}
+   r->iterator.version = EINA_ITERATOR_VERSION;
+   r->iterator.next = FUNC_ITERATOR_NEXT(_walk_iterator_next);
+   r->iterator.get_container = FUNC_ITERATOR_GET_CONTAINER(_walk_iterator_container);
+   r->iterator.free = FUNC_ITERATOR_FREE(_walk_iterator_free);
 
-static unsigned char prev_y = 0;
-static void
-_printf_mine(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
-{
-   if (prev_y != y) printf("\n");
-   printf("%d ", matrix[x][y].mine);
-   prev_y = y;
-}
+   EINA_MAGIC_SET(&r->iterator, EINA_MAGIC_ITERATOR);
 
-static void
-_printf_neighbours(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
-{
-   if (prev_y != y) printf("\n");
-   printf("%d ", matrix[x][y].neighbours);
-   prev_y = y;
+   r->col = x;
+   r->row = y;
+   r->x = x;
+   r->y = y;
+   r->width = w;
+   r->height = h;
+   r->walker.target = (char *) (r + 1);
+   r->walker.x = x;
+   r->walker.y = y;
+
+   return &r->iterator;
 }
 
 static void
 _debug(void)
 {
+   Eina_Iterator *it;
+   Elemines_Walker *walker;
+   unsigned char prev_y = 0;
+
    printf("== bomb positions =====\n");
-   _walk(0, 0, SIZE_X+2, SIZE_Y+2, _printf_mine, NULL);
+   it = _walk(0, 0, SIZE_X+2, SIZE_Y+2);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        if (prev_y != walker->y) printf("\n");
+        printf("%d ", walker->cell->mine);
+        prev_y = walker->y;
+     }
+   eina_iterator_free(it);
 
    printf("\n\n== neighbours count ===\n");
    prev_y = 0;
-   _walk(0, 0, SIZE_X+2, SIZE_Y+2, _printf_neighbours, NULL);
+   it = _walk(0, 0, SIZE_X+2, SIZE_Y+2);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        if (prev_y != walker->y) printf("\n");
+        printf("%d ", walker->cell->neighbours);
+        prev_y = walker->y;
+     }
+   eina_iterator_free(it);
    printf("\n");
 }
 

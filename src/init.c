@@ -28,35 +28,13 @@
 
 #include "elemines.h"
 
-struct cell_struct matrix[SIZE_X+2][SIZE_Y+2];
-
-static void
-_mine_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data)
-{
-   int *count = data;
-
-   if (matrix[x][y].mine)
-     (*count)++;
-}
-
-static void
-_update_mine_count(const char *target EINA_UNUSED, unsigned char x, unsigned char y, void *data EINA_UNUSED)
-{
-   int neighbours = 9;
-
-   /* mark a mine place with a 9 */
-   if (!matrix[x][y].mine)
-     {
-        neighbours = 0;
-        _walk(x - 1, y - 1, 3, 3, _mine_count, &neighbours);
-     }
-
-   matrix[x][y].neighbours = neighbours;
-}
+Elemines_Cell matrix[SIZE_X+2][SIZE_Y+2];
 
 static Eina_Bool
 _generate(void)
 {
+   Elemines_Walker *walker;
+   Eina_Iterator *it;
    int i, x, y;
 
    /* empty the matrix */
@@ -77,36 +55,39 @@ _generate(void)
      }
 
    /* 2nd table: neighbours */
-   _walk(1, 1, SIZE_X, SIZE_Y, _update_mine_count, NULL);
+   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        int neighbours = 9;
+
+        /* mark a mine place with a 9 */
+        if (!walker->cell->mine)
+          {
+             Elemines_Walker *walkerc;
+             Eina_Iterator *itc;
+
+             neighbours = 0;
+             itc = _walk(walker->x - 1, walker->y - 1, 3, 3);
+             EINA_ITERATOR_FOREACH(itc, walkerc)
+               {
+                  if (walkerc->cell->mine)
+                    neighbours++;
+               }
+             eina_iterator_free(itc);
+          }
+
+        walker->cell->neighbours = neighbours;
+     }
+   eina_iterator_free(it);      
+
    return EINA_TRUE;
-}
-
-static void
-_reset(const char *target, unsigned char x EINA_UNUSED, unsigned char y EINA_UNUSED, void *data EINA_UNUSED)
-{
-   char tmp[128];
-   int scenery;
-
-   sprintf(tmp, "%s:reset", target);
-   elm_object_signal_emit(game.ui.table, tmp, "");
-
-   /* add some random scenery */
-   scenery = (int)((double)100 * rand() / RAND_MAX + 1);
-   if (scenery < 15)
-     {
-        sprintf(tmp, "%s:flowers", target);
-        elm_object_signal_emit(game.ui.table, tmp, "");
-     }
-   if ((scenery > 12) && (scenery < 18))
-     {
-        sprintf(tmp, "%s:mushrooms", target);
-        elm_object_signal_emit(game.ui.table, tmp, "");
-     }
 }
 
 static Eina_Bool
 _board(void)
 {
+   Elemines_Walker *walker;
+   Eina_Iterator *it;
    Evas_Object *edje;
 
    edje = elm_layout_edje_get(game.ui.table);
@@ -116,7 +97,30 @@ _board(void)
    edje_object_signal_callback_add(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
 
    /* prepare the board */
-   _walk(1, 1, SIZE_X, SIZE_Y, _reset, NULL);
+   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        char tmp[128];
+        int scenery;
+
+        sprintf(tmp, "%s:reset", walker->target);
+        elm_object_signal_emit(game.ui.table, tmp, "");
+
+        /* add some random scenery */
+        scenery = (int)((double)100 * rand() / RAND_MAX + 1);
+        if (scenery < 15)
+          {
+             sprintf(tmp, "%s:flowers", walker->target);
+             elm_object_signal_emit(game.ui.table, tmp, "");
+          }
+        if ((scenery > 12) && (scenery < 18))
+          {
+             sprintf(tmp, "%s:mushrooms", walker->target);
+             elm_object_signal_emit(game.ui.table, tmp, "");
+          }
+     }
+   eina_iterator_free(it);
+
    return EINA_TRUE;
 }
 
