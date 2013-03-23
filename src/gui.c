@@ -79,7 +79,7 @@ _config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* we get back the mine number from user and init again the game */
    number = elm_spinner_value_get(spin);
    if ( (number < 2) || (number > (SIZE_X * SIZE_Y)) )
-       number = MINES;
+       number = game.datas.mines_theme;
 
    game.datas.mines_total = number;
    evas_object_hide(game.ui.popup);
@@ -118,7 +118,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    snprintf(buffer, sizeof(buffer), _("<b>Note:</b> default mine number is "
             "<b>%d</b> with scoring in <b>%s</b> category. If you change "
             "the mine number to something else, your score will be put in the "
-            "<b>%s</b> category."), MINES, STANDARD, CUSTOM);
+            "<b>%s</b> category."), game.datas.mines_theme, STANDARD, CUSTOM);
    elm_object_text_set(label, buffer);
    evas_object_size_hint_weight_set(label, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
@@ -226,6 +226,25 @@ gui(char *theme, Eina_Bool fullscreen)
      }
 
    elm_theme_extension_add(NULL, game.edje_file);
+
+   /* get default mines count from theme */
+   if (edje_file_data_get(game.edje_file, "MINES") != NULL)
+     {
+        game.datas.mines_theme = atoi(edje_file_data_get(game.edje_file, "MINES"));
+     }
+   else
+     {
+        EINA_LOG_CRIT("Loading theme error: can not read the MINES value in %s", game.edje_file);
+        return EINA_FALSE;
+     }
+
+   /* Validate input values */
+   if (game.datas.mines_total == 0)
+     game.datas.mines_total =  game.datas.mines_theme;
+   if (game.datas.mines_total < 0)
+     game.datas.mines_total = 1;
+   if (game.datas.mines_total > (SIZE_X * SIZE_Y - 1))
+     game.datas.mines_total = SIZE_X * SIZE_Y - 1;
 
    /* set general properties */
    game.ui.window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);

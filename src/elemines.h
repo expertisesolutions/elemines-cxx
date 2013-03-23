@@ -55,7 +55,6 @@
 
 #define SIZE_X  10
 #define SIZE_Y  10
-#define MINES   12
 #define STANDARD "Standard"
 #define CUSTOM "Custom"
 
@@ -84,6 +83,7 @@ struct ui_struct {
 
 struct datas_struct {
    int mines_total;
+   int mines_theme;
    int remain;
    int counter;
 };

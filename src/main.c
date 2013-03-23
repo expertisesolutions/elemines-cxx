@@ -190,8 +190,8 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    textdomain(PACKAGE);
 #endif
 
-   /* Set default values */
-   game.datas.mines_total = MINES;
+   /* will be used to check input */
+   game.datas.mines_total = 0;
 
    /* Get user values */
    args = ecore_getopt_parse(&optdesc, values, argc, argv);
@@ -204,12 +204,6 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
      {
        goto end;
      }
-
-   /* Validate user values */
-   if (game.datas.mines_total < 1)
-     game.datas.mines_total = 1;
-   if (game.datas.mines_total > (SIZE_X * SIZE_Y - 1))
-     game.datas.mines_total = SIZE_X * SIZE_Y - 1;
 
    game.clock.started = EINA_FALSE;
 

@@ -69,6 +69,7 @@ fonts {
 }
 
 data {
+  item: "MINES"  "12";
   item: "width"  "500";
   item: "height" "600";
 }

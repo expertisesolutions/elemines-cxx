@@ -51,7 +51,7 @@ _scoring(void)
    /* add the score */
    game.trophy.escore = etrophy_score_new(user, score);
    /* Level is Standard if using default board values */
-   if (game.datas.mines_total == MINES)
+   if (game.datas.mines_total == game.datas.mines_theme)
      {
         game.trophy.game_type = STANDARD;
      }
