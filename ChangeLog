@@ -1,7 +1,12 @@
 elemines 0.2.3
 --------------
 
-Big code refactoring/improvement by Cedric Bail.
+Big code refactoring/improvement by Cedric Bail:
+- most of the layout done with edje
+- use eina iterators to walk the matrix
+- use ecore getopt
+- add support for QuickLaunch
+
 New translations:
 - polish
 
