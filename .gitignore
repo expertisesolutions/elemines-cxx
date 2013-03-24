@@ -1,11 +1,12 @@
 # generated and tmp files
 *~
-data/themes/*.edj
+data/themes/default/*.edj
 src/*.o
 src/*.lo
 src/*.la
 src/.deps
 src/elemines
+src/eleminesql
 packaging/slackware/elemines-*.txz
 elemines-*.tar.?z*
 po/*.gmo
@@ -48,5 +49,3 @@ po/quot.sed
 po/remove-potcdate.sed
 po/remove-potcdate.sin
 po/stamp-po
-
-src/eleminesql

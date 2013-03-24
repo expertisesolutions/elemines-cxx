@@ -46,8 +46,10 @@ Makefile
 data/Makefile
 data/desktop/Makefile
 data/themes/Makefile
-data/themes/fonts/Makefile
-data/themes/images/Makefile
+data/themes/default/Makefile
+data/themes/default/edc/Makefile
+data/themes/default/fonts/Makefile
+data/themes/default/images/Makefile
 doc/Makefile
 packaging/Makefile
 packaging/slackware/Makefile
