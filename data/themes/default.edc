@@ -946,6 +946,7 @@ collections {
           state: "default" 0.0;
           text {
             text: "";
+            font: "Title";
           }
           rel1 {
             relative: 0.1 0.7;
