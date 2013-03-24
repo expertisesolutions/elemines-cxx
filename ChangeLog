@@ -1,13 +1,17 @@
 elemines 0.2.3
 --------------
 
+Mines count and board size are now defined in the edje theme
 Big code refactoring/improvement by Cedric Bail:
 - most of the layout done with edje
 - use eina iterators to walk the matrix
 - use ecore getopt
 - add support for QuickLaunch
 
-New translations:
+New theme:
+- default-big (20x10, 24 mines)
+
+New translation:
 - polish
 
 
@@ -17,7 +21,8 @@ elemines 0.2.2
 Fix the middle click feature once again
 Fix flags accounting
 Validate user data to prevent endless loop
-New translations:
+
+New translation:
 - russian
 
 
@@ -26,6 +31,7 @@ elemines 0.2.1
 
 Fix the middle click feature
 Detect high score
+
 New translations:
 - esperanto
 - galician
