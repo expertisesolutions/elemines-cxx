@@ -26,9 +26,6 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <Eina.h>
-#include <Ecore_Getopt.h>
-
 #include "elemines.h"
 
 typedef struct _Elemines_Iterator Elemines_Iterator;
@@ -83,7 +80,6 @@ _walk_iterator_free(Elemines_Iterator *it)
    free(it);
 }
 
-// This would have been cleaner with an Eina_Iterator
 Eina_Iterator *
 _walk(unsigned char x, unsigned char y, unsigned char w, unsigned char h)
 {
@@ -120,7 +116,7 @@ _debug(void)
    unsigned char prev_y = 0;
 
    printf("== bomb positions =====\n");
-   it = _walk(0, 0, game.datas.x_theme+2, game.datas.y_theme+2);
+   it = _walk(0, 0, game.datas.x_theme + 2, game.datas.y_theme + 2);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         if (prev_y != walker->y) printf("\n");
@@ -131,7 +127,7 @@ _debug(void)
 
    printf("\n\n== neighbours count ===\n");
    prev_y = 0;
-   it = _walk(0, 0, game.datas.x_theme+2, game.datas.y_theme+2);
+   it = _walk(0, 0, game.datas.x_theme + 2, game.datas.y_theme + 2);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         if (prev_y != walker->y) printf("\n");
@@ -197,7 +193,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    args = ecore_getopt_parse(&optdesc, values, argc, argv);
    if (args < 0)
      {
-       fputs("Could not parse arguments.\n", stderr);
+       EINA_LOG_CRIT("Could not parse arguments.");
        goto end;
      }
    else if (quit_option)

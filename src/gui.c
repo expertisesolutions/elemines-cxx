@@ -51,7 +51,6 @@ static void
 _show_score(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
             void *event_info __UNUSED__)
 {
-
    Evas_Object *button, *leaderboard;
 
    game.ui.popup = elm_popup_add(game.ui.window);
@@ -207,7 +206,6 @@ _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* Close the inwin when clicked */
    evas_object_event_callback_add(popup, EVAS_CALLBACK_MOUSE_DOWN,
                                   _pause_del, NULL);
-
 }
 
 Eina_Bool
@@ -226,7 +224,6 @@ gui(char *theme, Eina_Bool fullscreen)
      }
 
    elm_theme_extension_add(NULL, game.edje_file);
-
 
    /* get board size from theme */
    if (edje_file_data_get(game.edje_file, "SIZE_X") != NULL
@@ -265,7 +262,6 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_win_title_set(game.ui.window, PACKAGE);
    elm_win_autodel_set(game.ui.window, EINA_TRUE);
    elm_policy_set(ELM_POLICY_QUIT, ELM_POLICY_QUIT_LAST_WINDOW_CLOSED);
-
 
    /* init score system */
    etrophy_init();

@@ -41,9 +41,9 @@
 
 #include <Eina.h>
 #include <Evas.h>
+#include <Ecore_Getopt.h>
 #include <Edje.h>
 #include <Elementary.h>
-#include <Elementary_Cursor.h>
 #include <Etrophy.h>
 
 #include "gettext.h"

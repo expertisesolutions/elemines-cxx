@@ -43,7 +43,7 @@ _scoring(void)
    score = (game.datas.x_theme * game.datas.y_theme * game.datas.mines_total)
             - (10 * end_time);
    /* Don't be rude with bad players */
-   if ( score < 0 ) score = 0;
+   if (score < 0) score = 0;
 
    /* get system username for name */
    user = getenv("USER");
@@ -169,7 +169,8 @@ static void
 _clean_walk(const char *target, unsigned char x, unsigned char y)
 {
    /* we are out of board */
-   if (x == 0 || x == game.datas.x_theme+1 || y == 0 || y == game.datas.y_theme+1)
+   if (x == 0 || x == game.datas.x_theme + 1
+       || y == 0 || y == game.datas.y_theme + 1)
      return;
 
    /* do nothing if the square is already uncovered */
@@ -230,7 +231,8 @@ _clean_walk(const char *target, unsigned char x, unsigned char y)
 }
 
 void
-_click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char *emission, const char *source)
+_click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED,
+       const char *emission, const char *source)
 {
    int x, y;
    char str[128];
@@ -279,7 +281,7 @@ _click(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, const char *emissio
      }
 
    /* middle button: open rest if we have enough mines */
-   if (!strcmp(emission, "mouse,clicked,2") && (matrix[x][y].uncover == 1) )
+   if (!strcmp(emission, "mouse,clicked,2") && (matrix[x][y].uncover == 1))
      {
         Elemines_Walker *walker;
         Eina_Iterator *it;
