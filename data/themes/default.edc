@@ -372,29 +372,6 @@ collections {
      }
   }
 
-  /* blank cell, for centering the board */
-  group {
-    name: "blank";
-    parts {
-      part {
-        name: "bg";
-        type: RECT;
-        description {
-          state: "default" 0.0;
-          color: 0 0 0 0;
-          rel1 {
-            relative: 0.0 0.0;
-            offset: 1 1;
-          }
-          rel2 {
-            relative: 1.0 1.0;
-            offset: -1 -1;
-          }
-        }
-      }
-    }
-  }
-
   /* text for pause inwin */
   group {
    name: "pause";
@@ -882,6 +859,7 @@ collections {
         description {
           state: "win" 0.1;
           inherit: "default" 0.0;
+          aspect: 1.0 1.0;
           image {
             normal: "bomb-sad.png";
           }
