@@ -28,8 +28,6 @@
 
 #include "elemines.h"
 
-Elemines_Cell matrix[SIZE_X+2][SIZE_Y+2];
-
 static Eina_Bool
 _generate(void)
 {
@@ -37,16 +35,34 @@ _generate(void)
    Eina_Iterator *it;
    int i, x, y;
 
-   /* empty the matrix */
-   memset(matrix, 0, sizeof(matrix));
+   /* allocate  the matrix */
+   matrix = (Elemines_Cell**)malloc((game.datas.x_theme + 2) * sizeof(Elemines_Cell*));
+   if (!matrix) return EINA_FALSE;
+
+   for(i = 0; i < game.datas.x_theme + 2; i++)
+     {
+        matrix[i] = (Elemines_Cell*)malloc((game.datas.y_theme + 2) * sizeof(Elemines_Cell));
+        if (!matrix[i]) return EINA_FALSE;
+     }
+
+   /* fill the matrix with 0 */
+   it = _walk(0, 0, game.datas.x_theme + 2, game.datas.y_theme + 2);
+   EINA_ITERATOR_FOREACH(it, walker)
+     {
+        walker->cell->neighbours = 0;
+        walker->cell->mine = 0;
+        walker->cell->flag = 0;
+        walker->cell->uncover = 0;
+     }
+   eina_iterator_free(it);
 
    /* 1st table: the mines */
    srand(time(NULL));
    for (i = 0; i < game.datas.mines_total; i++)
      {
         /* random coordinates */
-        x = (int)((double)SIZE_X * rand() / RAND_MAX + 1);
-        y = (int)((double)SIZE_Y * rand() / RAND_MAX + 1);
+        x = (int)((double)game.datas.x_theme * rand() / RAND_MAX + 1);
+        y = (int)((double)game.datas.y_theme * rand() / RAND_MAX + 1);
 
         if (matrix[x][y].mine == 0 )
           matrix[x][y].mine = 1;
@@ -55,7 +71,7 @@ _generate(void)
      }
 
    /* 2nd table: neighbours */
-   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   it = _walk(1, 1, game.datas.x_theme, game.datas.y_theme);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         int neighbours = 9;
@@ -78,7 +94,7 @@ _generate(void)
 
         walker->cell->neighbours = neighbours;
      }
-   eina_iterator_free(it);      
+   eina_iterator_free(it);
 
    return EINA_TRUE;
 }
@@ -97,7 +113,7 @@ _board(void)
    edje_object_signal_callback_add(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
 
    /* prepare the board */
-   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   it = _walk(1, 1, game.datas.x_theme, game.datas.y_theme);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         char tmp[128];
@@ -128,17 +144,23 @@ void
 init(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
      void *event_info __UNUSED__)
 {
+   int i;
    char str[8];
 
    /* init variables */
    game.clock.started = EINA_FALSE;
    game.clock.delay = 0;
    game.datas.remain = game.datas.mines_total;
-   game.datas.counter = SIZE_X * SIZE_Y - game.datas.mines_total;
+   game.datas.counter = game.datas.x_theme * game.datas.y_theme - game.datas.mines_total;
 
-   memset(matrix, 0, sizeof (matrix));
+   if (matrix)
+     {
+        for(i = 0; i < game.datas.y_theme + 2; i++)
+          free((void *)matrix[i]);
+        free((void *)matrix);
+     }
 
-   _generate();
+   if (_generate() == EINA_FALSE) EINA_LOG_CRIT("Can not generate the data matrix");
    _board();
 
    /* reinit widgets if needed */

@@ -120,7 +120,7 @@ _debug(void)
    unsigned char prev_y = 0;
 
    printf("== bomb positions =====\n");
-   it = _walk(0, 0, SIZE_X+2, SIZE_Y+2);
+   it = _walk(0, 0, game.datas.x_theme+2, game.datas.y_theme+2);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         if (prev_y != walker->y) printf("\n");
@@ -131,7 +131,7 @@ _debug(void)
 
    printf("\n\n== neighbours count ===\n");
    prev_y = 0;
-   it = _walk(0, 0, SIZE_X+2, SIZE_Y+2);
+   it = _walk(0, 0, game.datas.x_theme+2, game.datas.y_theme+2);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         if (prev_y != walker->y) printf("\n");

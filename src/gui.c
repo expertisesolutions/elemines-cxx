@@ -78,7 +78,7 @@ _config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
 
    /* we get back the mine number from user and init again the game */
    number = elm_spinner_value_get(spin);
-   if ( (number < 2) || (number > (SIZE_X * SIZE_Y)) )
+   if ( (number < 2) || (number > (game.datas.x_theme * game.datas.y_theme)) )
        number = game.datas.mines_theme;
 
    game.datas.mines_total = number;
@@ -105,7 +105,7 @@ _show_config(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
    /* spinner to change mine number */
    spin = elm_spinner_add(game.ui.window);
    elm_spinner_label_format_set(spin, _("%.0f mines"));
-   elm_spinner_min_max_set(spin, 2, SIZE_X * SIZE_Y - 1);
+   elm_spinner_min_max_set(spin, 2, game.datas.x_theme * game.datas.y_theme - 1);
    elm_spinner_value_set(spin, game.datas.mines_total);
    evas_object_size_hint_weight_set(spin, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
    evas_object_size_hint_align_set(spin, EVAS_HINT_FILL, EVAS_HINT_FILL);
@@ -227,6 +227,20 @@ gui(char *theme, Eina_Bool fullscreen)
 
    elm_theme_extension_add(NULL, game.edje_file);
 
+
+   /* get board size from theme */
+   if (edje_file_data_get(game.edje_file, "SIZE_X") != NULL
+       && edje_file_data_get(game.edje_file, "SIZE_Y") != NULL)
+     {
+        game.datas.x_theme = atoi(edje_file_data_get(game.edje_file, "SIZE_X"));
+        game.datas.y_theme = atoi(edje_file_data_get(game.edje_file, "SIZE_Y"));
+     }
+   else
+     {
+        EINA_LOG_CRIT("Loading theme error: can not read the SIZE_? value in %s", game.edje_file);
+        return EINA_FALSE;
+     }
+
    /* get default mines count from theme */
    if (edje_file_data_get(game.edje_file, "MINES") != NULL)
      {
@@ -243,8 +257,8 @@ gui(char *theme, Eina_Bool fullscreen)
      game.datas.mines_total =  game.datas.mines_theme;
    if (game.datas.mines_total < 0)
      game.datas.mines_total = 1;
-   if (game.datas.mines_total > (SIZE_X * SIZE_Y - 1))
-     game.datas.mines_total = SIZE_X * SIZE_Y - 1;
+   if (game.datas.mines_total > (game.datas.x_theme * game.datas.y_theme - 1))
+     game.datas.mines_total = game.datas.x_theme * game.datas.y_theme - 1;
 
    /* set general properties */
    game.ui.window = elm_win_add(NULL, PACKAGE, ELM_WIN_BASIC);

@@ -53,8 +53,6 @@
 
 #define COPYRIGHT "Copyright © 2012-2013 Jérôme Pinot <ngc891@gmail.com> and various contributors (see AUTHORS)."
 
-#define SIZE_X  10
-#define SIZE_Y  10
 #define STANDARD "Standard"
 #define CUSTOM "Custom"
 
@@ -70,7 +68,7 @@ struct _Elemines_Cell {
 };
 
 /* main matrix of data */
-extern Elemines_Cell matrix[SIZE_X+2][SIZE_Y+2];
+Elemines_Cell **matrix;
 
 /* global variables */
 struct ui_struct {
@@ -82,6 +80,8 @@ struct ui_struct {
 };
 
 struct datas_struct {
+   int x_theme;
+   int y_theme;
    int mines_total;
    int mines_theme;
    int remain;

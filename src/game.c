@@ -40,7 +40,7 @@ _scoring(void)
 
    /* compute score using time, board size and mines count */
    end_time = ecore_loop_time_get() - t0 - game.clock.delay;
-   score = (SIZE_X * SIZE_Y * game.datas.mines_total)
+   score = (game.datas.x_theme * game.datas.y_theme * game.datas.mines_total)
             - (10 * end_time);
    /* Don't be rude with bad players */
    if ( score < 0 ) score = 0;
@@ -109,7 +109,7 @@ _finish(const char *target, Eina_Bool win)
    edje_object_signal_callback_del_full(edje, "mouse,clicked,*", "board\\[*\\]:overlay", _click, NULL);
 
    /* show bombs */
-   it = _walk(1, 1, SIZE_X, SIZE_Y);
+   it = _walk(1, 1, game.datas.x_theme, game.datas.y_theme);
    EINA_ITERATOR_FOREACH(it, walker)
      {
         if (win == EINA_TRUE)
@@ -169,7 +169,7 @@ static void
 _clean_walk(const char *target, unsigned char x, unsigned char y)
 {
    /* we are out of board */
-   if (x == 0 || x == SIZE_X+1 || y == 0 || y == SIZE_Y+1)
+   if (x == 0 || x == game.datas.x_theme+1 || y == 0 || y == game.datas.y_theme+1)
      return;
 
    /* do nothing if the square is already uncovered */
