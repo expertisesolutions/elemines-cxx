@@ -1,0 +1,75 @@
+# Serbian translation for enlightenment
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the enlightenment package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: enlightenment\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-04-07 21:26+0200\n"
+"PO-Revision-Date: 2013-04-20 18:07+0000\n"
+"Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
+"Language-Team: Serbian <sr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-04-21 04:38+0000\n"
+"X-Generator: Launchpad (build 16567)\n"
+
+#: src/gui.c:57
+msgid "High Scores"
+msgstr "Најрезултати"
+
+#: src/gui.c:96 src/gui.c:363
+msgid "Configuration"
+msgstr "Поставке"
+
+#: src/gui.c:106
+#, c-format
+msgid "%.0f mines"
+msgstr "%.0f мине"
+
+#: src/gui.c:117
+#, c-format
+msgid ""
+"<b>Note:</b> default mine number is <b>%d</b> with scoring in <b>%s</b> "
+"category. If you change the mine number to something else, your score will "
+"be put in the <b>%s</b> category."
+msgstr ""
+"<b>Примедба:</b> подразумевани број мина је <b>%d</b> са уписом достигнућа у "
+"<b>%s</b> врсти. Ако промените број мина у нешто друго, достигнућа ће Вам "
+"бити уписивана у <b>%s</b> врсти."
+
+#: src/gui.c:131 src/gui.c:161
+msgid "OK"
+msgstr "У реду"
+
+#: src/gui.c:146 src/gui.c:366
+msgid "About"
+msgstr "О програму"
+
+#: src/gui.c:150
+#, c-format
+msgid ""
+"<b>%s %s</b><br><br>%s<br><br>Pictures derived from Battle For "
+"Wesnoth:<br>http://www.wesnoth.org/<br>"
+msgstr ""
+"<b>%s %s</b><br><br>%s<br><br>Слике су порклом из Боја за "
+"Веснот:<br>http://www.wesnoth.org/<br>"
+
+#: src/gui.c:361
+msgid "Refresh"
+msgstr "Освежи"
+
+#: src/gui.c:362
+msgid "Pause"
+msgstr "Предах"
+
+#: src/gui.c:365
+msgid "Scores"
+msgstr "Достигнућа"
+
+#: src/gui.c:367
+msgid "Quit"
+msgstr "Напусти"
