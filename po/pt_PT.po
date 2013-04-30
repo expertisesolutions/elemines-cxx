@@ -1,24 +1,25 @@
-# Portuguese translations for Elemines.
-# Copyright (C) 2013 Jérôme Pinot
-# This file is distributed under the same license as the Elemines package.
-# Sérgio Marques <smarquespt@gmail.com>, 2013.
+# Portuguese translation of elemines.
+# Copyright (C) YEAR Jérôme Pinot.
+# This file is public domain.
+# Sérgio Marques <smarquespt@gmail.com>, 2010-2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: elemines 0.2.3\n"
+"Project-Id-Version: elemines\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-03-24 14:48+0900\n"
-"PO-Revision-Date: 2013-01-22 14:55-0000\n"
+"POT-Creation-Date: 2013-04-07 21:26+0200\n"
+"PO-Revision-Date: 2013-04-30 12:55-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
-"Language-Team: Portuguese\n"
-"Language: pt_PT\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: pt_PT\n"
 
 #: src/gui.c:57
 msgid "High Scores"
-msgstr "Melhores resultados"
+msgstr "Recordes"
 
 #: src/gui.c:96 src/gui.c:363
 msgid "Configuration"
@@ -36,8 +37,8 @@ msgid ""
 "category. If you change the mine number to something else, your score will "
 "be put in the <b>%s</b> category."
 msgstr ""
-"<b>Nota:</b> o número padrão de minas é <b>%d</b> e os resultados são na "
-"categoria <b>%s</b>. Se alterar  número de minas, o seu resultado será "
+"<b>Nota:</b> o número padrão de minas é <b>%d</b> com avaliação na categoria "
+"<b>%s</b>. Se quiser alterar o número de minas, o seu resultado será "
 "colocado na categoria <b>%s</b>."
 
 #: src/gui.c:131 src/gui.c:161
