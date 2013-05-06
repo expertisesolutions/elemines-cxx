@@ -1,4 +1,4 @@
-# Galician translation of Elemines.
+# Galician translation for Elemines.
 # Copyright (C) 2013 Jérôme Pinot
 # This file is distributed under the same license as the Elemines package.
 # Aníbal Garrido <khanyux@gmail.com>, 2013.

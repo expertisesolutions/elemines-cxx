@@ -1,4 +1,4 @@
-# Russian translations for Elemines.
+# Russian translation for Elemines.
 # Copyright (C) 2013 Jérôme Pinot
 # This file is distributed under the same license as the Elemines package.
 # Igor Murzov <e-mail@date.by>, 2013.
