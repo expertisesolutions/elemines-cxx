@@ -50,6 +50,7 @@ data/themes/default/Makefile
 data/themes/default/edc/Makefile
 data/themes/default/fonts/Makefile
 data/themes/default/images/Makefile
+data/themes/default/sounds/Makefile
 doc/Makefile
 packaging/Makefile
 packaging/slackware/Makefile
