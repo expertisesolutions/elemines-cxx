@@ -213,6 +213,7 @@ gui(char *theme, Eina_Bool fullscreen)
 {
    Evas_Object *background, *vbox, *toolbar, *hbox, *conform;
    int x, y;
+   char *str1, *str2;
 
    /* get the edje theme file */
    snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj",
@@ -226,26 +227,32 @@ gui(char *theme, Eina_Bool fullscreen)
    elm_theme_extension_add(NULL, game.edje_file);
 
    /* get board size from theme */
-   if (edje_file_data_get(game.edje_file, "SIZE_X") != NULL
-       && edje_file_data_get(game.edje_file, "SIZE_Y") != NULL)
+   if (((str1 = edje_file_data_get(game.edje_file, "SIZE_X")) != NULL)
+       && ((str2 = edje_file_data_get(game.edje_file, "SIZE_Y")) != NULL))
      {
-        game.datas.x_theme = atoi(edje_file_data_get(game.edje_file, "SIZE_X"));
-        game.datas.y_theme = atoi(edje_file_data_get(game.edje_file, "SIZE_Y"));
+        game.datas.x_theme = atoi(str1);
+        game.datas.y_theme = atoi(str2);
+        free(str1);
+        free(str2);
      }
    else
      {
         EINA_LOG_CRIT("Loading theme error: can not read the SIZE_? value in %s", game.edje_file);
+        if (str1) free(str1);
+        if (str2) free(str2);
         return EINA_FALSE;
      }
 
    /* get default mines count from theme */
-   if (edje_file_data_get(game.edje_file, "MINES") != NULL)
+   if ((str1 = edje_file_data_get(game.edje_file, "MINES")) != NULL)
      {
-        game.datas.mines_theme = atoi(edje_file_data_get(game.edje_file, "MINES"));
+        game.datas.mines_theme = atoi(str1);
+        free(str1);
      }
    else
      {
         EINA_LOG_CRIT("Loading theme error: can not read the MINES value in %s", game.edje_file);
+        if (str1) free(str1);
         return EINA_FALSE;
      }
 
@@ -352,8 +359,10 @@ gui(char *theme, Eina_Bool fullscreen)
    else
      {
         /* Get window's size from edje and resize it */
-        x = atoi(edje_file_data_get(game.edje_file, "width"));
-        y = atoi(edje_file_data_get(game.edje_file, "height"));
+        x = atoi(str1 = edje_file_data_get(game.edje_file, "width"));
+        y = atoi(str2 = edje_file_data_get(game.edje_file, "height"));
+        free(str1);
+        free(str2);
         evas_object_resize(game.ui.window, x, y);
      }
 
