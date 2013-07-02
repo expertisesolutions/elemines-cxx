@@ -1,13 +1,17 @@
 [Desktop Entry]
-Version=1.0
-Type=Application
-Name=elemines
-GenericName=mine sweeper
-GenericName[fr]=démineur
-GenericName[ru]=Сапёр
+Categories=Application;Game;BoardGame;
 Comment=EFL mine sweeper
 Comment[fr]=démineur basé sur les EFL
+Comment[it]=Campo minato basato sulle EFL
 Comment[ru]=Сапёр
+Encoding=UTF-8
 Exec=elemines
+GenericName=mine sweeper
+GenericName[fr]=démineur
+GenericName[it]=Campo minato
+GenericName[ru]=Сапёр
 Icon=elemines
-Categories=Application;Game;BoardGame;
+Name=elemines
+Name[fr]=Elemines
+Type=Application
+Version=1.0
