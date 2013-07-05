@@ -1,17 +1,17 @@
 [Desktop Entry]
-Categories=Application;Game;BoardGame;
-Comment=EFL mine sweeper
-Comment[fr]=démineur basé sur les EFL
-Comment[it]=Campo minato basato sulle EFL
-Comment[ru]=Сапёр
 Encoding=UTF-8
-Exec=elemines
+Type=Application
+Version=1.0
+Name=elemines
+Name[fr]=Elemines
 GenericName=mine sweeper
 GenericName[fr]=démineur
 GenericName[it]=Campo minato
 GenericName[ru]=Сапёр
+Comment=EFL mine sweeper
+Comment[fr]=démineur basé sur les EFL
+Comment[it]=Campo minato basato sulle EFL
+Comment[ru]=Сапёр
 Icon=elemines
-Name=elemines
-Name[fr]=Elemines
-Type=Application
-Version=1.0
+Exec=elemines
+Categories=Application;Game;BoardGame;
