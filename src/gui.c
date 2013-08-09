@@ -30,7 +30,7 @@
 
 static double pause_time = 0;
 
-void
+static void
 _quit(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
       void *event_info __UNUSED__)
 {
@@ -181,7 +181,7 @@ _pause_del(void *data __UNUSED__, Evas *e __UNUSED__, Evas_Object *obj,
    evas_object_hide(obj);
 }
 
-void
+static void
 _pause(void *data __UNUSED__, Evas_Object *obj __UNUSED__,
        void *event_info __UNUSED__)
 {
@@ -213,7 +213,7 @@ gui(char *theme, Eina_Bool fullscreen)
 {
    Evas_Object *background, *vbox, *toolbar, *hbox, *conform;
    int x, y;
-   char *str1, *str2;
+   char *str1, *str2 = NULL;
 
    /* get the edje theme file */
    snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj",

@@ -138,6 +138,19 @@ _debug(void)
    printf("\n");
 }
 
+static void
+_shutdown(void)
+{
+   int i;
+
+   if (matrix)
+     {
+        for (i = 0; i < game.datas.x_theme + 2; i++)
+          free(matrix[i]);
+        free(matrix);
+     }
+}
+
 static const Ecore_Getopt optdesc = {
   "elemines",
   "%prog [options]",
@@ -212,6 +225,7 @@ elm_main(int argc __UNUSED__, char **argv __UNUSED__)
    elm_run();
 
  end:
+   _shutdown();
    elm_shutdown();
 
    return 0;
