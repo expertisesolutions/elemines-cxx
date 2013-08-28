@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elemines 0.2.3\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-03-24 14:48+0900\n"
+"POT-Creation-Date: 2013-08-14 12:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "High Scores"
 msgstr ""
 
-#: src/gui.c:96 src/gui.c:363
+#: src/gui.c:96 src/gui.c:372
 msgid "Configuration"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: src/gui.c:146 src/gui.c:366
+#: src/gui.c:146 src/gui.c:375
 msgid "About"
 msgstr ""
 
@@ -53,18 +53,43 @@ msgid ""
 "<br>http://www.wesnoth.org/<br>"
 msgstr ""
 
-#: src/gui.c:361
+#: src/gui.c:370
 msgid "Refresh"
 msgstr ""
 
-#: src/gui.c:362
+#: src/gui.c:371
 msgid "Pause"
 msgstr ""
 
-#: src/gui.c:365
+#: src/gui.c:374
 msgid "Scores"
 msgstr ""
 
-#: src/gui.c:367
+#: src/gui.c:376
 msgid "Quit"
+msgstr ""
+
+#: src/game.c:144
+#, c-format
+msgid "Score: %d"
+msgstr ""
+
+#: src/game.c:151
+msgid "High Score!!"
+msgstr ""
+
+#: src/game.c:159
+msgid "You win!"
+msgstr ""
+
+#: src/elemines.h:56
+msgid "Standard"
+msgstr ""
+
+#: src/elemines.h:57
+msgid "Custom"
+msgstr ""
+
+#: src/main.c:222
+msgid "Level"
 msgstr ""

@@ -53,8 +53,8 @@
 
 #define COPYRIGHT "Copyright © 2012-2013 Jérôme Pinot <ngc891@gmail.com> and various contributors (see AUTHORS)."
 
-#define STANDARD "Standard"
-#define CUSTOM "Custom"
+#define STANDARD _("Standard")
+#define CUSTOM _("Custom")
 
 typedef struct _Elemines_Cell Elemines_Cell;
 typedef struct _Elemines_Walker Elemines_Walker;

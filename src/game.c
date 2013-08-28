@@ -141,14 +141,14 @@ _finish(const char *target, Eina_Bool win)
         edje_object_signal_emit(edje, "congrat", "");
 
         score = _scoring();
-        snprintf(str, sizeof(str), "Score: %d", score);
+        snprintf(str, sizeof(str), _("Score: %d"), score);
         elm_object_part_text_set(game.ui.table, "congrat:score", str);
 
         if (score >= etrophy_gamescore_level_hi_score_get(game.trophy.gamescore,
                                                           game.trophy.game_type))
           {
              elm_object_part_text_set(game.ui.table, "congrat:best score",
-                                      "High Score!!");
+                                      _("High Score!!"));
           }
         else
           {
@@ -156,6 +156,7 @@ _finish(const char *target, Eina_Bool win)
           }
 
         elm_object_signal_emit(game.ui.table, "congrat:you win", "");
+	elm_object_part_text_set(game.ui.table, "congrat:you win", _("You win!"));
      }
 
    if (game.clock.etimer)
