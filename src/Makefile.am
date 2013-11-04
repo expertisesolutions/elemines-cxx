@@ -11,9 +11,8 @@ elemines_SOURCES = \
 		   init.c \
 		   main.c
 
-elemines_CFLAGS = -fpie
 elemines_LDADD = @ELEMINES_LIBS@
-elemines_LDFLAGS = $(LTLIBINTL) -pie -rdynamic
+elemines_LDFLAGS = $(LTLIBINTL)
 
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
