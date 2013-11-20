@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elemines 0.2.3\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
-"POT-Creation-Date: 2013-08-14 12:30+0200\n"
-"PO-Revision-Date: 2013-01-20 10:47+0100\n"
+"POT-Creation-Date: 2013-11-20 19:50+0100\n"
+"PO-Revision-Date: 2013-11-20 19:51+0100\n"
 "Last-Translator: Massimo Maiurana <maiurana@gmail.com>\n"
 "Language-Team: Italiano\n"
 "Language: it\n"
@@ -74,27 +74,22 @@ msgid "Quit"
 msgstr "Esci"
 
 #: src/game.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Score: %d"
-msgstr "Punteggi"
+msgstr "Punteggio: %d"
 
 #: src/game.c:151
-#, fuzzy
 msgid "High Score!!"
-msgstr "Classifica"
+msgstr "Nuovo record!!"
 
 #: src/game.c:159
 msgid "You win!"
-msgstr ""
+msgstr "Hai vinto!"
 
 #: src/elemines.h:56
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: src/elemines.h:57
 msgid "Custom"
-msgstr ""
-
-#: src/main.c:222
-msgid "Level"
-msgstr ""
+msgstr "Personalizzato"

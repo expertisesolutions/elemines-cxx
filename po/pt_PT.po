@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: elemines 0.2.3\n"
 "Report-Msgid-Bugs-To: ngc891@gmail.com\n"
 "POT-Creation-Date: 2013-08-14 12:30+0200\n"
-"PO-Revision-Date: 2013-04-30 12:55-0000\n"
+"PO-Revision-Date: 2013-11-05 14:44-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: src/gui.c:57
 msgid "High Scores"
@@ -74,27 +75,26 @@ msgid "Quit"
 msgstr "Sair"
 
 #: src/game.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Score: %d"
-msgstr "Resultados"
+msgstr "Resultado: %d"
 
 #: src/game.c:151
-#, fuzzy
 msgid "High Score!!"
-msgstr "Recordes"
+msgstr "Recorde!"
 
 #: src/game.c:159
 msgid "You win!"
-msgstr ""
+msgstr "Ganhou!"
 
 #: src/elemines.h:56
 msgid "Standard"
-msgstr ""
+msgstr "Padrão"
 
 #: src/elemines.h:57
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #: src/main.c:222
 msgid "Level"
-msgstr ""
+msgstr "Nível"
