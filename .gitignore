@@ -7,6 +7,7 @@ src/*.la
 src/.deps
 src/elemines
 src/eleminesql
+src/*.exe
 packaging/slackware/elemines-*.txz
 elemines-*.tar.?z*
 po/*.gmo
