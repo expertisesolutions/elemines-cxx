@@ -1,6 +1,24 @@
 /* main group: cell control */
 group { 
   name: "cell";
+  sounds {
+    sample {
+      name: "boom" RAW;
+      source: "boom.flac";
+    }
+    sample {
+      name: "flag" RAW;
+      source: "flag.flac";
+    }
+    sample {
+      name: "digg" RAW;
+      source: "digging.flac";
+    }
+    sample {
+      name: "fanfare" RAW;
+      source: "fanfare.flac";
+    }
+  }
   parts {
     /* red selection box */
     part {
@@ -319,6 +337,11 @@ group {
       }
       program {
         signal: "digg";
+        action: PLAY_SAMPLE "digg" 1.0;
+        after: "digg2";
+      }
+      program {
+        name: "digg2";
         action: STATE_SET "default" 0.0;
         target: "flowers";
         target: "mushrooms";
@@ -336,12 +359,22 @@ group {
       }
       program {
         signal: "flag";
+        action: PLAY_SAMPLE "flag" 1.0;
+        after: "flag2";
+      }
+      program {
+        name: "flag2";
         action: STATE_SET "flag" 0.1;
         transition: LINEAR 1.0;
         target: "image";
       }
       program {
         signal: "boom";
+        action: PLAY_SAMPLE "boom" 1.0;
+        after: "boom2";
+      }
+      program {
+        name: "boom2";
         action: STATE_SET "boom" 0.2;
         transition: LINEAR 2.0;
         target: "image";
@@ -382,6 +415,11 @@ group {
       }
       program {
         signal: "win";
+        action: PLAY_SAMPLE "fanfare" 1.0;
+        after: "win2";
+      }
+      program {
+        name: "win2";
         action: STATE_SET "win" 0.3;
         target: "cover";
         transition: LINEAR 3.0;

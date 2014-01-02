@@ -25,11 +25,11 @@ EFL_CHECK_PATH_MAX
 # Check for EFL
 PKG_CHECK_MODULES([ELEMINES],
 [
- eina >= 1.7.0
- evas >= 1.7.0
- ecore >= 1.7.0
- edje >= 1.7.0
- elementary >= 1.7.0
+ eina >= 1.8.0
+ evas >= 1.8.0
+ ecore >= 1.8.0
+ edje >= 1.8.0
+ elementary >= 1.8.0
  etrophy >= 0.5.1
 ])
 
