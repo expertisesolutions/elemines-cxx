@@ -218,11 +218,6 @@ gui(char *theme, Eina_Bool fullscreen)
    /* get the edje theme file */
    snprintf(game.edje_file, sizeof(game.edje_file), "%s/themes/%s.edj",
             PACKAGE_DATA_DIR, theme);
-   if (access(game.edje_file, R_OK) != 0)
-     {
-        EINA_LOG_CRIT("Loading theme error: can not read %s", game.edje_file);
-        return EINA_FALSE;
-     }
 
    elm_theme_extension_add(NULL, game.edje_file);
 
