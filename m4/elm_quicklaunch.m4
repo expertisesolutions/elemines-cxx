@@ -14,6 +14,7 @@ old_CFLAGS="$CFLAGS"
 
 LDFLAGS="$LDFLAGS -pie -rdynamic"
 CFLAGS="$CFLAGS -fpie"
+CXXFLAGS="$CXXFLAGS -fpie"
 
 AC_LINK_IFELSE([AC_LANG_SOURCE([int main(){}])],
         [AC_MSG_RESULT([yes])],

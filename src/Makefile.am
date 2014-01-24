@@ -6,10 +6,10 @@ AM_CPPFLAGS = -DPACKAGE_DATA_DIR=\"$(datadir)/$(PACKAGE)\" \
 	      @ELEMINES_CFLAGS@
 
 elemines_SOURCES = \
-		   game.c \
-		   gui.c \
-		   init.c \
-		   main.c
+		   game.cpp \
+		   gui.cpp \
+		   main.cpp \
+                   getopt.c
 
 elemines_LDADD = @ELEMINES_LIBS@
 elemines_LDFLAGS = $(LTLIBINTL)

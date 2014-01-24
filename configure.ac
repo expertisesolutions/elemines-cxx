@@ -12,6 +12,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 LT_PREREQ([2.2])
 LT_INIT([win32-dll])
 
+AC_PROG_CXX
 AC_PROG_CC
 AM_PROG_CC_C_O
 EFL_ATTRIBUTE_UNUSED
@@ -26,6 +27,7 @@ EFL_CHECK_PATH_MAX
 PKG_CHECK_MODULES([ELEMINES],
 [
  eina >= 1.8.0
+ eina-cxx >= 1.8.0
  evas >= 1.8.0
  ecore >= 1.8.0
  edje >= 1.8.0
@@ -38,6 +40,44 @@ EFL_WITH_BIN([edje], [edje-cc], [edje_cc])
 
 # Checks for library functions.
 AC_CHECK_FUNCS([setlocale])
+
+AC_ARG_WITH([cxx11],
+   [AC_HELP_STRING([--with-cxx11],
+                   [C++ standard to use])], [], [with_cxx11=no])
+AC_ARG_WITH([boost-system],
+   [AC_HELP_STRING([--with-boost-system],
+                   [Use boost.system instead of C++11's functionality])],
+                   [], [with_boost_system=no])
+
+dnl if test "x$with_boost_system" != "xno"; then
+dnl    BOOST_REQUIRE([1.34])
+dnl    BOOST_SYSTEM
+dnl    USE_BOOST_CPPFLAGS="${BOOST_CPPFLAGS}"
+dnl    USE_BOOST_SYSTEM_LIBS="${BOOST_SYSTEM_LIBS}"
+dnl    USE_BOOST_SYSTEM_LDFLAGS="${BOOST_SYSTEM_LDFLAGS}"
+dnl    EFL_EINA_HAVE_BOOST_SYSTEM="#define EFL_EINA_HAVE_BOOST_SYSTEM"
+dnl    AC_DEFINE([HAVE_BOOST_SYSTEM], [1], [Define if you have boost.system])
+dnl else
+dnl    USE_BOOST_CPPFLAGS=""
+dnl    USE_BOOST_SYSTEM_LIBS=""
+dnl    USE_BOOST_SYSTEM_LDFLAGS=""
+dnl    EFL_EINA_HAVE_BOOST_SYSTEM=""
+dnl fi
+dnl AC_SUBST(EFL_EINA_HAVE_BOOST_SYSTEM)
+
+if test "x$with_cxx11" != xno; then
+   AX_CXX_COMPILE_STDCXX_11
+   AC_MSG_NOTICE([Compiling in C++11 mode])
+elif test "x$with_boost_system" == xno; then
+   AX_CXX_COMPILE_STDCXX_11
+   AC_MSG_NOTICE([Compiling in C++11 mode])
+else
+   AC_MSG_NOTICE([Compiling in C++03 mode])
+fi
+
+AC_SUBST([USE_BOOST_CPPFLAGS])
+AC_SUBST([USE_BOOST_SYSTEM_LIBS])
+AC_SUBST([USE_BOOST_SYSTEM_LDFLAGS])
 
 AM_GNU_GETTEXT_VERSION([0.17])
 AM_GNU_GETTEXT([external])
